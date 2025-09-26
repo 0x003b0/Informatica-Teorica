@@ -612,27 +612,31 @@ Sia il linguaggio $L_1 = \{(R(M), w) \mid M \text{ accetta } w\}$. Dimostrare ch
 
 \begin{osservazioni}[Osservazione]
 \footnotesize % riduce la dimensione del font
-Indico indecidibile il problema dell'arresto, mentre semidecidibile il linguaggio $\mathcal{L}_{\text{Halt}}$. Ma se $\mathcal{L}_{\text{Halt}}$ 
-è il linguaggio associato al problema perchè non posso dire che anche il problema dell'arresto è semidecidibile? \\ \\
-Il problema dell'arresto chiede esplicitamente se esiste una MdT $H$ (con input ($R(M),w$)) che \underline{termina sempre}, 
-qualunque sia il comportamento di $M$:
-\begin{itemize}
-  \item Se $M$ termina su $w$, $H$ termina rispondendo "Sì"
-  \item Se $M$ non termina su $w$, $H$ termina rispondendo "No"
-\end{itemize}
-È una richiesta forte: $H$ deve terminare dando una risposta sia quando $M$ termina su $w$ sia quando $M$ non termina su $w$. \\ 
-Esiste questa MdT $H$? No. \\ \\
-Il linguaggio, invece, fa rifermento solo ad una parte del problema dell'arresto. Ovvero, richiede se $\exists$ una MdT $N$ che 
-termina quando $M$ termina su $w$, ma non fa nessun riferimento per quanto riguarda a cosa succede quando $M$ non termina su $w$
-(ciò che invece viene richiesto nel problema dell'arresto). \\
-È una richiesta più debole: $N$ deve terminare solo quando $M$ termina su $w$. \\
-Esiste questa MdT $N$? Sì.
+Il problema dell'arresto (o, equivalentemente, il linguaggio 
+$\mathcal{L}_{\text{Halt}}$) è \textbf{indecidibile}, cioè non esiste una MdT che
+termina sempre dando la risposta corretta. 
+Tuttavia, $\mathcal{L}_{\text{Halt}}$ è \textbf{semidecidibile}: esiste infatti una MdT universale che, dato in input 
+$(R(M),w)$, termina accettando se $M$ termina su $w$, mentre può non
+terminare se $M$ non termina su $w$.
 \end{osservazioni}
-\begin{theorem}{Halting Problem} 
-  IIl problema dell'arresto è indecidibile.
+
+Il problema dell'arresto è semidecidibile + indecidibile, oppure, equivalentemente scrivo:
+\begin{align*}
+  \textcolor{red}{\mathcal{L}_{\text{Halt}} \text{ è semidecidibile ma non decidibile}}
+\end{align*}
+
+\begin{theorem}{Halting Problem (2.4.1)} 
+  IIl problema dell'arresto è indecidibile. \\
+  $\mathcal{L}_{\text{Halt}} = \{(R(M),w) \mid M \text{ termina su } w\}$ è indecidibile.
   \footnotesize % riduce la dimensione del font
   \begin{proof}
-    Suppongo per assurdo che il problema dell'arresto sia decidibile (ipotesi per assurdo).
+    \begin{align*}
+      \mathcal{L}_{\text{Halt}} = \{(R(M),w) \mid M \text{ termina su } w\} \tag*{(ipotesi)}
+    \end{align*}
+    \begin{align*}
+      \mathcal{L}_{\text{Halt}} \text{ è indecidibile} \tag*{(tesi)}
+    \end{align*}
+    Suppongo per assurdo che il problema dell'arresto sia decidibile (ipotesi per assurdo, nego la tesi).
     Quindi, per ipotesi, $\exists$ una MdT $H$ che risolve il problema dell'arresto. \\
     $H$ su input ($R(M),w$) dove $R(M)$ è la codifica di una MdT arbitraria e $w$ una stringa:
     \begin{itemize}
@@ -653,7 +657,8 @@ Esiste questa MdT $N$? Sì.
       \item Se $M$ termina su $w$, allora $H'$ va in loop
       \item Se $M$ non termina su $w$, allora $H'$ rifiuta
     \end{itemize}
-    Adesso costruisco un'altra MdT $D$ (che prende in input solo la codifica di una macchina)\footnote{invece dell'input ($R(M),w$), prende in input ($R(M)$)} 
+    Adesso costruisco un'altra MdT $D$ (che prende in input solo la codifica di una macchina)\footnote{invece dell'input
+     ($R(M),w$), prende in input ($R(M)$)} 
     combinando $H'$ con una procedura. 
     \[
     D(R(M)) =
@@ -685,13 +690,24 @@ Esiste questa MdT $N$? Sì.
     \]
     una contraddizione. \\
     \textbf{Conclusione:} Poichè ho ottenuto una contraddizione ($D$ va in loop su $R(D)$ $\iff$ $D$ termina su $R(D)$), l'ipotesi
-    che il problema dell'arresto sia decidibile è falsa. Pertanto, il problema dell'arresto è indecidibile.
+    che il problema dell'arresto sia decidibile è falsa. Pertanto, il problema dell'arresto è indecidibile (oppure scrivo: 
+    Pertanto, $\mathcal{L}_{\text{Halt}}$ è indecidibile).
+  \end{proof}
+\end{theorem}
+\begin{theorem}{}
+  I $\mathcal{L}_{\text{Halt}}$ è semidecidibile. 
+  $\overline{\mathcal{L}_{\text{Halt}}}$ non è semidecidibile.
+  \footnotesize % riduce la dimensione del font
+  \begin{proof}
+    Sappiamo per definizione, che $\mathcal{L}_{\text{Halt}}$ è semidecidibile. \\
+    Suppongo per assurdo che $\overline{\mathcal{L}_{\text{Halt}}}$ sia anch'esso semidecidibile. Dato che
+    $\overline{\mathcal{L}_{\text{Halt}}}$,$\mathcal{L}_{\text{Halt}}$ sono entrambi semidecidibili $\implies$ per
+    definizione, $\mathcal{L}_{\text{Halt}}$ è decidibile. Ma questo è assurdo perchè abbiamo dimostrato che 
+    $\mathcal{L}_{\text{Halt}}$ è indecidibile (teorema 2.4.1). Ciò porta ad una contraddizione e l'ipotesi che $\overline{\mathcal{L}_{\text{Halt}}}$
+    sia semidecidibile è falsa. \\ Pertanto, $\overline{\mathcal{L}_{\text{Halt}}}$ è non semidecidibile. 
   \end{proof}
 \end{theorem}
 
-\begin{esercizio}[Esercizio ]
-  
-\end{esercizio}
 
 \subsubsection{Problema del nastro vuoto}
 \subsubsection{Problema dell'equivalenza dei programmi}
