@@ -737,7 +737,9 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 \begin{align*}
   \textcolor{red}{\mathcal{L}_{\text{Blank-Tape}} \text{ è semidecidibile ma non decidibile}}
 \end{align*}
-\begin{theorem}{Blank-Tape Halting Problem}
+
+
+\begin{theorem}{Blank-Tape Halting Problem (versione A)}
 IIl problema del nastro vuoto è indecidibile. \\
 $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\}$ è indecidibile.
 \footnotesize % riduce la dimensione del font
@@ -789,20 +791,6 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
         \item $M'$ esegue $M$ su $w$
       \end{enumerate}
       \item $R$ genera l'output $R(M')$ (che è la nuova macchina costruita nel passo 2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     \end{enumerate}
     \textcolor{red}{3. Costruisco MdT che decide il problema dell'arresto} \\
     Adesso, costrusco una MdT $N$ che decide $\mathcal{L}_{\text{Halt}}$:
@@ -831,13 +819,78 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
   La costruzione e il funzionamento della MdT $N$ rende il problema dell'arresto decidibile. Ma questo è assurdo perchè sappiamo
   che il problema dell'arresto è indecidibile, quindi questo porta ad una contraddizione. Poichè ho ottenuto una contraddizione, l'ipotesi 
   che il problema del nastro vuoto sia decidibile è falsa. Pertanto, il problema del nastro vuoto è indecidibile. 
-
   \end{proof}
   Disegno: \\
     \begin{center}
     \includegraphics[width=0.9\linewidth]{BTHP.png}
   \end{center}
 \end{theorem}
+
+\begin{theorem}{Blank-Tape Halting Problem (versione B)}
+IIl problema del nastro vuoto è indecidibile. \\
+$\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\}$ è indecidibile.
+\footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    Per dimostrarlo, \underline{non} uso la dim per assurdo ma effettuo \textbf{direttamente} una riduzione dal problema dell'arresto al mio. Ovvero, 
+    costruisco una riduzione del tipo: $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$. \\
+    Uso solo la riduzione perchè "sfrutto":
+    \begin{enumerate}
+      \item La definizione riduzione (o semplicememente la funzione?) \\
+      ($L_1 \leq_m L_2$ se $\exists$ una funzione di riduzione $f: \Sigma_1^* \rightarrow \Sigma_2^*$ t.c. $\forall{w}\in \Sigma_1^*$: \\
+      $w \in L_1 \iff f(w) \in L_2$
+      )
+      \item Il teorema $A \leq_m B$ $\;\wedge\;$ $A$ è indecidibile $\implies$ $B$ è indecidibile (teorema 3.2).
+    \end{enumerate}
+  \end{ragionamento}
+  \begin{proof}
+        \begin{align*}
+      \mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\} \tag*{(ipotesi)}
+    \end{align*}
+    \begin{align*}
+      \mathcal{L}_{\text{Blank-Tape}} \text{ è indecidibile} \tag*{(tesi)}
+    \end{align*}
+    Siano $\mathcal{L}_{\text{Halt}}$ , $\mathcal{L}_{\text{Blank-Tape}}$ due linguaggi su $\Sigma_H^*$, $\Sigma_B^*$ rispettivamente, dove:
+    \begin{itemize}
+      \item $\mathcal{L}_{\text{Halt}}$ è il linguaggio del problema dell'arresto
+      \item $\mathcal{L}_{\text{Blank-Tape}}$ è il linguaggio del problema del nastro vuoto
+    \end{itemize}
+    
+    Sia $\mathcal{L}_{\text{Halt}} = \{(R(M),w) \mid M \text{ termina su } w\}$.
+    È noto che $\mathcal{L}_{\text{Halt}}$ è indecidibile. \\
+    \textcolor{red}{1. Riduzione} \\
+    Definisco una funzione di riduzione\footnote{ricorda la funzione di riduzione trasforma un'istanza del problema dell'arresto H in un'istanza del problema del nastro vuoto B}
+     $f: \Sigma_H^* \rightarrow \Sigma_B^*$ come segue: \\
+    dato in input $(R(M),w)$\footnote{istanza del problema dell'arresto}, costruisco una nuova MdT $M'$ che:
+    \begin{enumerate}
+      \item $M'$ viene avviata (o parte?) su nastro vuoto
+      \item $M'$ scrive $w$ sul nastro
+      \item $M'$ riporta la testina all'inzio del nastro
+      \item $M'$ esegue $M$ su $w$
+    \end{enumerate}
+    Dato che ho costruito questa funzione di riduzione allora vuol dire che $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ (non posso scrivere cosi forse...)
+    e quindi per definizione di riduzione (o meglio scrivere per definizione di funzione di riduzione), 
+    $(R(M),w) \in \mathcal{L}_{\text{Halt}} \iff R(M') \in \mathcal{L}_{\text{Blank-Tape}}$ (R(M')? dove l'hai trovato?).
+    Quindi, per il teorema, essendo $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ e $\mathcal{L}_{\text{Halt}}$ indecidibile 
+    $\implies \mathcal{L}_{\text{Blank-Tape}}$ è indecidibile. 
+
+  \end{proof}
+  
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
