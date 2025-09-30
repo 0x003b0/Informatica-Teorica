@@ -426,10 +426,11 @@ Pertanto, quando viene richiesto di dimostrare l'indecidibilità di un linguaggi
    \item Effettuo la riduzione ad un linguaggio noto indecidibile. 
   \end{enumerate}
   Nel primo punto dimostro la semidecidibilità di $L$ e nel secondo la indecidibilità.
-  \item Se sospetto che il linguaggio è indecidibile ma non semidecidibile, allora posso considerare una di queste tecniche: \\ \\
-  \begin{tikzpicture}[
+  \item Se sospetto che il linguaggio è indecidibile ma non semidecidibile, allora posso considerare una di queste tecniche:
+  \begin{center}
+      \begin{tikzpicture}[
   level 1/.style={
-    sibling distance=40mm, 
+    sibling distance=30mm, 
     level distance=20mm,
     every node/.append style={font=\small} % qui riduco il font dei figli
   },
@@ -441,12 +442,16 @@ Pertanto, quando viene richiesto di dimostrare l'indecidibilità di un linguaggi
   }
 ]
 \node {Dimostrare indecidibilità}
-  child {node {dim assurdo + riduzione}}
+  child {node {dim assurdo \\ + riduzione}}
+  child {node {riduzione diretta}}
   child {node {teorema di Rice}}
   child {node {diagonalizzazione}};
-\end{tikzpicture}\newline \newline
+\end{tikzpicture}
+  \end{center}
+
   \begin{itemize}
     \item dimostrazione per assurdo + effettuo la riduzione ad un linguaggio noto indecidibile
+    \item riduzione diretta 
     \item uso il Teorema di Rice
     \item applico la diagonalizzazione
   \end{itemize}
@@ -724,7 +729,7 @@ Il problema dell'arresto è semidecidibile + indecidibile, oppure, equivalenteme
   \end{itemize}
   Tale macchina esiste? No. \\
   \footnotesize % riduce la dimensione del font
-  *Attenzione: "termina su nastro vuoto" significa "partendo con nastro vuoto".
+  *Attenzione: "termina su nastro vuoto" significa "termina quando parte su nastro vuoto".
 \end{definition}
 \begin{definition}[Linguaggio Blank-Tape Halting Problem]
   Sia $\mathcal{L}_{\text{Blank-Tape}}$ il linguaggio del problema del nastro vuoto definito come segue:
@@ -739,13 +744,14 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 \end{align*}
 
 
-\begin{theorem}{Blank-Tape Halting Problem (versione A)}
+\begin{theorem}{Blank-Tape Halting Problem (versione A: DA RIVEDERE)}
 IIl problema del nastro vuoto è indecidibile. \\
 $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\}$ è indecidibile.
 \footnotesize % riduce la dimensione del font
   \begin{ragionamento}
   Per dimostrarlo, uso la dim per assurdo e poi effettuo una riduzione da un problema noto indecidibile (es: problema dell'arresto) al mio (problema del nastro vuoto). \\
-  Perchè per definizione se $A \leq_m B$ $\;\wedge\;$ $A$ è indecidibile $\implies$ $B$ è indecidibile (teorema 3.2).
+  Dato che sto ragionando per assurdo, non posso usare questa: se $A \leq_m B$ $\;\wedge\;$ $A$ è indecidibile $\implies$ $B$ è indecidibile (teorema 3.2); ma devo usare 
+  questa: se $A \leq_m B$ $\;\wedge\;$ $B$ è decidibile $\implies$ $A$ è decidibile (teorema 3.1); \\
   Quindi costruisco una riduzione del tipo: $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$.
   \end{ragionamento}
   \begin{proof}
@@ -803,13 +809,13 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
         dire che $M$ ha terminato su $w$))
         ovvero: Se $R(M') \in \mathcal{L}_{\text{Blank-Tape}}$, allora $(R(M),w) \in \mathcal{L}_{\text{Halt}}$ \\
         ma è più corretto scrivere: \\
-        $f(w) \in \mathcal{L}_{\text{Blank-Tape}} \iff w \in \mathcal{L}_{\text{Halt}}$
+        $w \in \mathcal{L}_{\text{Halt}} \iff  f(w) \in \mathcal{L}_{\text{Blank-Tape}}$
         \item Se $E$ rifiuta, allora $N$ rifiuta \\
         (ricorda che se $E$ rifiuta, vuol dire che $M'$ non ha terminato su nastro vuoto (se $M'$ non termina su nastro vuoto (loop), vuol
         dire che $M$ non ha terminato su $w$ (loop))) \\ 
         ovvero: Se $R(M') \notin \mathcal{L}_{\text{Blank-Tape}}$, allora $(R(M),w) \notin \mathcal{L}_{\text{Halt}}$ \\
         ma è più corretto scrivere: \\
-        $f(w) \notin \mathcal{L}_{\text{Blank-Tape}} \iff w \notin \mathcal{L}_{\text{Halt}}$
+        $w \notin \mathcal{L}_{\text{Halt}} \iff f(w) \notin \mathcal{L}_{\text{Blank-Tape}}$
       \end{itemize} 
     \end{enumerate}
   Quindi $N$ è un algoritmo di decisione per il problema dell'arresto che applica la funzione di riduzione per ogni input e sfrutta
@@ -835,7 +841,7 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
     costruisco una riduzione del tipo: $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$. \\
     Uso solo la riduzione perchè "sfrutto":
     \begin{enumerate}
-      \item La definizione riduzione (o semplicememente la funzione?) \\
+      \item La definizione di funzione di riduzione\\
       ($L_1 \leq_m L_2$ se $\exists$ una funzione di riduzione $f: \Sigma_1^* \rightarrow \Sigma_2^*$ t.c. $\forall{w}\in \Sigma_1^*$: \\
       $w \in L_1 \iff f(w) \in L_2$
       )
@@ -859,22 +865,117 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
     È noto che $\mathcal{L}_{\text{Halt}}$ è indecidibile. \\
     \textcolor{red}{1. Riduzione} \\
     Definisco una funzione di riduzione\footnote{ricorda la funzione di riduzione trasforma un'istanza del problema dell'arresto H in un'istanza del problema del nastro vuoto B}
-     $f: \Sigma_H^* \rightarrow \Sigma_B^*$ come segue: \\
-    dato in input $(R(M),w)$\footnote{istanza del problema dell'arresto}, costruisco una nuova MdT $M'$ che:
+     $f: \Sigma_H^* \rightarrow \Sigma_B^*$ come segue. \\
+    Dato in input $(R(M),w)$\footnote{istanza del problema dell'arresto}  la funzione $f$ genera come output $R(M')$\footnote{istanza del problema del nastro vuoto}, 
+    dove $M'$ è la nuova MdT costruita dalla funzione di riduzione $f$ che ha questo comportamento:
     \begin{enumerate}
-      \item $M'$ viene avviata (o parte?) su nastro vuoto
+      \item $M'$ inizia la computazione su nastro vuoto
       \item $M'$ scrive $w$ sul nastro
       \item $M'$ riporta la testina all'inzio del nastro
       \item $M'$ esegue $M$ su $w$
     \end{enumerate}
-    Dato che ho costruito questa funzione di riduzione allora vuol dire che $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ (non posso scrivere cosi forse...)
-    e quindi per definizione di riduzione (o meglio scrivere per definizione di funzione di riduzione), 
-    $(R(M),w) \in \mathcal{L}_{\text{Halt}} \iff R(M') \in \mathcal{L}_{\text{Blank-Tape}}$ (R(M')? dove l'hai trovato?).
-    Quindi, per il teorema, essendo $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ e $\mathcal{L}_{\text{Halt}}$ indecidibile 
-    $\implies \mathcal{L}_{\text{Blank-Tape}}$ è indecidibile. 
-
+    La funzione di riduzione $f$ trasforma ogni istanza del problema dell'arresto $(R(M),w)$
+    in un'istanza $R(M')$ del problema del nastro vuoto, dove $M'$ inizia la computazione su nastro vuoto, scrive $w$ sul nastro ed esegue $M$ su $w$.  
+    Per definizione di funzione di riduzione, vale:
+    \[
+    (R(M),w) \in \mathcal{L}_{\text{Halt}} \iff f((R(M),w)) \in \mathcal{L}_{\text{Blank-Tape}}.\footnote{dove $f((R(M),w))=R(M')$; precisando che $w=(R(M),w)$ e $f(w)=R(M')$
+    dove $w$ è l'input dato alla funzione di riduzione e $f(w)$ è l'ouput generato dalla stessa funzione di riduzione, ovvero il valore ottenuto applicando $f$ a $w$.}
+    \]  
+    Poiché $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ e $\mathcal{L}_{\text{Halt}}$ è indecidibile, segue che $\mathcal{L}_{\text{Blank-Tape}}$ è indecidibile.
   \end{proof}
-  
+\end{theorem}
+
+
+\subsubsection{Problema del Linguaggio Vuoto}
+\begin{theorem}{Emptiness Problem}
+IIl problema del linguaggio vuoto è indecidibile. \\
+$\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile.
+\footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    Per dimostrarlo, uso la dim per assurdo + costruisco una riduzione dal problema dell'arresto al mio, ovvero 
+    $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Emptiness}}$. \\ Uso quindi la MdT E che decide $\mathcal{L}_{\text{Emptiness}}$ per decidere
+    $\mathcal{L}_{\text{Halt}}$. Uso solo la riduzione perchè "sfrutto":
+    \begin{enumerate}
+      \item La definizione di funzione di riduzione\\
+      ($L_1 \leq_m L_2$ se $\exists$ una funzione di riduzione $f: \Sigma_1^* \rightarrow \Sigma_2^*$ t.c. $\forall{w}\in \Sigma_1^*$: \\
+      $w \in L_1 \iff f(w) \in L_2$
+      )
+      \item Il teorema $A \leq_m B$ $\;\wedge\;$ $B$ è decidibile $\implies$ $A$ è decidibile (teorema 3.1).
+    \end{enumerate}
+  \end{ragionamento}
+  \begin{proof}
+        \begin{align*}
+      \mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \} \tag*{(ipotesi)}
+    \end{align*}
+    \begin{align*}
+      \mathcal{L}_{\text{Emptiness}} \text{ è indecidibile} \tag*{(tesi)}
+    \end{align*}
+    Siano $\mathcal{L}_{\text{Halt}}$ , $\mathcal{L}_{\text{Emptiness}}$ due linguaggi su $\Sigma_H^*$, $\Sigma_E^*$ rispettivamente, dove:
+    \begin{itemize}
+      \item $\mathcal{L}_{\text{Halt}}$ è il linguaggio del problema dell'arresto
+      \item $\mathcal{L}_{\text{Emptiness}}$ è il linguaggio dell'emptiness problem
+    \end{itemize}
+    \textcolor{red}{1. Ipotesi per assurdo} \\
+    Suppongo per assurdo che $\mathcal{L}_{\text{Emptiness}}$ sia decidibile (ipotesi per assurdo). Allora $\exists$ una MdT $E$ che decide $\mathcal{L}_{\text{Emptiness}}$.
+    Ovvero:
+    \[
+    E(R(M)) =
+    \begin{cases}
+      \text{accept} & \text{se } M \text{ non accetta nessuna stringa} \\
+      \text{reject} & \text{se } M \text{  accetta almeno una stringa}
+    \end{cases}
+    \]
+    \textcolor{red}{2. Riduzione} \\
+    Definisco una funzione di riduzione\footnote{ricorda la funzione di riduzione trasforma un'istanza del problema dell'arresto H in un'istanza dell'emptiness problem E}
+     $f: \Sigma_H^* \rightarrow \Sigma_E^*$ come segue. \\
+    Dato in input $(R(M),w)$\footnote{istanza del problema dell'arresto}  la funzione $f$ genera come output $R(M')$\footnote{istanza del problema dell'emptiness problem}, 
+    dove $M'$ è la nuova MdT costruita dalla funzione di riduzione $f$ che ha il seguente comportamento ($R(M)$ è la codifica di una MdT arbitraria
+    e $w$ una stringa). \\ \\ $M'$ su una stringa di input $x$ generica:
+    \begin{itemize}
+      \item se $x \neq w$, rifiuta
+      \item se $x = w$, esegue $M$ su $w$ dove:
+      \begin{itemize}
+        \item se $M$ accetta $w$, allora $M'$ accetta $w$ (perchè $x=w$)
+        \item se $M$ rifiuta $w$, allora $M'$ rifiuta $w$
+        \item se $M$ va in loop su $w$, allora $M'$ va in loop
+      \end{itemize}
+    \end{itemize}
+    In sostanza, osservandolo dal punto di vista del linguaggio accettato da $M'$:
+    \[
+    L(M') =
+    \begin{cases}
+      \{w\} & \text{se } M \text{ accetta } w\\
+      \emptyset & \text{se } M \text{ rifiuta } w \text{ o se non termina (loop) su } w
+    \end{cases}
+    \]
+    \textcolor{red}{3. Costruisco MdT che decide il problema dell'arresto} \\
+    Adesso, costrusco una MdT $N$ che decide $\mathcal{L}_{\text{Halt}}$:
+    \begin{enumerate}
+      \item $N$ su input $w \in \Sigma_H^*$ calcola $f(w) \in \Sigma_E^*$ (riduzione)
+      \item $N$ esegue $E$ su $f(w)$:
+      \begin{itemize}
+        \item Se $E$ accetta, allora $N$ rifiuta \\
+        (se $E$ accetta, vuol dire che $M'$ ha linguaggio vuoto, cioè $M'$ ha rifiutato $w$, quindi $L(M')=\emptyset$ (se $M'$ rifiuta $w$, vuol
+        dire che $M$ ha riufiutato $w$)) \\
+        ovvero: Se $R(M') \in \mathcal{L}_{\text{Emptiness}}$, allora $(R(M),w) \notin \mathcal{L}_{\text{Halt}}$ \\
+        ma è più corretto scrivere: \\
+        $w \notin \mathcal{L}_{\text{Halt}} \iff  f(w) \in \mathcal{L}_{\text{Emptiness}}$
+        \item Se $E$ rifiuta, allora $N$ accetta \\
+        (se $E$ rifiuta, vuol dire che $M'$ \underline{non} ha linguaggio vuoto, cioè $M'$ ha accettato $w$, quindi $L(M')=\{w\}$ (se $M'$ accetta $w$, vuol
+        dire che $M$ ha accettato $w$)) \\ 
+        ovvero: Se $R(M') \notin \mathcal{L}_{\text{Emptiness}}$, allora $(R(M),w) \in \mathcal{L}_{\text{Halt}}$ \\
+        ma è più corretto scrivere: \\
+        $w \in \mathcal{L}_{\text{Halt}} \iff f(w) \notin \mathcal{L}_{\text{Emptiness}}$
+      \end{itemize} 
+    \end{enumerate}
+    *Precisando che $w=(R(M),w)$ e $f(w)=R(M')$
+    dove $w$ è l'input dato alla funzione di riduzione e $f(w)$ è l'ouput generato dalla stessa funzione di riduzione, ovvero il valore ottenuto applicando $f$ a $w$. \\
+
+    Poiché $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Emptiness}}$ e $\mathcal{L}_{\text{Emptiness}}$ è decidibile (ipotesi per assurdo), segue 
+    che $\mathcal{L}_{\text{Halt}}$ è decidibile.
+    Ma questo è assurdo perché è ben noto che $\mathcal{L}_{\text{Halt}}$ è indecidibile (contraddizione). Poichè ho ottenuto una contraddizione, l'ipotesi che 
+    $\mathcal{L}_{\text{Emptiness}}$ sia decidibile è falsa. Pertanto, l'emptiness problem è indecidibile.
+  \end{proof}
 \end{theorem}
 
 
@@ -883,28 +984,8 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{Problema dell'equivalenza dei programmi}
+\subsubsection{Problema dell'Equivalenza dei Linguaggi Accettati da due MdT}
 \subsubsection{Problema della terminazione totale}
-
 \subsection{Proprietà non banali delle MdT}
 \subsubsection{Teorema di Rice}
 \subsubsection{Problema del linguaggio vuoto}
@@ -1052,6 +1133,12 @@ Potendo trasformare un'istanza di $A$ in $B$ e sapendo che $B$ è decidibile all
   SSe $A \leq_m B$ e $A$ non è semidecidibile $\implies B$ non è semidecidibile. 
 \end{theorem}
 
-eccomiiiiiiiii
-
+\section{Complessità Temporale}
+\subsection{P}
+\subsubsection{Famosi problemi}
+\subsection{NP}
+\subsubsection{NP-Difficile}
+\subsubsection{NP-Completo}
+\subsubsection{Famosi problemi}
+\section{Complessità Spaziale}
 \end{document}
