@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1759480616.60025 "c:/Users/edebo/Documents/Informatica-Teorica/dim.tex" "dim.pdf" "dim" 1759480618.8452 0
+["pdflatex"] 1759480874.68313 "c:/Users/edebo/Documents/Informatica-Teorica/dim.tex" "dim.pdf" "dim" 1759480877.62308 0
   "C:/Users/edebo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1759479075 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/edebo/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm0800.pk" 1759479082 9292 d781fb25b0b1b02e88999c4880020265 ""
   "C:/Users/edebo/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1759479083 11548 6d9dc8ded0c1ef5177e06ac7d90997d0 ""
@@ -198,10 +198,10 @@
   "C:/Users/edebo/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty" 1700599895 7500 db31c3d04f8bc9010e47a5efbbace9ff ""
   "C:/Users/edebo/AppData/Local/Programs/MiKTeX/tex/latex/trimspaces/trimspaces.sty" 1253169183 1380 971a51b00a14503ddf754cab24c3f209 ""
   "C:/Users/edebo/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "c:/Users/edebo/Documents/Informatica-Teorica/dim.tex" 1759480615 66754 9fbf74c812764f4e59b605a47a1d1518 ""
-  "dim.aux" 1759480618 4168 bfa1ff5adb06a2954b5e4e2d73458c01 "pdflatex"
-  "dim.tex" 1759480615 66754 9fbf74c812764f4e59b605a47a1d1518 ""
-  "dim.toc" 1759480618 2241 9cc947eb5f3bb937fad80f319596896a "pdflatex"
+  "c:/Users/edebo/Documents/Informatica-Teorica/dim.tex" 1759480873 68175 2375eabc008d52d4f03c803ed874a8d5 ""
+  "dim.aux" 1759480877 4168 bfa1ff5adb06a2954b5e4e2d73458c01 "pdflatex"
+  "dim.tex" 1759480873 68175 2375eabc008d52d4f03c803ed874a8d5 ""
+  "dim.toc" 1759480877 2241 9cc947eb5f3bb937fad80f319596896a "pdflatex"
   "media/BTHP.png" 1759478870 65364 0ef767a5bb7159d39a5cd08b56709f41 ""
   (generated)
   "dim.aux"
