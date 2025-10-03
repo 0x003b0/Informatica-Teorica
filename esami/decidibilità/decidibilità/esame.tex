@@ -1,11 +1,59 @@
 \documentclass{article}  % Tipo di documento
 \usepackage[utf8]{inputenc} % Per caratteri accentati
 \usepackage[italian]{babel} % Lingua italiana
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}  % simboli matematici avanzati
+\usepackage{xcolor} % Per i colori
+\usepackage{titlesec} % Per personalizzare i titoli
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{theorems}
+\usetikzlibrary{automata, positioning, arrows}
+\tcbuselibrary{breakable}
+\usepackage{graphicx}
+
+\newtcolorbox{esercizio}[1][]{
+    colback=white,       % colore di sfondo
+    colframe=green!60!black,       % colore del bordo
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.5pt,       % spessore del bordo
+    arc=4pt,             % angoli arrotondati
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+    breakable,            % permette di spezzare il box su più pagine
+    enhanced,
+    break at=0pt
+}
+
+\title{Esame Informatica Teorica \\ 16 giugno 2016}
+\author{Ede Boanini}
+\date{}  % nessuna data
 
 \begin{document}
-Ciao! Questo è il mio primo documento in \LaTeX.
+\maketitle
+\begin{esercizio}[Esercizio 1]
+Dati due linguaggi decidibili $L_1$ e $L_2$, dimostrare che:
+\begin{enumerate}
+    \item L'unione $L_1 \cup L_2$ è un linguaggio decidibile
+    \item La concantenazione $L_1L_2$ è un linguaggio decidibile
+    \item La chiusura di Kleene $L_1^*$ è un linguaggio ricorsivo
+\end{enumerate}
+Ricordando che:
+\begin{align*}
+    L_1 \cup L_2 = \{w \mid w \in L_1 \text{ oppure } w \in L_2\}
+\end{align*}
+\begin{align*}
+    L_1L_2= \{w \mid \exists w_1 \in L_1, w_2 \in L_2 : w=w_1w_2\}
+\end{align*}
+\begin{align*}
+    L_1^*= \{\text{solo concantenazione di stringhe che già appartengona a } L_1\}
+\end{align*}
 
-\section{Introduzione}
-Sto imparando a usare LaTeX con Visual Studio Code!!!!!
 
+
+
+
+\end{esercizio}
 \end{document}

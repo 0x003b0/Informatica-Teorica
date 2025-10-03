@@ -1,11 +1,50 @@
 \documentclass{article}  % Tipo di documento
 \usepackage[utf8]{inputenc} % Per caratteri accentati
 \usepackage[italian]{babel} % Lingua italiana
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}  % simboli matematici avanzati
+\usepackage{xcolor} % Per i colori
+\usepackage{titlesec} % Per personalizzare i titoli
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{theorems}
+\usetikzlibrary{automata, positioning, arrows}
+\tcbuselibrary{breakable}
+\usepackage{graphicx}
+
+\newtcolorbox{esercizio}[1][]{
+    colback=white,       % colore di sfondo
+    colframe=green!60!black,       % colore del bordo
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.5pt,       % spessore del bordo
+    arc=4pt,             % angoli arrotondati
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+    breakable,            % permette di spezzare il box su più pagine
+    enhanced,
+    break at=0pt
+}
+
+\title{Esame Informatica Teorica \\ 12 gennaio 2016}
+\author{Ede Boanini}
+\date{}  % nessuna data
 
 \begin{document}
-Ciao! Questo è il mio primo documento in \LaTeX.
-
-\section{Introduzione}
-Sto imparando a usare LaTeX con Visual Studio Code!!!!!
-
+\maketitle
+\begin{esercizio}[Esercizio 1]
+\begin{enumerate}
+    \item Sia $\Sigma=\{0,1\}$ e sia $R$ un linguaggio decidibile su $\Sigma \times \Sigma$. \\ Dimostra che il 
+    linguaggio $L=\{x \mid \exists y : (x,y) \in R\}$ è semidecidibile.
+\end{enumerate}
+Allora $\Sigma^* \times \Sigma^* = \{(x,y) \mid x\in \Sigma, y \in \Sigma\}$ quindi: \\
+\[
+R = \{(0, 0), (0, 1), (1, 0), (1, 1)\} \quad \text{lughezza fissa 2; } |x|+|y|=2
+\]
+\[
+L = \{\}
+\]
+L accetta tutte le stringhe ...
+\end{esercizio}
 \end{document}
