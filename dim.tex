@@ -744,7 +744,7 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 \end{align*}
 
 
-\begin{theorem}{Blank-Tape Halting Problem (versione A: DA RIVEDERE)}
+\begin{theorem}{Blank-Tape Halting Problem (versione A)}
 IIl problema del nastro vuoto è indecidibile. \\
 $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\}$ è indecidibile.
 \footnotesize % riduce la dimensione del font
@@ -886,8 +886,8 @@ $\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}
 \end{theorem}
 
 
-\subsubsection{Problema del Linguaggio Vuoto}
-\begin{theorem}{Emptiness Problem}
+\subsubsection{Problema del linguaggio vuoto}
+\begin{theorem}{Emptiness Problem (versione lunga)}
 IIl problema del linguaggio vuoto è indecidibile. \\
 $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile.
 \footnotesize % riduce la dimensione del font
@@ -935,8 +935,7 @@ $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibil
       \item se $x \neq w$, rifiuta
       \item se $x = w$, esegue $M$ su $w$ dove:
       \begin{itemize}
-        \item se $M$ accetta $w$, allora $M'$ accetta $w$ (perchè $x=w$)
-        \item se $M$ rifiuta $w$, allora $M'$ rifiuta $w$
+        \item se $M$ termina su $w$, allora $M'$ accetta $w$ (perchè $x=w$)
         \item se $M$ va in loop su $w$, allora $M'$ va in loop
       \end{itemize}
     \end{itemize}
@@ -944,8 +943,8 @@ $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibil
     \[
     L(M') =
     \begin{cases}
-      \{w\} & \text{se } M \text{ accetta } w\\
-      \emptyset & \text{se } M \text{ rifiuta } w \text{ o se non termina (loop) su } w
+      \{w\} & \text{se } M \text{ termina su } w\\
+      \emptyset & \text{se } M \text{ non termina (loop) su } w
     \end{cases}
     \]
     \textcolor{red}{3. Costruisco MdT che decide il problema dell'arresto} \\
@@ -955,14 +954,14 @@ $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibil
       \item $N$ esegue $E$ su $f(w)$:
       \begin{itemize}
         \item Se $E$ accetta, allora $N$ rifiuta \\
-        (se $E$ accetta, vuol dire che $M'$ ha linguaggio vuoto, cioè $M'$ ha rifiutato $w$, quindi $L(M')=\emptyset$ (se $M'$ rifiuta $w$, vuol
-        dire che $M$ ha riufiutato $w$)) \\
+        (se $E$ accetta, vuol dire che $M'$ ha linguaggio vuoto, cioè $M'$ loop $w$, quindi $L(M')=\emptyset$ (se $M'$ loop su $w$, vuol
+        dire che $M$ ha loopato $w$)) \\
         ovvero: Se $R(M') \in \mathcal{L}_{\text{Emptiness}}$, allora $(R(M),w) \notin \mathcal{L}_{\text{Halt}}$ \\
         ma è più corretto scrivere: \\
         $w \notin \mathcal{L}_{\text{Halt}} \iff  f(w) \in \mathcal{L}_{\text{Emptiness}}$
         \item Se $E$ rifiuta, allora $N$ accetta \\
         (se $E$ rifiuta, vuol dire che $M'$ \underline{non} ha linguaggio vuoto, cioè $M'$ ha accettato $w$, quindi $L(M')=\{w\}$ (se $M'$ accetta $w$, vuol
-        dire che $M$ ha accettato $w$)) \\ 
+        dire che $M$ ha terminato su $w$)) \\ 
         ovvero: Se $R(M') \notin \mathcal{L}_{\text{Emptiness}}$, allora $(R(M),w) \in \mathcal{L}_{\text{Halt}}$ \\
         ma è più corretto scrivere: \\
         $w \in \mathcal{L}_{\text{Halt}} \iff f(w) \notin \mathcal{L}_{\text{Emptiness}}$
@@ -978,14 +977,217 @@ $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibil
   \end{proof}
 \end{theorem}
 
+\begin{theorem}{Emptiness Problem (versione corta)}
+  IIl problema del linguaggio vuoto è indecidibile. \\
+  $\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile.
+  \footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    Dim per assurdo + riduzione:
+    \begin{enumerate}
+      \item Nego la tesi (suppongo per assurdo che il nostro problema sia decidibile)
+      \item Costruisco una funzione di riduzione da un problema noto indecidibile al nostro: $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Emptiness}}$
+    \end{enumerate}
+    Concludo che, se $\mathcal{L}_{\text{Emptiness}}$ fosse decidibile, allora potrei usare $f$ e il decisore di $\mathcal{L}_{\text{Emptiness}}$ per
+    costruire un decisore per $\mathcal{L}_{\text{Halt}}$. Ma $\mathcal{L}_{\text{Halt}}$ è noto per essere indecidibile: contraddizione. 
+    Pertanto, $\mathcal{L}_{\text{Emptiness}}$ è indecidibile.
+  \end{ragionamento}
+  \begin{proof}
+    Siano $\mathcal{L}_{\text{Halt}}$ , $\mathcal{L}_{\text{Emptiness}}$ due linguaggi su $\Sigma_H^*$, $\Sigma_E^*$ rispettivamente, dove:
+    \begin{itemize}
+      \item $\mathcal{L}_{\text{Halt}}$ è il linguaggio del problema dell'arresto
+      \item $\mathcal{L}_{\text{Emptiness}}$ è il linguaggio dell'emptiness problem
+    \end{itemize}
+    \textcolor{red}{1. Ipotesi per assurdo} \\
+    Suppongo per assurdo che $\mathcal{L}_{\text{Emptiness}}$ sia decidibile. Quindi $\exists$ una MdT $E$ che decide $\mathcal{L}_{\text{Emptiness}}$.\\
+    \textcolor{red}{2. Riduzione} \\
+    Costruisco una funzione di riduzione $f:\Sigma_H^* \to \Sigma_E^*$ tale che dato $(R(M),w)\footnote{istanza del problema dell'arresto}$ definisco 
+    \[
+    f((R(M),w)) = (R(M'))\footnote{istanza dell'emptiness problem},
+    \]
+    dove $M'$ su una stringa di input $x$ generica:
+    \begin{itemize}
+      \item se $x \neq w$, rifiuta
+      \item se $x = w$, esegue $M$ su $w$ dove:
+      \begin{itemize}
+        \item se $M$ termina su $w$, allora $M'$ accetta $w$ ($x=w$)
+        \item se $M$ non termina (loop) su $w$, allora $M'$ non termina
+      \end{itemize}
+    \end{itemize}
+    Dalla costruzione di $f$ segue che: $w \in \mathcal{L}_{\text{Halt}} \iff  f(w) \notin \mathcal{L}_{\text{Emptiness}}$.
+    Concludo che, se $\mathcal{L}_{\text{Emptiness}}$ fosse decidibile, allora potrei usare $f$ e il decisore di $\mathcal{L}_{\text{Emptiness}}$ per
+    costruire un decisore per $\mathcal{L}_{\text{Halt}}$. Ma $\mathcal{L}_{\text{Halt}}$ è noto per essere indecidibile: contraddizione. 
+    Pertanto, $\mathcal{L}_{\text{Emptiness}}$ è indecidibile. \\
+  \end{proof}
+      \textcolor{red}{3. Costruisco MdT che risolve problema dell'arresto (opzionale)} \\
+    Adesso, costrusco una MdT $N$ che decide $\mathcal{L}_{\text{Halt}}$:
+    \begin{enumerate}
+      \item $N$ su input $(R(M),w) \in \Sigma_H^*$ calcola $f((R(M),w))\footnote{$f((R(M),w))=R(M')$} \in \Sigma_E^*$ (riduzione)
+      \item $N$ esegue $E$ su $f((R(M),w))$:
+      \begin{itemize}
+        \item se $E$ accetta, $N$ rifiuta \\
+        (se $E$ accetta vuol dire che $L(M')=\emptyset$, ovvero che $M'$ loop perchè $M$ loop su $w$; dato che $M$ loop su $w$ allora $N$ rifiuta$\footnote{(perchè
+        il problema dell'arresto, per definizione, è definito in modo tale che se se $M$ loop su $w$, allora rifiuta)}$) \\
+        $w \notin \mathcal{L}_{\text{Halt}} \iff  f(w) \in \mathcal{L}_{\text{Emptiness}}$
+
+        \item se $E$ rifiuta, $N$ accetta \\
+        (se $E$ rifiuta vuol dire che $L(M')=\{w\}$, ovvero che M' ha accettato $x=w$ perchè $M$ ha terminato su $w$; dato che $M$ ha terminato su $w$ allora $N$ 
+        accetta$\footnote{(perché il problema dell'arresto, per definizione, è definito in modo tale che se $M$ termina su $w$, allora accetta)}$) \\
+        $w \in \mathcal{L}_{\text{Halt}} \iff  f(w) \notin \mathcal{L}_{\text{Emptiness}}$
+        
+      \end{itemize}
+    \end{enumerate}
+\end{theorem}
 
 
+\subsubsection{Problema dell'equivalenza dei linguaggi}
+\begin{theorem}{Equivalence Problem}
+   IIl problema di determinare se i linguaggi di due MdT coincidono è indecidibile. \\
+  $\mathcal{L}_{\text{Equivalence}} = \{(R(M_1),R(M_2)) \mid L(M_1)=L(M_2)\}$ è indecidibile.
+  \footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    Uso dim per assurdo + riduzione e come conclusione il teorema 3.1.
+    Effettuo una riduzione da un problema noto indecidibile al mio: $\mathcal{L}_{\text{Emptiness}} \leq_m \mathcal{L}_{\text{Equivalence}}$
+  \end{ragionamento}
+  \begin{proof}
+    \begin{align*}
+      \mathcal{L}_{\text{Equivalence}} = \{(R(M_1),R(M_2)) \mid L(M_1)=L(M_2)\} \tag*{(ipotesi)}
+    \end{align*}
+    \begin{align*}
+      \mathcal{L}_{\text{Equivalence}} \text{ è indecidibile} \tag*{(tesi)}
+    \end{align*}
+    Siano $\mathcal{L}_{\text{Emptiness}}$ , $\mathcal{L}_{\text{Equivalence}}$ due linguaggi su $\Sigma_E^*$, $\Sigma_Q^*$ rispettivamente, dove:
+    \begin{itemize}
+      \item $\mathcal{L}_{\text{Emptiness}}$ è il linguaggio dell'emptiness problem
+      \item $\mathcal{L}_{\text{Equivalence}}$ è il linguaggio dell'equivalence problem
+    \end{itemize}
+    \textcolor{red}{1. Ipotesi per assurdo} \\
+    Suppongo per assurdo che $\mathcal{L}_{\text{Equivalence}}$ sia decidibile. Quindi $\exists$ una MdT $Q$ che decide 
+    $\mathcal{L}_{\text{Equivalence}}$ con il seguente comportamento:
+    \[
+    Q((R(M_1),R(M_2))) =
+    \begin{cases}
+      accept & \text{se } L(M_1)=L(M_2)\\
+      reject & \text{se } L(M_1) \neq L(M_2)
+    \end{cases}
+    \]
+    \textcolor{red}{2. Riduzione} \\
+    Definisco una funzione di riduzione\footnote{ricorda la funzione di riduzione trasforma un'istanza del problema dell'emptiness problem 
+    E in un'istanza dell'equivalence problem Q}
+     $f: \Sigma_E^* \rightarrow \Sigma_Q^*$ come segue. \\
+    Dato in input $R(M)$\footnote{istanza dell'emptiness problem}  la funzione $f$ genera come output $(R(M),R(M_1))$\footnote
+    {istanza dell'equivalence problem}, dove $M_1$ è la nuova MdT costruita dalla funzione di riduzione $f$ che ha il seguente 
+    comportamento ($R(M)$ è la codifica di una MdT arbitraria):\\ \\ $M_1$ per ogni stringa di input $w$: rifiuta; quindi $L(M_1)=\emptyset$ \\
+    \textcolor{red}{3. Costruisco una MdT che decide l'emptiness problem} \\
+    Adesso, costruisco una MdT $E$ che decide $\mathcal{L}_{\text{Emptiness}}$:
+    \begin{enumerate}
+      \item $E$ su input $w \in \Sigma_E^*$ calcola $f(w) \in \Sigma_Q^*$ (riduzione)
+      \item $E$ esegue $Q$ su $f(w)$:
+      \begin{itemize}
+        \item Se $Q$ accetta, allora $E$ accetta \\
+        (se $Q$ accetta vuol dire che i linguaggi delle MdT in input $M$ e $M_1$ coincidono). 
+        $w \in \mathcal{L}_{\text{Emptiness}} \iff f(w) \in \mathcal{L}_{\text{Equivalence}}$
 
+        \item Se $Q$ rifiuta, allora $E$ rifiuta \\
+        (se $Q$ rifiuta vuol dire che i linguaggi delle MdT in input $M$ e $M_1$ sono diversi).
+        $w \notin \mathcal{L}_{\text{Emptiness}} \iff f(w) \notin \mathcal{L}_{\text{Equivalence}}$
+      \end{itemize}
+    \end{enumerate}
+    *Precisando che $w=R(M)$ e $f(w)=(R(M),R(M_1))$ dove $w$ è l'input dato alla funzione di riduzione e $f(w)$ è l'ouput 
+    generato dalla stessa funzione di riduzione, ovvero il valore ottenuto applicando $f$ a $w$. \\ \\
+    Poiché $\mathcal{L}_{\text{Emptiness}} \leq_m \mathcal{L}_{\text{Equivalence}}$ e $\mathcal{L}_{\text{Equivalence}}$ è decidibile (ipotesi per assurdo), segue 
+    che $\mathcal{L}_{\text{Emptiness}}$ è decidibile.
+    Ma questo è assurdo perché è ben noto che $\mathcal{L}_{\text{Emptiness}}$ è indecidibile (contraddizione). Poichè ho ottenuto una contraddizione, l'ipotesi che 
+    $\mathcal{L}_{\text{Equivalence}}$ sia decidibile è falsa. Pertanto, l'equivalence problem è indecidibile.
+  \end{proof}
+\end{theorem}
 
-
-
-\subsubsection{Problema dell'Equivalenza dei Linguaggi Accettati da due MdT}
 \subsubsection{Problema della terminazione totale}
+\begin{theorem}{Total Halting Problem}
+  IIl problema della terminazione totale è indecidibile. \\
+  $\mathcal{L}_{\text{Total-Halt}} = \{R(M) \mid M \text{ termina su ogni input } w\}$ è indecidibile.
+  \footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    Dim per assurdo + riduzione:
+    \begin{enumerate}
+      \item Nego la tesi (suppongo per assurdo che il nostro problema sia decidibile)
+      \item Costruisco una funzione di riduzione da un problema noto indecidibile al nostro: $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Total-Halt}}$
+    \end{enumerate}
+    Concludo che, se $\mathcal{L}_{\text{Total-Halt}}$ fosse decidibile, allora potrei usare $f$ e il decisore di $\mathcal{L}_{\text{Total-Halt}}$ per
+    costruire un decisore per $\mathcal{L}_{\text{Halt}}$. Ma $\mathcal{L}_{\text{Halt}}$ è noto per essere indecidibile: contraddizione. 
+    Pertanto, $\mathcal{L}_{\text{Total-Halt}}$ è indecidibile.
+  \end{ragionamento}
+  \begin{proof}
+    \begin{align*}
+      \mathcal{L}_{\text{Total-Halt}} = \{R(M) \mid M \text{ termina su ogni input } w\} \tag*{(ipotesi)}
+    \end{align*}
+    \begin{align*}
+      \mathcal{L}_{\text{Total-Halt}} \text{ è indecidibile} \tag*{(tesi)}
+    \end{align*}
+    Siano $\mathcal{L}_{\text{Total-Halt}}$ , $\mathcal{L}_{\text{Halt}}$ due linguaggi su $\Sigma_T^*$, $\Sigma_H^*$ rispettivamente, dove:
+    \begin{itemize}
+      \item $\mathcal{L}_{\text{Total-Halt}}$ è il linguaggio del total halting problem
+      \item $\mathcal{L}_{\text{Halt}}$ è il linguaggio del problema dell'arresto
+    \end{itemize}
+    \textcolor{red}{1. Ipotesi per assurdo} \\
+    Suppongo per assurdo che $\mathcal{L}_{\text{Total-Halt}}$ sia decidibile. Quindi $\exists$ una MdT $T$ che decide 
+    $\mathcal{L}_{\text{Total-Halt}}$. \\
+    \textcolor{red}{2. Riduzione} \\
+    Costruisco una funzione di riduzione $f:\Sigma_H^* \to \Sigma_T^*$ tale che dato $(R(M),w)\footnote{istanza del problema dell'arresto}$ definisco 
+    \[
+    f((R(M),w)) = (R(M'))\footnote{istanza dell'total halting problem},
+    \]
+    dove $M'$ su una stringa di input $x$ generica:
+    \begin{itemize}
+      \item se $x \neq w$, rifiuta
+      \item se $x = w$, esegue $M$ su $w$ dove:
+      \begin{itemize}
+        \item se $M$ termina su $w$, allora $M'$ accetta o termina? $w$ ($x=w$)
+        \item se $M$ non termina (loop) su $w$, allora $M'$ non termina
+      \end{itemize}
+    \end{itemize}
+    Dalla costruzione di $f$ segue che: $w \in \mathcal{L}_{\text{Halt}} \iff  f(w) \notin \mathcal{L}_{\text{Emptiness}}$.
+    Concludo che, se $\mathcal{L}_{\text{Emptiness}}$ fosse decidibile, allora potrei usare $f$ e il decisore di $\mathcal{L}_{\text{Emptiness}}$ per
+    costruire un decisore per $\mathcal{L}_{\text{Halt}}$. Ma $\mathcal{L}_{\text{Halt}}$ è noto per essere indecidibile: contraddizione. 
+    Pertanto, $\mathcal{L}_{\text{Emptiness}}$ è indecidibile. \\
+  \end{proof}
+    \textcolor{red}{3. Costruisco MdT che risolve problema dell'arresto (opzionale)} \\
+    Adesso, costrusco una MdT $N$ che decide $\mathcal{L}_{\text{Halt}}$:
+    \begin{enumerate}
+      \item $N$ su input $(R(M),w) \in \Sigma_H^*$ calcola $f((R(M),w))\footnote{$f((R(M),w))=R(M')$} \in \Sigma_T^*$ (riduzione)
+      \item $N$ esegue $E$ su $f((R(M),w))$:
+      \begin{itemize}
+        \item se $T$ accetta, $N$ accetta \\
+        (se $T$ accetta vuol dire che che $M'$ ha accettato o terminato? su $w$ perchè $M$ ha terminato su $w$; dato che $M$ ha terminato su $w$ allora $N$ accetta$\footnote{(perchè
+        il problema dell'arresto, per definizione, è definito in modo tale che se se $M$ loop su $w$, allora rifiuta)}$) \\
+        $w \notin \mathcal{L}_{\text{Halt}} \iff  f(w) \in \mathcal{L}_{\text{Emptiness}}$
+
+        \item se $T$ rifiuta, $N$ accetta \\
+        (se $E$ rifiuta vuol dire che $M'$ loop su $x=w$ perchè $M$ loop su $w$; dato che $M$ ha terminato su $w$ allora $N$ 
+        accetta$\footnote{(perché il problema dell'arresto, per definizione, è definito in modo tale che se $M$ termina su $w$, allora accetta)}$) \\
+        $w \in \mathcal{L}_{\text{Halt}} \iff  f(w) \notin \mathcal{L}_{\text{Emptiness}}$
+        
+      \end{itemize}
+    \end{enumerate}
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Proprietà non banali delle MdT}
 \subsubsection{Teorema di Rice}
 \subsubsection{Problema del linguaggio vuoto}
@@ -1132,6 +1334,7 @@ Potendo trasformare un'istanza di $A$ in $B$ e sapendo che $B$ è decidibile all
 \begin{theorem}{3.4}
   SSe $A \leq_m B$ e $A$ non è semidecidibile $\implies B$ non è semidecidibile. 
 \end{theorem}
+\subsubsection{Riduzione non sempre funziona}
 
 \section{Complessità Temporale}
 \subsection{P}
