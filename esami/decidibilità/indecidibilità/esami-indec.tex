@@ -1,0 +1,119 @@
+\documentclass{article}  % Tipo di documento
+\usepackage[utf8]{inputenc} % Per caratteri accentati
+\usepackage[italian]{babel} % Lingua italiana
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}  % simboli matematici avanzati
+\usepackage{xcolor} % Per i colori
+\usepackage{titlesec} % Per personalizzare i titoli
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{theorems}
+\usetikzlibrary{automata, positioning, arrows}
+\tcbuselibrary{breakable}
+\usepackage{graphicx}
+
+\newtcolorbox{esercizio}[1][]{
+    colback=white,       % colore di sfondo
+    colframe=green!60!black,       % colore del bordo
+    fonttitle=\bfseries,
+    title=#1,
+    boxrule=0.5pt,       % spessore del bordo
+    arc=4pt,             % angoli arrotondati
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+    breakable,            % permette di spezzare il box su più pagine
+    enhanced,
+    break at=0pt
+}
+
+\title{Esami Informatica Teorica \\ Indecidibilità}
+\author{Ede Boanini}
+\date{}  % nessuna data
+
+\begin{document}
+\maketitle
+\begin{esercizio}[Esercizio 1]
+ Sia  $M$  una MdT deterministica che accetta un linguaggio non decidibile (non ricorsivo) per stati finali. 
+ Dimostrare che il problema dell'arresto per  $M$
+ non è decidibile, vale a dire, che non esiste una macchina di Turing che, presa in
+ input una stringa  $w$ , determina (decide) se la computazione di  $M$  con input  $w$
+ termina oppure no.
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 2]
+ Sia  $L$  il linguaggio costituito dalle terne  $(R(M),w, q)$ tali che  $R(M)$  è la
+ rappresentazione di una macchina di Turing  $M$  che, fatta partire su input  $w$, termina
+ nello stato  $q$. Dimostrare che  $L$  non è decidibile.
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 3]
+ Si consideri il seguente problema: \\
+ Data una macchina di Turing  $M$, determinare se esiste una stringa  $w$
+ sulla quale  M  termina. \\
+ Dimostrare che tale problema è indecidibile.
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 4]
+Si consideri il seguente problema: \\
+ Data una macchina di Turing a due nastri $M$ e una stringa $w$, determinare
+ se $M$, fatta partire su $w$ scritta sul primo nastro, nel corso dell'esecuzione
+ compie almeno unoperazione di scrittura sul secondo nastro. \\
+ Dimostrare che tale problema e indecidibile.
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 5]
+Si consideri il seguente problema: \\
+Date due macchine di Turing $M_1, M_2$, determinare se il linguaggio accettato da $M_1$ è uguale al linguaggio accettato da $M_2$. \\
+\begin{enumerate}
+    \item Descrivere il linguaggio formale associato a tale problema
+    \item Dimostrare che tale problema è indecidibile
+\end{enumerate}
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 6]
+    Per ciascuno dei seguenti problemi, stabilire se esso è decidibile o indecidibile, giustificando la risposta.
+    Si supponga che l'alfabeto di tutte le macchine di Turing sia \{0,1\}.
+    \begin{enumerate}
+        \item Date due MdT $M_1, M_2$, determinare se $M_1$ e $M_2$ accettano lo stesso linguaggio.
+        \item Date due MdT $M_1, M_2$, che terminano su ogni input, determinare se $M_1$ e $M_2$
+        accettano lo stesso linguaggio
+        \item Date due MdT $M_1, M_2$, che terminano su ogni input, determinare se $M_1$ e $M_2$
+        accettano le stesse stringhe di lunghezza al piú 100 ($|w| \leq 100$).
+    \end{enumerate}
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 7]
+Si consideri il seguente problema: \\
+ Data una macchina di Turing $M$, determinare se il linguaggio $L(M)$
+ accettato da $M$ ha la seguente proprieta: ogni volta che la stringa
+ $w =w_1w_2 \cdots w_n \in L(M)$, anche la stringa rovesciata
+ $w^R =w_nw_{n-1} \cdots w_1 \in L(M)$. \\
+ Dimostrare che tale problema e indecidibile.
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 8]
+    Dimostrare ch il linguaggio $L_{Halt}$ del problema dell'arresto non è riducibile
+    a $L_{\emptyset}$. \\
+    Ricordo che:
+    \[
+    L_{Halt}=\{R(M) \mid M \text{ termina su } w\}
+    \]
+    e che 
+    \[
+    L_{\emptyset} = \{R(M) \mid L(M)=\emptyset\}
+    \]
+\end{esercizio}
+
+\begin{esercizio}[Esercizio 9]
+    Una MdT $M$ si dice riproducibile quando esiste un'altra MdT $M'$ che accetta lo stesso 
+    linguaggio di $M$. Indichiamo con $L(M)$ il linguaggio (semidecidibile) accettato da una 
+    generica MdT $M$. Stabilire se ciascuno dei seguenti problemi è decidibile o indecidibile, giustificando la risposta.
+    \begin{enumerate}
+        \item Dato un linguaggio semidecidibile $L$, determinare se esiste una MdT riproducibile $M$ t.c. $L=L(M)$.
+        \item Dato un linguaggio semidecidibile $L$, determinare se esiste una MdT riproducibile $M$ avente meno di 10 stati t.c. $L=L(M)$.
+        \item Dato un linguaggio semidecidibile $L$, determinare se esiste una MdT riproducibile $M$ avente più di 10 stati t.c. $L=L(M)$
+    \end{enumerate}
+\end{esercizio}
+
+\end{document}
