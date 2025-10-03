@@ -7,26 +7,26 @@
 \contentsline {section}{\numberline {2}Decidibilità}{7}{}%
 \contentsline {subsection}{\numberline {2.1}Decidibilità}{7}{}%
 \contentsline {subsection}{\numberline {2.2}Semidecidibilità}{9}{}%
-\contentsline {subsection}{\numberline {2.3}Indecidibilità}{9}{}%
-\contentsline {subsection}{\numberline {2.4}Esercizi}{10}{}%
-\contentsline {subsection}{\numberline {2.5}Famosi problemi indecidibili}{13}{}%
-\contentsline {subsubsection}{\numberline {2.5.1}Halting Problem}{13}{}%
-\contentsline {subsubsection}{\numberline {2.5.2}Problema del nastro vuoto}{15}{}%
-\contentsline {subsubsection}{\numberline {2.5.3}Problema del linguaggio vuoto}{18}{}%
-\contentsline {subsubsection}{\numberline {2.5.4}Problema dell'equivalenza dei linguaggi}{21}{}%
-\contentsline {subsubsection}{\numberline {2.5.5}Problema della terminazione totale}{22}{}%
-\contentsline {subsection}{\numberline {2.6}Proprietà non banali delle MdT}{23}{}%
-\contentsline {subsubsection}{\numberline {2.6.1}Teorema di Rice}{23}{}%
-\contentsline {subsubsection}{\numberline {2.6.2}Problema del linguaggio vuoto}{23}{}%
-\contentsline {subsubsection}{\numberline {2.6.3}Problema della finitezza del linguaggio}{23}{}%
-\contentsline {subsubsection}{\numberline {2.6.4}Problema della terminazione di programmi su tutti gli input}{23}{}%
-\contentsline {section}{\numberline {3}Riducibilità}{24}{}%
-\contentsline {subsubsection}{\numberline {3.0.1}Riduzione non sempre funziona}{26}{}%
-\contentsline {section}{\numberline {4}Complessità Temporale}{26}{}%
-\contentsline {subsection}{\numberline {4.1}P}{26}{}%
-\contentsline {subsubsection}{\numberline {4.1.1}Famosi problemi}{26}{}%
-\contentsline {subsection}{\numberline {4.2}NP}{26}{}%
-\contentsline {subsubsection}{\numberline {4.2.1}NP-Difficile}{26}{}%
-\contentsline {subsubsection}{\numberline {4.2.2}NP-Completo}{26}{}%
-\contentsline {subsubsection}{\numberline {4.2.3}Famosi problemi}{26}{}%
-\contentsline {section}{\numberline {5}Complessità Spaziale}{26}{}%
+\contentsline {subsection}{\numberline {2.3}Indecidibilità}{10}{}%
+\contentsline {subsection}{\numberline {2.4}Esercizi}{11}{}%
+\contentsline {subsection}{\numberline {2.5}Famosi problemi indecidibili}{14}{}%
+\contentsline {subsubsection}{\numberline {2.5.1}Halting Problem}{14}{}%
+\contentsline {subsubsection}{\numberline {2.5.2}Problema del nastro vuoto}{16}{}%
+\contentsline {subsubsection}{\numberline {2.5.3}Problema del linguaggio vuoto}{19}{}%
+\contentsline {subsubsection}{\numberline {2.5.4}Problema dell'equivalenza dei linguaggi}{22}{}%
+\contentsline {subsubsection}{\numberline {2.5.5}Problema della terminazione totale}{23}{}%
+\contentsline {subsection}{\numberline {2.6}Proprietà non banali delle MdT}{24}{}%
+\contentsline {subsubsection}{\numberline {2.6.1}Teorema di Rice}{24}{}%
+\contentsline {subsubsection}{\numberline {2.6.2}Problema del linguaggio vuoto}{24}{}%
+\contentsline {subsubsection}{\numberline {2.6.3}Problema della finitezza del linguaggio}{24}{}%
+\contentsline {subsubsection}{\numberline {2.6.4}Problema della terminazione di programmi su tutti gli input}{24}{}%
+\contentsline {section}{\numberline {3}Riducibilità}{25}{}%
+\contentsline {subsubsection}{\numberline {3.0.1}Riduzione non sempre funziona}{27}{}%
+\contentsline {section}{\numberline {4}Complessità Temporale}{27}{}%
+\contentsline {subsection}{\numberline {4.1}P}{27}{}%
+\contentsline {subsubsection}{\numberline {4.1.1}Famosi problemi}{27}{}%
+\contentsline {subsection}{\numberline {4.2}NP}{27}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}NP-Difficile}{27}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}NP-Completo}{27}{}%
+\contentsline {subsubsection}{\numberline {4.2.3}Famosi problemi}{27}{}%
+\contentsline {section}{\numberline {5}Complessità Spaziale}{27}{}%

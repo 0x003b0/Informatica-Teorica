@@ -386,13 +386,6 @@ Notare che la macchina si ferma sempre. In questo caso si dice che la macchina "
 	\]
 	La funzione caratteristica è una MdT.
 \end{definition}
-
-\begin{tabular}{|c|}
-	\hline
-	$L$ è decidibile $\implies L$ enumerabile                          \\ \hline
-	$L$ è decidibile $\iff L$ enumerabile e $\overline{L}$ enumerabile \\ \hline
-\end{tabular}
-\\
 \begin{theorem}{2.1.1}
 	SSe $L$ è decidibile $\implies L$ è enumerabile.
 	\footnotesize % riduce la dimensione del font
@@ -426,34 +419,23 @@ Notare che la macchina si ferma sempre. In questo caso si dice che la macchina "
     $\overline{L}$ è enumerabile vuol dire che una MdT scrive tutte le stringhe $\notin L$
   \end{ragionamento}
 \end{theorem}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{theorem}{2.1.3}
+  a$L$ è decidibile $\iff \mbox{\Large$\chi$}_L$ è una funzione computabile.
+  \footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+    $\mbox{\Large$\chi$}_L$ funzione computabile vuol dire che $\exists$ una MdT, dato in input $w$, restituisce:
+    \[
+    \mbox{\Large$\chi$}_L(w) = 
+    \begin{cases}
+    1 & \text{se } w \in L,\\
+    0 & \text{se } w \notin L.
+    \end{cases}
+    \]
+  \end{ragionamento}
+\end{theorem}
+\begin{theorem}{2.1.4}
+  SSe $L$ è decidibile $\implies L$ è semidecidibile.  
+\end{theorem}
 Questa dimostrazione fa riferimento ad un automa a stati finiti deterministico (DFA). Lo stesso quesito per una MdT non è decidibile (vedi esercizio 2.2).
 Lo scopo è mostrare come funziona la dimostrazione per costruzione.
 \begin{esercizio}[Esercizio 1.1]
@@ -501,7 +483,23 @@ Un linguaggio $L$ è \textbf{semidecidibile} se $\exists$ una MdT $M$ tale che, 
 	\item Se $w \notin L \implies$ M va in loop, non fermandosi mai.
 \end{itemize}
 Notare che la macchina \underline{non} si ferma sempre. In questo caso si dice che la macchina "riconosce" $L$.
-
+\begin{theorem}{2.2.1}
+  s$L$ è enumerabile $\iff L$ è semidecidibile.
+  \footnotesize % riduce la dimensione del font
+  \begin{ragionamento}
+  Se io ho un linguaggio $L$ e mi chiedono:
+  \begin{itemize}
+    \item Sia $L$ enumerabile, è anche semidecidibile? (sempre vero)
+    \item Sia $L$ semidecidibile, è anche enumerabile? (sempre vero)
+  \end{itemize}
+  \end{ragionamento}
+\end{theorem}
+\begin{theorem}{2.2.2}
+  S$L$ è semidecidibile$\;\wedge\; \overline{L}$ è semidecidibile $\implies L$ decidibile.  
+\end{theorem}
+\begin{theorem}{2.2.3}
+  S$L$ è semidecidibile$\;\wedge\; \overline{L}$ non è semidecidibile $\implies L$ indecidibile.  
+\end{theorem}
 
 
 
