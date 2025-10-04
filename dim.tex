@@ -16,6 +16,9 @@
 \usepackage{graphicx}
 \graphicspath{ {./media/} }
 
+\usepackage[hidelinks]{hyperref}  % <<--- SPOSTALA QUI
+
+
 \newtcbtheorem[no counter]{theorem}{Teorema}%
 {colback=blue!5, 
 colframe=blue!50!black, 
@@ -79,10 +82,9 @@ fonttitle=\bfseries,
 \date{\today}
 
 \begin{document}
-% genera automaticamente l’indice
-\tableofcontents
-\newpage % va a nuova pagina
 \maketitle
+\tableofcontents % genera automaticamente l’indice
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduzione}
 \subsection{Definizioni essenziali}
@@ -483,6 +485,7 @@ Un linguaggio $L$ è \textbf{semidecidibile} se $\exists$ una MdT $M$ tale che, 
 	\item Se $w \notin L \implies$ M va in loop, non fermandosi mai.
 \end{itemize}
 Notare che la macchina \underline{non} si ferma sempre. In questo caso si dice che la macchina "riconosce" $L$.
+//TODO: FARE DIMOSTRAZIONI
 \begin{theorem}{2.2.1}
   s$L$ è enumerabile $\iff L$ è semidecidibile.
   \footnotesize % riduce la dimensione del font
@@ -1196,6 +1199,10 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		      \end{itemize}
 	\end{enumerate}
 \end{theorem}
+\begin{osservazioni}[Indecidibilità e Semidecidibilità del Linguaggio Vuoto]
+	$\mathcal{L}_{\emptyset} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile e \textbf{non} semidecidibile \\ \\
+	$\overline{\mathcal{L}_{\emptyset}} = \{R(M) \mid L(M) \neq \emptyset \}$ è indecidibile e semidecidibile
+\end{osservazioni}
 
 
 \subsubsection{Problema dell'equivalenza dei linguaggi}
