@@ -391,9 +391,9 @@ Notare che la macchina si ferma sempre. In questo caso si dice che la macchina "
 \begin{theorem}{2.1.1}
 	SSe $L$ è decidibile $\implies L$ è enumerabile.
 	\footnotesize % riduce la dimensione del font
-  \begin{ragionamento}
-    Per dimostrarlo, utilizzo la dimostrazione per costruzione.
-  \end{ragionamento}
+	\begin{ragionamento}
+		Per dimostrarlo, utilizzo la dimostrazione per costruzione.
+	\end{ragionamento}
 	\begin{proof}
 		\begin{align*}
 			L \text{ è decidibile} \tag*{(ipotesi)}
@@ -401,42 +401,42 @@ Notare che la macchina si ferma sempre. In questo caso si dice che la macchina "
 		\begin{align*}
 			L \text{ è enumerabile} \tag*{(tesi)}
 		\end{align*}
-    Sia $L$ il linguaggio su $\Sigma^*$. Per ipotesi, $L$ è decidibile quindi $\exists$ una MdT $M$ che decide $L$.
-    Costruisco un MdT $E$ che enumera $L$ come segue. \\ \\
-    $E$ non ha nessun input ma $\forall{w_i} \in \Sigma^*$:
-    \begin{enumerate}
-      \item Esegue $M$ su $w_i$:
-      \begin{itemize}
-        \item Se $M$ accetta ($w_i \in L$) allora $E$ scrive $w_i$
-        \item Se $M$ rifiuta ($w_i \notin L$) allora $E$ non scrive $w_i$
-      \end{itemize}
-    \end{enumerate}
-  Ho costruito un enumeratore per $L$. Pertanto $L$ è enumerabile.
+		Sia $L$ il linguaggio su $\Sigma^*$. Per ipotesi, $L$ è decidibile quindi $\exists$ una MdT $M$ che decide $L$.
+		Costruisco un MdT $E$ che enumera $L$ come segue. \\ \\
+		$E$ non ha nessun input ma $\forall{w_i} \in \Sigma^*$:
+		\begin{enumerate}
+			\item Esegue $M$ su $w_i$:
+			      \begin{itemize}
+				      \item Se $M$ accetta ($w_i \in L$) allora $E$ scrive $w_i$
+				      \item Se $M$ rifiuta ($w_i \notin L$) allora $E$ non scrive $w_i$
+			      \end{itemize}
+		\end{enumerate}
+		Ho costruito un enumeratore per $L$. Pertanto $L$ è enumerabile.
 	\end{proof}
 \end{theorem}
 \begin{theorem}{2.1.2}
-  d$L$ è decidibile $\iff L$ è enumerabile$\;\wedge\; \overline{L}$ è enumerabile. 
-  \footnotesize % riduce la dimensione del font
-  \begin{ragionamento}
-    $\overline{L}$ è enumerabile vuol dire che una MdT scrive tutte le stringhe $\notin L$
-  \end{ragionamento}
+	d$L$ è decidibile $\iff L$ è enumerabile$\;\wedge\; \overline{L}$ è enumerabile.
+	\footnotesize % riduce la dimensione del font
+	\begin{ragionamento}
+		$\overline{L}$ è enumerabile vuol dire che una MdT scrive tutte le stringhe $\notin L$
+	\end{ragionamento}
 \end{theorem}
 \begin{theorem}{2.1.3}
-  a$L$ è decidibile $\iff \mbox{\Large$\chi$}_L$ è una funzione computabile.
-  \footnotesize % riduce la dimensione del font
-  \begin{ragionamento}
-    $\mbox{\Large$\chi$}_L$ funzione computabile vuol dire che $\exists$ una MdT, dato in input $w$, restituisce:
-    \[
-    \mbox{\Large$\chi$}_L(w) = 
-    \begin{cases}
-    1 & \text{se } w \in L,\\
-    0 & \text{se } w \notin L.
-    \end{cases}
-    \]
-  \end{ragionamento}
+	a$L$ è decidibile $\iff \mbox{\Large$\chi$}_L$ è una funzione computabile.
+	\footnotesize % riduce la dimensione del font
+	\begin{ragionamento}
+		$\mbox{\Large$\chi$}_L$ funzione computabile vuol dire che $\exists$ una MdT, dato in input $w$, restituisce:
+		\[
+			\mbox{\Large$\chi$}_L(w) =
+			\begin{cases}
+				1 & \text{se } w \in L,    \\
+				0 & \text{se } w \notin L.
+			\end{cases}
+		\]
+	\end{ragionamento}
 \end{theorem}
 \begin{theorem}{2.1.4}
-  SSe $L$ è decidibile $\implies L$ è semidecidibile.  
+	SSe $L$ è decidibile $\implies L$ è semidecidibile.
 \end{theorem}
 Questa dimostrazione fa riferimento ad un automa a stati finiti deterministico (DFA). Lo stesso quesito per una MdT non è decidibile (vedi esercizio 2.2).
 Lo scopo è mostrare come funziona la dimostrazione per costruzione.
@@ -485,90 +485,132 @@ Un linguaggio $L$ è \textbf{semidecidibile} se $\exists$ una MdT $M$ tale che, 
 	\item Se $w \notin L \implies$ M va in loop, non fermandosi mai.
 \end{itemize}
 Notare che la macchina \underline{non} si ferma sempre. In questo caso si dice che la macchina "riconosce" $L$.
-//TODO: FARE DIMOSTRAZIONI
 \begin{theorem}{2.2.1}
-  s$L$ è enumerabile $\iff L$ è semidecidibile.
-  \footnotesize % riduce la dimensione del font
-  \begin{ragionamento}
-  Se io ho un linguaggio $L$ e mi chiedono:
-  \begin{itemize}
-    \item Sia $L$ enumerabile, è anche semidecidibile? (sempre vero)
-    \item Sia $L$ semidecidibile, è anche enumerabile? (sempre vero)
-  \end{itemize}
-  \end{ragionamento}
+	s$L$ è enumerabile $\iff L$ è semidecidibile.
+	\footnotesize % riduce la dimensione del font
+	\begin{ragionamento}
+		Se io ho un linguaggio $L$ e mi chiedono:
+		\begin{itemize}
+			\item Sia $L$ enumerabile, è anche semidecidibile? (sempre vero)
+			\item Sia $L$ semidecidibile, è anche enumerabile? (sempre vero)
+		\end{itemize}
+	\end{ragionamento}
+	\begin{proof} ($\Longrightarrow$) \\
+		\begin{align*}
+			L \text{ è enumerabile} \tag*{(ipotesi)}
+		\end{align*}
+		\begin{align*}
+			L \text{ è semidecidibile} \tag*{(tesi)}
+		\end{align*}
+		Per ipotesi, $\exists$ una MdT $E$ che enumera $L$. Costruisco un algoritmo di semidecisione $M$ per $L$ con il seguente funzionamento. \\ \\
+		$M$ su input $w$:
+		\begin{enumerate}
+			\item Esegue $E$ e osserva le stringhe che esso stampa. Per ogni nuova stringa $s_i$ stampata da $E$: \\
+			      $M$ confronta $w$ con $s_i$:
+			      \begin{itemize}
+				      \item Se $w=s_i$, allora $M$ accetta $w$.
+			      \end{itemize}
+		\end{enumerate}
+		Se $w$ non appare mai tra le stringhe prodotte da $E$, $M$ non si ferma (continuerà a confrontare ogni stringa stampata da $E$). \\
+		Ho costruito un algoritmo di semidecidibile per $L$, pertanto $L$ è semidecidibile.
+	\end{proof}
+	\textit{Nota per non confondersi: durante la costruzione di un algoritmo semidecidibile, specifica \textcolor{red}{solo} il comportamento di $M$ nel caso di $w \in L$, ma non
+		nel caso in cui $w \notin L$. Perchè essendo $M$ semidecidibile, non importa specificarlo e potresti confonderti. Nel caso puoi menzionare che
+		M non si ferma ma non andare nello specifico.} \\
+	$\rule{\linewidth}{0.3pt}$  % linea orizzontale lunga quanto la pagina, spessore 0.4pt$
+	\begin{proof} ($\Longleftarrow$) \\
+		\begin{align*}
+			L \text{ è semidecidibile} \tag*{(ipotesi)}
+		\end{align*}
+		\begin{align*}
+			L \text{ è enumerabile} \tag*{(tesi)}
+		\end{align*}
+		Per ipotesi, $L$ è semidecidibile quindi $\exists$ una MdT $M$ che riconosce (semidecide) $L$.
+		Costruisco un algoritmo di enumerazione $E$ per $L$ con il seguente funzionamento. \\
+		\textcolor{red}{a) Versione con MdT deterministica} \\
+		In questo caso si utilizza la tecnica di Dovetailing per Macchine di Turing. \\
+		Ricordiamoci che $M$ è la MdT deterministica che semidecide $L$ dove: \\
+		$M$ su input $w$, se $w \in L \implies M$ accetta. (non specifico nel caso di $w \notin L$, perchè $M$ può non terminare essendo semidecidibile). \\
+		Costruisco un \textcolor{green!60!black}{\underline{\textbf{enumeratore $E$ deterministico}}} come segue. \\ \\
+		$E$ non ha nessun input ma per ogni passo $i$:
+		\begin{itemize}
+			\item passo $i=1$:
+			      \begin{enumerate}
+				      \item $E$ simula $M$ su $w_1$ per $1$ passo (cioè $M$ effettua $1$ transizione su $w_1$)
+				      \item Se $M$ accetta, $E$ stampa $w_1$
+			      \end{enumerate}
+			\item passo $i=2$:
+			      \begin{enumerate}
+				      \item $E$ simula $M$ su $w_1$ per $2$ passi (cioè $M$ effettua $2$ transizioni su $w_1$, ripartendo dallo stato iniziale)
+				      \item Se $M$ accetta, $E$ stampa $w_1$
+				      \item $E$ simula $M$ su $w_2$ per $2$ passi (cioè $M$ effettua $2$ transizioni su $w_2$)
+				      \item Se $M$ accetta, $E$ stampa $w_2$
+			      \end{enumerate}
+			\item passo $i=3$:
+			      \begin{enumerate}
+				      \item $E$ simula $M$ su $w_1$ per $3$ passi (cioè $M$ effettua $3$ transizioni su $w_1$, ripartendo dallo stato iniziale)
+				      \item Se $M$ accetta, $E$ stampa $w_1$
+				      \item $E$ simula $M$ su $w_2$ per $3$ passi (cioè $M$ effettua $3$ transizioni su $w_2$, ripartendo dallo stato iniziale)
+				      \item Se $M$ accetta, $E$ stampa $w_2$
+				      \item $E$ simula $M$ su $w_3$ per $3$ passi (cioè $M$ effettua $3$ transizioni su $w_3$)
+				      \item Se $M$ accetta, $E$ stampa $w_3$
+			      \end{enumerate}
+			\item passo $i=4$:
+			      \begin{enumerate}
+				      \item $E$ simula $M$ su $w_1$ per $4$ passi (cioè $M$ effettua $4$ transizioni su $w_1$, ripartendo dallo stato iniziale)
+				      \item Se $M$ accetta, $E$ stampa $w_1$ \\ \\
+				            \textit{CONTA CHE $w_2$ È GIÀ STATA ACCETTATA NEI PASSI PRECEDENTI QUINDI QUI NON C'È BISOGNO DI SCRIVERLA} \\
+				      \item $E$ simula $M$ su $w_3$ per $4$ passi (cioè $M$ effettua $4$ transizioni su $w_3$, ripartendo dallo stato iniziale)
+				      \item Se $M$ accetta, $E$ stampa $w_3$
+				      \item $E$ simula $M$ su $w_4$ per $4$ passi (cioè $M$ effettua $4$ transizioni su $w_4$)
+				      \item Se $M$ accetta, $E$ stampa $w_4$
+			      \end{enumerate}
+			\item $\dots$ (iterazioni successive)
+		\end{itemize}
+		È ovvio che con questo metodo $E$ non rimane mai bloccata perchè $M$ non si blocca su nessuna stringa $w_i$ perchè al $i$-esimo passo, $M$ esegue sulla stringa $i$ transizioni\footnote{a seconda
+			del passo di $E$} (che sono finite\footnote{quindi $M$ si ferma per certo su $w_i$ dopo aver fatto $i$ transizioni}). \\ \\
+		\textbf{Dopo aver compreso il meccanismo di Dovetailing per costruire un enumeratore tramite MdT deterministiche semidecidibili, posso riassumerlo così:} \\
+		$E$ non ha nessun input: \\
+		Ripeti quanto segue per $i=1,2,3,\dots$ passi
+		\begin{enumerate}
+			\item Simula $M$ su ogni input $w_1,w_2,...,w_i$ per $i$ passi
+			\item Se una qualsiasi simulazione accetta, $E$ stampa la corrispondente stringa accettata.
+		\end{enumerate}
+		\underline{Conclusione:} Ho costruito un enumeratore $E$ deterministico che stampa tutte e solo le stringhe di $L$. Pertanto $L$ è enumerabile. \\ \\
+		\textcolor{red}{b) Versione con MdT non deterministica} \\
+		In questo caso si utilizza la seguente tecnica: Costruisco un enumeratore non deterministico che simula una mdt M det?
+		Ricordiamoci che $M$ è la MdT deterministica che semidecide $L$ dove: \\
+		$M$ su input $w$, se $w \in L \implies M$ accetta. (non specifico nel caso di $w \notin L$, perchè $M$ può non terminare essendo semidecidibile). \\
+		Costruisco un \textcolor{green!60!black}{\underline{\textbf{enumeratore $E$ non deterministico}}} come segue. \\ \\
+		$E$ non ha nessun input:
+		\begin{enumerate}
+			\item $E$ indovina\footnote{
+				      Con "indovinare" si intende che $E$ eslora diversi rami contemporaneamente; Ogni ramo $i$ è indipendente e sceglie una stringa $w_i$:
+				      \begin{align*}
+					      Ramo_1 & : w_1 \rightarrow M(w_1) \\
+					      Ramo_2 & : w_2 \rightarrow M(w_2) \\
+					      Ramo_3 & : w_3 \rightarrow M(w_3) \\
+					             & \vdots                   \\
+					      Ramo_i & : w_i \rightarrow M(w_i)
+				      \end{align*}
+				      Quindi, è come se ci fossero tante $M$ parallele che si eseguono, ciasucuna su input diverso $w_i$. Inoltre, se $M$ va in loop su una $w$ (ramo), gli altri rami non
+				      rimangono bloccati quindi segue che $E$ non rimane bloccata. Questo garantisce che, se almeno un ramo termina con accettazione, allora l'enumeratore $E$ stampa la stringa 
+					  accettata da $M$.
+			      } una stringa $w$.
+			\item $E$ simula $M$ su $w$:
+			      \begin{itemize}
+				      \item se $M$ accetta $w$, allora $E$ stampa la stringa
+			      \end{itemize}
+		\end{enumerate}
+		\underline{Conclusione:} Ho costruito un enumeratore $E$ non deterministico che stampa tutte e sole le stringhe di $L$. Pertanto $L$ è enumerabile.
+	\end{proof}
 \end{theorem}
 \begin{theorem}{2.2.2}
-  S$L$ è semidecidibile$\;\wedge\; \overline{L}$ è semidecidibile $\implies L$ decidibile.  
+	S$L$ è semidecidibile$\;\wedge\; \overline{L}$ è semidecidibile $\implies L$ decidibile.
 \end{theorem}
 \begin{theorem}{2.2.3}
-  S$L$ è semidecidibile$\;\wedge\; \overline{L}$ non è semidecidibile $\implies L$ indecidibile.  
+	S$L$ è semidecidibile$\;\wedge\; \overline{L}$ non è semidecidibile $\implies L$ indecidibile.
 \end{theorem}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Indecidibilità}
