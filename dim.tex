@@ -14,6 +14,7 @@
 \usetikzlibrary{automata, positioning, arrows}
 \tcbuselibrary{breakable}
 \usepackage{graphicx}
+\usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
 \graphicspath{ {./media/} }
 
 \usepackage[hidelinks]{hyperref}  % <<--- SPOSTALA QUI
@@ -331,6 +332,61 @@ fonttitle=\bfseries,
 \break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Computabilità}
+\begin{definition}[Funzione totale]
+	Una funzione è \textcolor{red}{totale} se restituisce sempre un risultato per ogni input possibile. Quindi:
+	\begin{align*}
+		\forall x, \; f(x) \text{ è ben definita}
+	\end{align*}
+\end{definition}
+\begin{definition}[Funzione parziale]
+	Una funzione è \textcolor{red}{parziale} se non è definita per tutti gli input, cioè per alcuni valori di $x$ non restituisce nessun risultato (va in loop o si blocca).
+	Quindi:
+	\begin{align*}
+		\text{ per alcuni } x, \; f(x) \text{ non è definita}
+	\end{align*}
+\end{definition}
+\begin{definition}[Funzione computabile]
+	Una funzione è \textcolor{red}{computabile} se $\exists$ una MdT $M$ che calcola $f$.
+\end{definition}
+\begin{definition}[Funzione computabile totale]
+	Una funzione $f: \Sigma^* \rightarrow \Sigma^*$ è \textcolor{red}{computabile totale} se esiste una MdT che calcola $f$ e termina sempre per ogni input\footnote{
+		coinicide con la definizione di decidibilità
+	}.
+	Ovvero:
+	\begin{align*}
+		\exists \text{ una MdT } M \text{ che termina sempre t.c. } \forall x \in \Sigma^* \text{ calcola } f(x)
+	\end{align*}
+\end{definition}
+\begin{definition}[Funzione computabile parziale]
+	Una funzione $f: \Sigma^* \rightarrow \Sigma^*$ è \textcolor{red}{computabile parziale} se $\exists$ una MdT $M$ che calcola $f$
+	ma può non terminare su alcuni input \footnote{
+		coinicide con la definizione di semidecidibilità
+	}.
+\end{definition}
+\begin{osservazioni}[Funzione computabile $\neq$ MdT]
+	\footnotesize % riduce la dimensione del font
+	Una funzione computabile è un concetto matematico; una MdT è uno strumento che può calcolarla. La funzione non è la MdT stessa. \\ \\
+	Esempio: $f(n)=n^2$
+	\begin{enumerate}
+		\item $f$ è una funzione matematica pura, definita su tutti i numeri naturali. In sé, non è un algoritmo, è solo una regola che dice: “dato un $n$ come input
+		      , restituisci $n^2$” come output.
+		\item per calcolare $f$ in modo concreto, posso costruire una MdT con il seguente comportamento. \\ \\ $M$ su $n$:
+		      \begin{enumerate}
+			      \item Calcola $n \cdot n$
+			      \item Scrive risultato su nastro e termina
+		      \end{enumerate}
+	\end{enumerate}
+	$f$ è una funzione computabile totale perchè la MdT termina sempre fornendo una risposta per ogni input $n$.
+\end{osservazioni}
+
+
+\subsection{Funzioni Computabili totali e parziali}
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{funzioni-computabili.png}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Decidibilità}
 \begin{tikzpicture}[
 		level 1/.style={
@@ -594,8 +650,8 @@ Notare che la macchina \underline{non} si ferma sempre. In questo caso si dice c
 					      Ramo_i & : w_i \rightarrow M(w_i)
 				      \end{align*}
 				      Quindi, è come se ci fossero tante $M$ parallele che si eseguono, ciasucuna su input diverso $w_i$. Inoltre, se $M$ va in loop su una $w$ (ramo), gli altri rami non
-				      rimangono bloccati quindi segue che $E$ non rimane bloccata. Questo garantisce che, se almeno un ramo termina con accettazione, allora l'enumeratore $E$ stampa la stringa 
-					  accettata da $M$.
+				      rimangono bloccati quindi segue che $E$ non rimane bloccata. Questo garantisce che, se almeno un ramo termina con accettazione, allora l'enumeratore $E$ stampa la stringa
+				      accettata da $M$.
 			      } una stringa $w$.
 			\item $E$ simula $M$ su $w$:
 			      \begin{itemize}
@@ -660,6 +716,11 @@ Pertanto, quando viene richiesto di dimostrare l'indecidibilità di un linguaggi
 		      \item applico la diagonalizzazione
 	      \end{itemize}
 \end{itemize}
+
+\subsection{Proprietà di Chiusura dei linguaggi}
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{chiusura-linguaggi.png}
+\end{center}
 
 \subsection{Esercizi}
 \begin{theorem}{}
@@ -1377,31 +1438,160 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		      \end{itemize}
 	\end{enumerate}
 \end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Proprietà banali e non banali dei linguaggi}
+\begin{definition}[Proprietà di un linguaggio]
+	La proprietà di un linguaggio è predicato applicabile ai linguaggi riconosciuti da MdT, che può essere vera o falsa.
+	\begin{esempio}[Esempio]
+		\footnotesize % riduce la dimensione del font
+		Sia $L(M_1)$ linguaggio accettato dalla MdT $M$: \\
+		$L(M_1) = \{a, aa, aaa, aaaa, aaaaa, \dots\}$ che accetta qualunque stringa $w$ in input che contiene solo $a$.
+		\begin{itemize}
+			\item Mi chiedo se la proprietà "il linguaggio contiene almeno una $\{aaaaaaaa\}$" è vera o falsa per $L(M_1)$? Vera, perchè $aaaaaaaa \in L(M_1)$.
+			\item Mi chiedo se la proprietà "il linguaggio è esattamente $\{aaaaaaaa\}$" è vera o falsa per $L(M_1)$? Falsa, perchè il linguaggio accettato
+		dalla $M_1$ è $L(M_1) = \{a, aa, aaa, aaaa, aaaaa, \dots\}$ non è $L(M_1) = \{aaaaaaaa\}$.
+		\end{itemize}
+	\end{esempio}
+\end{definition}
+Indico con $\mathscr{P}$ una qualunque proprietà di un linguaggio \textbf{semidecidibile}. \\
+Indico con $L_{\mathscr{P}} = \{L \text{ semidecidibile} \mid L \text{ soddisfa }\mathscr{P}\}$ oppure equivalentemente,
+$L_{\mathscr{P}} = \{R(M) \mid L(M) \text{ soddisfa }\mathscr{P}\}$
+\begin{itemize}
+	\item Se $L_1$ semidecidibile soddisfa $\mathscr{P}$, ovvero quel linguaggio ha quella proprietà $\implies L_1 \in L_{\mathscr{P}}$
+	\item Se $L_1$ semidecidibile non soddisfa $\mathscr{P}$, ovvero quel linguaggio non ha quella proprietà $\implies L_1 \notin L_{\mathscr{P}}$
+\end{itemize}
+\begin{osservazioni}[Osservazioni]
+	Una proprietà $\mathscr{P}$ è semplicemente un insieme di linguaggi (accettati da MdT) oppure insieme di codifiche di MdT i cui linguaggi accettati
+	soddisfano quella proprietà.
+	\footnotesize % riduce la dimensione del font
+	\begin{itemize}
+		\item $L_{\emptyset}=\{R(M) \mid L(M) = \emptyset\}$ dove $\mathscr{P}=\emptyset$ \\
+		$L_{\emptyset}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui $L(M)=\emptyset$
+		\item $L_{aa}=\{R(M) \mid aa \in L(M)\}$ dove $\mathscr{P}=aa$ \\
+		$L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui nel linguaggio accettato 
+		c'è almeno una stinga "$aa$".
+		\item $L_{aa}=\{R(M) \mid L(M)=\{aa\}\}$ dove $\mathscr{P}=aa$ \\
+		$L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui il linguaggio accettato 
+		è esattamente "$aa$".
+	\end{itemize}
+\end{osservazioni}
+\begin{definition}[Proprietà banale]
+	Una proprietà $\mathscr{P}$ è \textcolor{red}{banale} se:
+	\[
+		\underbrace{(\mathscr{P} \text{ vera } \forall{L(M)})}_{\text{Condizione 1}}
+		\lor
+		\underbrace{(\mathscr{P} \text{ falsa } \forall{L(M)})}_{\text{Condizione 2}}
+	\]
+	Ma è meglio scrivere:
+	\[
+		\mathscr{P} \text{ banale se }
+		\underbrace{(\forall{L(M)}\in L_{\mathscr{P}})}_{\text{Condizione 1}}
+		\lor
+		\underbrace{(\forall{L(M)}\notin L_{\mathscr{P}})}_{\text{Condizione 2}}
+	\]
 
+	Dove $L(M)$ indica il linguaggio accettato da una MdT $M$ arbitraria. Quindi è banale se è vera solo una delle due condizioni. \\
+	\textit{Trucco: Scegli alcune MdT,osserva i linguaggio accettati. La proprietà è vera per ogni linguaggio accettato?
+		La proprietà è falsa per ogni linguaggio accettato?}
+\end{definition}
+\begin{definition}[Proprietà non banale]
+	Una proprietà $\mathscr{P}$ è \textcolor{red}{non banale} se:
+	\[
+		\underbrace{(\exists \text{ almeno un $L(M_1)$ per cui } \mathscr{P} \text{ è vera})}_{\text{Condizione 1}}
+		\land
+		\underbrace{(\exists \text{ almeno un $L(M_2)$ per cui } \mathscr{P} \text{ è falsa})}_{\text{Condizione 2}}
+	\]
+	Ma è meglio scrivere:
+	\[
+		\mathscr{P} \text{ non banale se }
+		\underbrace{(\exists \text{ almeno un $L(M_1)$ per cui } L(M_1) \in L_{\mathscr{P}})}_{\text{Condizione 1}}
+		\land
+		\underbrace{(\exists \text{ almeno un $L(M_2)$ per cui } L(M_2) \notin L_{\mathscr{P}})}_{\text{Condizione 2}}
+	\]
 
+	Quindi è non banale quando soddisfa (vera per) entrambe le condizioni. Ovvero, la proprietà è non banale
+	quando riesco a trovare un $L(M_1)$ per il quale è vera, sia un altro $L(M_2)$ per il quale è falsa.
+	Se, per esempio, ho una proprietà $\mathscr{P}$ e non riesco a trovare nemmeno un $L(M)$ per il quale risulti falsa (quindi per tutti i $L(M)$ è vera),
+	allora $\mathscr{P}$ è banale (perchè soddisfa solo 1 delle 2 condizioni e non entrambe).
+\end{definition}
+\begin{esempio}[Esempio]
+	\footnotesize % riduce la dimensione del font
+		Sia $L_{\emptyset}=\{R(M) \mid L(M) = \emptyset\}$ dove $\mathscr{P}=\emptyset$. \textcolor{blue}{$\mathscr{P}$ è banale o non banale?} \\
+		Posso costruire una MdT $E$ che non accetta nessuna stringa, ovvero dove $L(E)=\emptyset$. Costruisco anche un'altra MdT $M$ che accetta almeno
+		una stringa, ovvero dove $L(M)\neq\emptyset$. Quindi dato che:
+		\begin{center}
+			($\exists E$ t.c. $R(E) \in L_{\emptyset}) \land (\exists M$ t.c. $R(M)\notin L_{\emptyset}) \implies \mathscr{P}$ è non banale
+		\end{center}
+	Dato che la proprietà è vera per un linguaggio e allo stesso tempo falsa per un'altro, allora $\mathscr{P}$ è non banale.
+\end{esempio}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Proprietà non banali delle MdT}
 \subsubsection{Teorema di Rice}
-\subsubsection{Problema del linguaggio vuoto}
-\subsubsection{Problema della finitezza del linguaggio}
-\subsubsection{Problema della terminazione di programmi su tutti gli input}
+\begin{theorem}{Teorema di Rice}
+	sSe $\mathscr{P}$ è una proprietà non banale $\implies L_{\mathscr{P}}$ è indecidibile. 
+\end{theorem}
+Il teorema si applica solo ai linguaggi semidecidibili. Inoltre, il teorema di Rice indica che se $\mathscr{P}$ è una propietà non banale,
+$\nexists$ un algoritmo di decisione in grado di affermare se un linguaggio soddisfa quella proprietà oppure no. \\ 
+Ovvero non esiste una MdT che termina sempre in grado di restituire:
+\begin{itemize}
+	\item Sì, se il linguaggio accettato dalla $R(M)$ soddisfa quella propietà
+	\item No, se il linguaggio accettato dalla $R(M)$ non soddisfa quella proprietà
+\end{itemize}
+\textcolor{red}{In termini formali:} \\
+Se $\mathscr{P}$ è non banale allora $\nexists$ una MdT $T$ che termina sempre su ogni input $R(M)$ con il seguente comportamento:
+\[
+T(R(M))=
+\begin{cases}
+\text{accept,} & \text{se } L(M) \text{ soddisfa } \mathscr{P} \\
+\text{reject,} & \text{se } L(M) \text{ non soddisfa } \mathscr{P}
+\end{cases}
+\]
+Se $T$ accetta vuol dire che $R(M) \in L_{\mathscr{P}}$, se $T$ rifiuta vuol dire che $R(M) \notin L_{\mathscr{P}}$. Quindi 
+$L_{\mathscr{P}}$ è indecidibile.
+\begin{osservazioni}[Osservazioni]
+\footnotesize
+	Sappiamo che $L_{\mathscr{P}}$ è indecidibile, ma non dimentichiamoci che:
+	\begin{itemize}
+		\item $L_{\mathscr{P}}$ può essere semidecidibile
+		\item $L_{\mathscr{P}}$ può essere non semidecidibile
+	\end{itemize}
+\end{osservazioni}
 
+\begin{esercizio}[Esercizio 1: applicazione del teorema di Rice]
+	Dimostra che $L_{\emptyset}=\{R(M) \mid L(M)=\emptyset\}$ è indecidibile.
+	\footnotesize % riduce la dimensione del font
+	\begin{ragionamento}
+		Dimostro che $\mathscr{P}$ è una proprietà non banale per poi applicare il teorema di Rice.
+	\end{ragionamento}
+	\begin{proof}
+		Posso costruire una MdT $E$ che non accetta nessuna stringa, ovvero dove $L(E)=\emptyset$. Costruisco anche un'altra MdT $M$ che accetta almeno
+		una stringa, ovvero dove $L(M)\neq\emptyset$. Dato che la proprietà è vera per $L(E)$ ($R(E) \in L_{\emptyset}$) e 
+		falsa per $L(M)$ ($R(M) \notin L_{\emptyset}$), allora
+		$\mathscr{P}$ è non banale. \\
+		Pertanto, per il teorema di Rice, $L_{\emptyset}$ è indecidibile.
+	\end{proof}
+\end{esercizio}
+\begin{esercizio}[Esercizio 2: applicazione del teorema di Rice]
+	Dimostra che $L_{\text{finito}} = \{ R(M) \mid L(M) \text{ è finito} \}$ è indecidibile.
+	\footnotesize
+	\begin{proof}
+		Posso costruire una MdT $F$ che accetta una sola stringa. Costruisco anche un'altra MdT $I$ che accetta tutte le stringhe su $\Sigma=\{0,1\}$, 
+		ovvero dove $L(I)=\Sigma^*$\footnote{$\Sigma^*$ è infinito poichè rappresenta tutte le possibili combinazioni di 0 e 1 dove \\
+		 $\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001, \dots\}$}. Dato che la proprietà è vera per $L(F)$ e falsa per $L(I)$, allora 
+		 $\mathscr{P}$ è non banale. \\ Pertanto, per il teorema di Rice, $L_{\text{finito}}$ è indecidibile.
+	\end{proof}
+\end{esercizio}
+\subsubsection{Problema della terminazione di programmi su tutti gli input}
+\begin{esercizio}[Esercizio 3: Attenzione NO t. di rice]
+	$L_{\text{Total-Halt}} = \{ R(M) \mid M \text{ termina su ogni input } w\}$ è indecidibile.
+	\footnotesize
+	\begin{proof}
+		Posso costruire una MdT $F$ che accetta una sola stringa. Costruisco anche un'altra MdT $I$ che accetta tutte le stringhe su $\Sigma=\{0,1\}$, 
+		ovvero dove $L(I)=\Sigma^*$\footnote{$\Sigma^*$ è infinito poichè rappresenta tutte le possibili combinazioni di 0 e 1 dove \\
+		 $\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001, \dots\}$}. Dato che la proprietà è vera per $L(F)$ e falsa per $L(I)$, allora 
+		 $\mathscr{P}$ è non banale. \\ Pertanto, per il teorema di Rice, $L_{\text{finito}}$ è indecidibile.
+	\end{proof}
+\end{esercizio}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \break
@@ -1493,7 +1683,6 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 	la macchina di decisione per $B$), quindi è necessario che "qualcuno" effettui la trasformazione, che è proprio quello che fa la MdT $R$.\\
 	Potendo trasformare un'istanza di $A$ in $B$ e sapendo che $B$ è decidibile allora posso "decidere" $A$.
 \end{esercizio}
-
 \begin{theorem}{3.2}
 	SSe $A \leq_m B$ e $A$ è indecidibile $\implies B$ è indecidibile.
 \end{theorem}
@@ -1534,8 +1723,6 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 		Poichè abbiamo ottenuto una contraddizione, l'ipotesi che $B$ sia decidibile è falsa. Pertanto, $B$ è indecidibile.
 	\end{proof}
 \end{esercizio}
-
-
 \begin{theorem}{3.3}
 	SSe $A \leq_m B$ e $B$ è semidecidibile $\implies A$ è semidecidibile.
 \end{theorem}
@@ -1543,17 +1730,62 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 	SSe $A \leq_m B$ e $A$ non è semidecidibile $\implies B$ non è semidecidibile.
 \end{theorem}
 \subsubsection{Riduzione non sempre funziona}
+La riduzione non sempre funziona, perchè sappiamo che vale:
+\begin{theorem}{3.5}
+	S$A \leq_m B \iff \overline{A} \leq_m \overline{B}$
+\end{theorem}
+\begin{esercizio}[Esempio 3.5]
+	\footnotesize % riduce la dimensione del font
+	Il linguaggio del problema dell'arresto è riducibile al linguaggio dell'emptiness problem? \\
+	$\mathcal{L}_{\text{Halt}} \overset{?}{\leq_m} \mathcal{L}_{\emptyset}$
+	\begin{ragionamento}
+		Sappiamo che:
+		\begin{itemize}
+			\item $\mathcal{L}_{\text{Halt}}$ è indecidibile e semidecidibile ($\overline{\mathcal{L}_{\text{Halt}}}$ non è semidecidibile)
+			\item $\mathcal{L}_{\emptyset}$ è indecidibile e non semidecidibile ($\overline{\mathcal{L}_{\emptyset}}$ è semidecidibile)
+		\end{itemize}
+		Se voglio che la riduzione funzioni, deve valere: \\
+		$\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \iff \overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$
+	\end{ragionamento}
+	\begin{proof}
+		($\Longrightarrow$) \\
+		$\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \implies \overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$
+		\begin{align*}
+			\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \tag*{(ipotesi)}
+		\end{align*}
+		\begin{align*}
+			\overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}} \tag*{(tesi)}
+		\end{align*}
+		Suppongo per assurdo che $\overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$. Se fosse vero, allora per definizione: \\
+		Se $\overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$ e $\overline{\mathcal{L}_{\text{Halt}}}$ non è semidecidibile $\implies \overline{\mathcal{L}_{\emptyset}}$
+		non è semidecidibile (teorema 3.4). Ma questo è assurdo perchè $\overline{\mathcal{L}_{\emptyset}}$ è noto per essere semidecidibile. Ciò porta ad una contraddizione che rende falsa la mia
+		ipotesi per assurdo (che $\overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$). \\ Quindi, $\overline{\mathcal{L}_{\text{Halt}}} \nleq_m \overline{\mathcal{L}_{\emptyset}}$.
+		Dato che per ipotesi $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset}$ è vera e abbiamo dimostrato che $\overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$
+		è falsa, allora per definizione, questa implicazione: \\ $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \implies \overline{\mathcal{L}_{\text{Halt}}} \leq_m \overline{\mathcal{L}_{\emptyset}}$ è falsa.
+	\end{proof}
 
+	\begin{proof}
+		($\Longleftarrow$) \\
+		//TODO:
+	\end{proof}
+	\underline{Conclusione:} $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \iff \overline{\mathcal{L}_{\text{Halt}}}
+		\leq_m \overline{\mathcal{L}_{\emptyset}}$ è falsa. Pertanto, $\mathcal{L}_{\text{Halt}} \nleq_m \mathcal{L}_{\emptyset}$.
+\end{esercizio}
 \section{Complessità Temporale}
-\subsection{P}
-\subsubsection{Famosi problemi}
-\subsection{NP}
-\subsubsection{NP-Difficile}
-\subsubsection{NP-Completo}
-\subsubsection{Famosi problemi}
+\subsection{$\mathcal{P}$}
+\subsubsection{$PATH$}
+\subsubsection{$RELPRIME$}
+\subsection{$\mathcal{NP}$}
+\subsubsection{$\mathcal{NP}$-Difficile}
+\subsubsection{$\mathcal{NP}$-Completo}
+\subsubsection{$HAMPATH$}
+\subsubsection{$CLIQUE$}
+\subsubsection{$SUBSET-SUM$}
+\subsubsection{$SAT$}
+\subsubsection{$2-SAT$}
+\subsubsection{$3-SAT$}
+\subsubsection{$VERTEX COVER$}
+\subsubsection{Riduzione polinomiale}
+
 \section{Complessità Spaziale}
-<<<<<<< HEAD
-eccomiiii:Dfffhhhhhh
-=======
->>>>>>> 51a7b4f4411c15c836fb6fda8d75410b24dc3762
 \end{document}
