@@ -1450,7 +1450,7 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		\begin{itemize}
 			\item Mi chiedo se la proprietà "il linguaggio contiene almeno una $\{aaaaaaaa\}$" è vera o falsa per $L(M_1)$? Vera, perchè $aaaaaaaa \in L(M_1)$.
 			\item Mi chiedo se la proprietà "il linguaggio è esattamente $\{aaaaaaaa\}$" è vera o falsa per $L(M_1)$? Falsa, perchè il linguaggio accettato
-		dalla $M_1$ è $L(M_1) = \{a, aa, aaa, aaaa, aaaaa, \dots\}$ non è $L(M_1) = \{aaaaaaaa\}$.
+			      dalla $M_1$ è $L(M_1) = \{a, aa, aaa, aaaa, aaaaa, \dots\}$ non è $L(M_1) = \{aaaaaaaa\}$.
 		\end{itemize}
 	\end{esempio}
 \end{definition}
@@ -1467,13 +1467,13 @@ $L_{\mathscr{P}} = \{R(M) \mid L(M) \text{ soddisfa }\mathscr{P}\}$
 	\footnotesize % riduce la dimensione del font
 	\begin{itemize}
 		\item $L_{\emptyset}=\{R(M) \mid L(M) = \emptyset\}$ dove $\mathscr{P}=\emptyset$ \\
-		$L_{\emptyset}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui $L(M)=\emptyset$
+		      $L_{\emptyset}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui $L(M)=\emptyset$
 		\item $L_{aa}=\{R(M) \mid aa \in L(M)\}$ dove $\mathscr{P}=aa$ \\
-		$L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui nel linguaggio accettato 
-		c'è almeno una stinga "$aa$".
+		      $L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui nel linguaggio accettato
+		      c'è almeno una stinga "$aa$".
 		\item $L_{aa}=\{R(M) \mid L(M)=\{aa\}\}$ dove $\mathscr{P}=aa$ \\
-		$L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui il linguaggio accettato 
-		è esattamente "$aa$".
+		      $L_{aa}$ è l'insieme di tutte le codifiche di MdT che soddisfano la proprietà, ovvero in cui il linguaggio accettato
+		      è esattamente "$aa$".
 	\end{itemize}
 \end{osservazioni}
 \begin{definition}[Proprietà banale]
@@ -1517,21 +1517,21 @@ $L_{\mathscr{P}} = \{R(M) \mid L(M) \text{ soddisfa }\mathscr{P}\}$
 \end{definition}
 \begin{esempio}[Esempio]
 	\footnotesize % riduce la dimensione del font
-		Sia $L_{\emptyset}=\{R(M) \mid L(M) = \emptyset\}$ dove $\mathscr{P}=\emptyset$. \textcolor{blue}{$\mathscr{P}$ è banale o non banale?} \\
-		Posso costruire una MdT $E$ che non accetta nessuna stringa, ovvero dove $L(E)=\emptyset$. Costruisco anche un'altra MdT $M$ che accetta almeno
-		una stringa, ovvero dove $L(M)\neq\emptyset$. Quindi dato che:
-		\begin{center}
-			($\exists E$ t.c. $R(E) \in L_{\emptyset}) \land (\exists M$ t.c. $R(M)\notin L_{\emptyset}) \implies \mathscr{P}$ è non banale
-		\end{center}
+	Sia $L_{\emptyset}=\{R(M) \mid L(M) = \emptyset\}$ dove $\mathscr{P}=\emptyset$. \textcolor{blue}{$\mathscr{P}$ è banale o non banale?} \\
+	Posso costruire una MdT $E$ che non accetta nessuna stringa, ovvero dove $L(E)=\emptyset$. Costruisco anche un'altra MdT $M$ che accetta almeno
+	una stringa, ovvero dove $L(M)\neq\emptyset$. Quindi dato che:
+	\begin{center}
+		($\exists E$ t.c. $R(E) \in L_{\emptyset}) \land (\exists M$ t.c. $R(M)\notin L_{\emptyset}) \implies \mathscr{P}$ è non banale
+	\end{center}
 	Dato che la proprietà è vera per un linguaggio e allo stesso tempo falsa per un'altro, allora $\mathscr{P}$ è non banale.
 \end{esempio}
 
 \subsubsection{Teorema di Rice}
 \begin{theorem}{Teorema di Rice}
-	sSe $\mathscr{P}$ è una proprietà non banale $\implies L_{\mathscr{P}}$ è indecidibile. 
+	sSe $\mathscr{P}$ è una proprietà non banale $\implies L_{\mathscr{P}}$ è indecidibile.
 \end{theorem}
 Il teorema si applica solo ai linguaggi semidecidibili. Inoltre, il teorema di Rice indica che se $\mathscr{P}$ è una propietà non banale,
-$\nexists$ un algoritmo di decisione in grado di affermare se un linguaggio soddisfa quella proprietà oppure no. \\ 
+$\nexists$ un algoritmo di decisione in grado di affermare se un linguaggio soddisfa quella proprietà oppure no. \\
 Ovvero non esiste una MdT che termina sempre in grado di restituire:
 \begin{itemize}
 	\item Sì, se il linguaggio accettato dalla $R(M)$ soddisfa quella propietà
@@ -1540,23 +1540,22 @@ Ovvero non esiste una MdT che termina sempre in grado di restituire:
 \textcolor{red}{In termini formali:} \\
 Se $\mathscr{P}$ è non banale allora $\nexists$ una MdT $T$ che termina sempre su ogni input $R(M)$ con il seguente comportamento:
 \[
-T(R(M))=
-\begin{cases}
-\text{accept,} & \text{se } L(M) \text{ soddisfa } \mathscr{P} \\
-\text{reject,} & \text{se } L(M) \text{ non soddisfa } \mathscr{P}
-\end{cases}
+	T(R(M))=
+	\begin{cases}
+		\text{accept,} & \text{se } L(M) \text{ soddisfa } \mathscr{P}     \\
+		\text{reject,} & \text{se } L(M) \text{ non soddisfa } \mathscr{P}
+	\end{cases}
 \]
-Se $T$ accetta vuol dire che $R(M) \in L_{\mathscr{P}}$, se $T$ rifiuta vuol dire che $R(M) \notin L_{\mathscr{P}}$. Quindi 
+Se $T$ accetta vuol dire che $R(M) \in L_{\mathscr{P}}$, se $T$ rifiuta vuol dire che $R(M) \notin L_{\mathscr{P}}$. Quindi
 $L_{\mathscr{P}}$ è indecidibile.
 \begin{osservazioni}[Osservazioni]
-\footnotesize
+	\footnotesize
 	Sappiamo che $L_{\mathscr{P}}$ è indecidibile, ma non dimentichiamoci che:
 	\begin{itemize}
 		\item $L_{\mathscr{P}}$ può essere semidecidibile
 		\item $L_{\mathscr{P}}$ può essere non semidecidibile
 	\end{itemize}
 \end{osservazioni}
-
 \begin{esercizio}[Esercizio 1: applicazione del teorema di Rice]
 	Dimostra che $L_{\emptyset}=\{R(M) \mid L(M)=\emptyset\}$ è indecidibile.
 	\footnotesize % riduce la dimensione del font
@@ -1565,7 +1564,7 @@ $L_{\mathscr{P}}$ è indecidibile.
 	\end{ragionamento}
 	\begin{proof}
 		Posso costruire una MdT $E$ che non accetta nessuna stringa, ovvero dove $L(E)=\emptyset$. Costruisco anche un'altra MdT $M$ che accetta almeno
-		una stringa, ovvero dove $L(M)\neq\emptyset$. Dato che la proprietà è vera per $L(E)$ ($R(E) \in L_{\emptyset}$) e 
+		una stringa, ovvero dove $L(M)\neq\emptyset$. Dato che la proprietà è vera per $L(E)$ ($R(E) \in L_{\emptyset}$) e
 		falsa per $L(M)$ ($R(M) \notin L_{\emptyset}$), allora
 		$\mathscr{P}$ è non banale. \\
 		Pertanto, per il teorema di Rice, $L_{\emptyset}$ è indecidibile.
@@ -1575,22 +1574,17 @@ $L_{\mathscr{P}}$ è indecidibile.
 	Dimostra che $L_{\text{finito}} = \{ R(M) \mid L(M) \text{ è finito} \}$ è indecidibile.
 	\footnotesize
 	\begin{proof}
-		Posso costruire una MdT $F$ che accetta una sola stringa. Costruisco anche un'altra MdT $I$ che accetta tutte le stringhe su $\Sigma=\{0,1\}$, 
+		Posso costruire una MdT $F$ che accetta una sola stringa. Costruisco anche un'altra MdT $I$ che accetta tutte le stringhe su $\Sigma=\{0,1\}$,
 		ovvero dove $L(I)=\Sigma^*$\footnote{$\Sigma^*$ è infinito poichè rappresenta tutte le possibili combinazioni di 0 e 1 dove \\
-		 $\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001, \dots\}$}. Dato che la proprietà è vera per $L(F)$ e falsa per $L(I)$, allora 
-		 $\mathscr{P}$ è non banale. \\ Pertanto, per il teorema di Rice, $L_{\text{finito}}$ è indecidibile.
+			$\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001, \dots\}$}. Dato che la proprietà è vera per $L(F)$ e falsa per $L(I)$, allora
+		$\mathscr{P}$ è non banale. \\ Pertanto, per il teorema di Rice, $L_{\text{finito}}$ è indecidibile.
 	\end{proof}
 \end{esercizio}
-\subsubsection{Problema della terminazione di programmi su tutti gli input}
-\begin{esercizio}[Esercizio 3: Attenzione NO t. di rice]
+\begin{esercizio}[Esercizio 3: \textcolor{red}{non applicabilità} del teorema di Rice]
 	$L_{\text{Total-Halt}} = \{ R(M) \mid M \text{ termina su ogni input } w\}$ è indecidibile.
-	\footnotesize
-	\begin{proof}
-		Posso costruire una MdT $F$ che accetta una sola stringa. Costruisco anche un'altra MdT $I$ che accetta tutte le stringhe su $\Sigma=\{0,1\}$, 
-		ovvero dove $L(I)=\Sigma^*$\footnote{$\Sigma^*$ è infinito poichè rappresenta tutte le possibili combinazioni di 0 e 1 dove \\
-		 $\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001, \dots\}$}. Dato che la proprietà è vera per $L(F)$ e falsa per $L(I)$, allora 
-		 $\mathscr{P}$ è non banale. \\ Pertanto, per il teorema di Rice, $L_{\text{finito}}$ è indecidibile.
-	\end{proof}
+	\footnotesize \\ \\
+	\textcolor{red}{Non è possibile applicare} il teorema di Rice perchè la proprietà "termina su ogni input" riguarda il comportamento
+	di $M$. Quindi non è una proprietà del linguaggio accettato $L(M)$ ma della MdT.
 \end{esercizio}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1771,8 +1765,84 @@ La riduzione non sempre funziona, perchè sappiamo che vale:
 	\underline{Conclusione:} $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\emptyset} \iff \overline{\mathcal{L}_{\text{Halt}}}
 		\leq_m \overline{\mathcal{L}_{\emptyset}}$ è falsa. Pertanto, $\mathcal{L}_{\text{Halt}} \nleq_m \mathcal{L}_{\emptyset}$.
 \end{esercizio}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complessità Temporale}
+Una volta trovato un algoritmo di risoluzione al problema (decidibile o semidecidibile), ne calcolo l'efficienza.
+\begin{center}
+	\begin{tikzpicture}[
+			level 1/.style={
+					sibling distance=50mm,
+					level distance=15mm,
+					every node/.append style={font=\small} % qui riduco il font dei figli
+				},
+			every node/.style={
+					rectangle, draw, rounded corners,
+					align=center,
+					top color=orange!60,
+					bottom color=orange!10
+				}
+		]
+		\node {Complessità}
+		child {node {Complessità Temporale} child {node {Tempo di esecuzione}}}
+		child {node {Complessità Spaziale} child {node {Spazio di memoria}}};
+	\end{tikzpicture}
+\end{center}
+\textcolor{red}{A cosa serve analizzare la complessità?} \\
+Anche se un problema è risolvibile in linea di principio, la sua soluzione potrebbe non essere fattibile dal punto di vista pratico.
+Ad esempio, l’algoritmo che risolve il problema potrebbe richiedere un tempo di esecuzione troppo elevato (ad esempio milioni di anni) oppure richiede un numero inaccettabile 
+di risorse computazionali. \\
+\textcolor{red}{Problemi non trattabili} \\
+Quando la soluzione di un problema richiede una quantità di tempo o di spazio di memoria che cresce in modo \textbf{non polinomiale} rispetto alla dimensione dell'input, il problema viene 
+detto non trattabile.\\
+\textcolor{red}{Analisi della complessità temporale} \\
+Per analizzare la complessità temporale di un algoritmo, si considera il \textbf{caso peggiore}, cioè guardiamo il massimo tempo possibile 
+tra tutti gli input di lunghezza $n$.
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{Difference_between_deterministic_and_Nondeterministic.svg.png}
+\end{center}
+\begin{definition}[Time Complexity - Deterministica] 
+	La complessità temporale di una MdT \textit{decider\footnote{che termina per ogni input}} deterministica $M$ è una funzione $tc_M:\mathbb{N}\rightarrow\mathbb{N}$ dove
+	\begin{center}
+		\footnotesize
+		$tc_M(n)$ = massimo numero di passi (transizioni) che $M$ esegue su qualunque input di lunghezza $n$
+	\end{center}
+\end{definition}
+\begin{definition}[Time Complexity - Non deterministica] 
+	La complessità temporale di una MdT \textit{decider} non deterministica $M$ è una funzione $tc_M:\mathbb{N}\rightarrow\mathbb{N}$ dove
+	\begin{center}
+		\footnotesize
+		$tc_M(n)$ = massimo numero di passi (transizioni) che $M$ esegue sul ramo più lungo, su qualunque input di lunghezza $n$
+	\end{center}
+\end{definition}
+\begin{esempio}
+	\footnotesize
+	Se, per esempio, $tc_M(n)=6n^3+2n^2+3$ allora posso dire che:
+	\begin{center}
+		$tc_M(n)=O(n^3)$ dove $n$ è la lunghezza dell'input
+	\end{center}
+\end{esempio}
+
+
 \subsection{$\mathcal{P}$}
+La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) deterministica in tempo polinomiale. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsubsection{$PATH$}
 \subsubsection{$RELPRIME$}
 \subsection{$\mathcal{NP}$}
@@ -1786,6 +1856,10 @@ La riduzione non sempre funziona, perchè sappiamo che vale:
 \subsubsection{$3-SAT$}
 \subsubsection{$VERTEX COVER$}
 \subsubsection{Riduzione polinomiale}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complessità Spaziale}
 \end{document}
