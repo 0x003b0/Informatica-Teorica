@@ -44,7 +44,10 @@ fonttitle=\bfseries,
     title=#1,
     boxrule=0.5pt,       % spessore del bordo
     arc=4pt,             % angoli arrotondati
-    left=4pt, right=4pt, top=4pt, bottom=4pt
+    left=4pt, right=4pt, top=4pt, bottom=4pt,
+	breakable,            % permette di spezzare il box su più pagine
+    enhanced,
+    break at=0pt
 }
 
 \newtcolorbox{esercizio}[1][]{
@@ -1793,25 +1796,25 @@ Una volta trovato un algoritmo di risoluzione al problema (decidibile o semideci
 \end{center}
 \textcolor{red}{A cosa serve analizzare la complessità?} \\
 Anche se un problema è risolvibile in linea di principio, la sua soluzione potrebbe non essere fattibile dal punto di vista pratico.
-Ad esempio, l’algoritmo che risolve il problema potrebbe richiedere un tempo di esecuzione troppo elevato (ad esempio milioni di anni) oppure richiede un numero inaccettabile 
+Ad esempio, l'algoritmo che risolve il problema potrebbe richiedere un tempo di esecuzione troppo elevato (ad esempio milioni di anni) oppure richiede un numero inaccettabile
 di risorse computazionali. \\
 \textcolor{red}{Problemi non trattabili} \\
-Quando la soluzione di un problema richiede una quantità di tempo o di spazio di memoria che cresce in modo \textbf{non polinomiale} rispetto alla dimensione dell'input, il problema viene 
+Quando la soluzione di un problema richiede una quantità di tempo o di spazio di memoria che cresce in modo \textbf{non polinomiale} rispetto alla dimensione dell'input, il problema viene
 detto non trattabile.\\
 \textcolor{red}{Analisi della complessità temporale} \\
-Per analizzare la complessità temporale di un algoritmo, si considera il \textbf{caso peggiore}, cioè guardiamo il massimo tempo possibile 
+Per analizzare la complessità temporale di un algoritmo, si considera il \textbf{caso peggiore}, cioè guardiamo il massimo tempo possibile
 tra tutti gli input di lunghezza $n$.
 \begin{center}
 	\includegraphics[width=0.6\linewidth]{Difference_between_deterministic_and_Nondeterministic.svg.png}
 \end{center}
-\begin{definition}[Time Complexity - Deterministica] 
+\begin{definition}[Time Complexity - Deterministica]
 	La complessità temporale di una MdT \textit{decider\footnote{che termina per ogni input}} deterministica $M$ è una funzione $tc_M:\mathbb{N}\rightarrow\mathbb{N}$ dove
 	\begin{center}
 		\footnotesize
 		$tc_M(n)$ = massimo numero di passi (transizioni) che $M$ esegue su qualunque input di lunghezza $n$
 	\end{center}
 \end{definition}
-\begin{definition}[Time Complexity - Non deterministica] 
+\begin{definition}[Time Complexity - Non deterministica]
 	La complessità temporale di una MdT \textit{decider} non deterministica $M$ è una funzione $tc_M:\mathbb{N}\rightarrow\mathbb{N}$ dove
 	\begin{center}
 		\footnotesize
@@ -1828,26 +1831,287 @@ tra tutti gli input di lunghezza $n$.
 
 
 \subsection{$\mathcal{P}$}
-La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) deterministica in tempo polinomiale. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) deterministica in tempo polinomiale.
+Quindi, è l'insieme dei linguaggi decidibili in tempo polinomiale. \\ \\
+\textcolor{red}{Come dimostro che un algoritmo appartiene alla classe $\mathcal{P}$ ?}
+\begin{enumerate}
+	\item Descrivo l'algoritmo ad alto livello dividendolo in passi (ignorando i dettagli di nastri e testine).
+	\item Mostro che il numero totale di passi dell'algoritmo, su input di lunghezza $n$, cresce al massimo come un polinomio. Uso notazione $O$-grande.
+	\item Verifico che ciascun passo possa essere eseguito in tempo polinomiale su una MdT deterministica.
+	\item Mi assicuro che la MdT costruita sia un decider, quindi che si arresti e fornisca una risposta per ogni input.
+\end{enumerate}
+\textcolor{red}{Codifica dei grafi:} Sia $G=(V,E)$ un grafo.
+\begin{itemize}
+	\item \textbf{Lista di adiacenza} (da usare quando il grafo è sparso\footnote{ha pochi archi rispetto ai nodi}): lista dove per ogni nodo del grafo vengono elencati altri nodi a cui è connesso.
+	\item \textbf{Matrice di adiacenza} (da usare quando il grafo è denso\footnote{ha molti archi, quasi tutti i nodi collegati tra loro}): matrice quadrata dove l'elemento $(i,j)$ vale $1$
+	      se esiste un arco dal nodo $i$ al nodo $j$, $0$ altrimenti.
+\end{itemize}
+\begin{osservazioni}[Osservazione]
+	\footnotesize
+	Quando analizziamo algoritmi su grafi, possiamo esprimere il tempo di esecuzione in base al numero di nodi del grafo, invece che della dimensione della rappresentazione del
+	grafo (cioè della lunghezza dell’input codificato). Esempio: in un problema su grafi, l'algoritmo impiega tempo O($n^2$) dove $n$ è il numero di nodi del grafo.
+\end{osservazioni}
+\begin{esempio}[Esempio: codifica binaria della lista di adiacenza per MdT]
+	\footnotesize
+	Sia $G$ un grafo orientato $G=(V,E)$:
+	\begin{itemize}
+		\item $V = \{1, 2, 3\}$
+		\item $E = \{(1,2), (1,3), (2,3)\}$
+	\end{itemize}
+	con la rappresentazione delle liste di adiacenza per ogni nodo: \\
+	\begin{tabular}{c | l}
+		\textbf{Nodo} & \textbf{Liste di adiacenza} \\ \hline
+		1             & 2, 3                        \\
+		2             & 3                           \\
+		3             & -
+	\end{tabular}
+	\begin{center}
+		\includegraphics[width=0.3\linewidth]{graph1.png}
+	\end{center}
+	\textcolor{red}{Conversione in codifica binaria:}
+	\begin{itemize}
+		\item Sia $\Sigma = \{0, 1, \#\}$ l'alfabeto
+		\item Il simbolo \textcolor{green}{$\#$} separa i nodi nella rispettiva lista di adiacenza
+		\item Il simbolo \textcolor{red}{$\#\#$} separa le liste di adiacenza dei diversi nodi
+		\item Il simbolo $\#\#\#$ indica la fine della lista
+	\end{itemize}
+	Pertanto: \\
+	Nodo $1$: archi verso 2 e 3, quindi la codifica è 1\textcolor{green}{\#}10\textcolor{green}{$\#$}11\\
+	Nodo $2$: arco verso 3, quindi la codifica è 10\textcolor{green}{$\#$}11\\
+	Nodo 3: - \\
+	Quindi l'intera codifica del grafo sarà 1\textcolor{green}{\#}10\textcolor{green}{$\#$}11\textcolor{red}{$\#\#$}10\textcolor{green}{$\#$}11\#\#\#
+\end{esempio}
+\begin{esempio}[Esempio: codifica binaria della matrice di adiacenza per MdT]
+	\footnotesize
+	Sia $G$ un grafo orientato $G=(V,E)$:
+	\begin{itemize}
+		\item $V = \{1, 2, 3\}$
+		\item $E = \{(1,2), (1,3), (2,3)\}$
+	\end{itemize}
+	con la matrice di adiacenza associata:
+	\begin{itemize}
+		\item $i$ sono le righe
+		\item $j$ sono le colonne
+	\end{itemize}
+	\[
+		A[i,j] =
+		\begin{array}{c|ccc}
+			  & 1 & 2 & 3 \\ \hline
+			1 & 0 & 1 & 1 \\
+			2 & 0 & 0 & 1 \\
+			3 & 0 & 0 & 0 \\
+		\end{array}
+	\]
+	\textcolor{red}{Conversione in codifica binaria:}
+	\begin{itemize}
+		\item Sia $\Sigma = \{0, 1, \#\}$ l'alfabeto
+		\item 0/1 valori nella matrice (assenza/presenza di arco)
+		\item Il simbolo \textcolor{red}{$\#$} separa le righe
+		\item Il simbolo $\#\#\#$ indica della codifica
+	\end{itemize}
+	Scrivo ogni riga (sequenza di bit) separata dal simbolo "\#", pertanto: \\
+	Riga 1, per $i=1$: scrivo 011 \footnote{leggendo l'intera riga 1 vediamo la sequenza di bit 011} \\
+	Riga 2, per $i=2$: scrivo 001 \\
+	Riga 3, per $i=3$: scrivo 010 \\
+	Quindi l'intera codifica della matrice di adiacenza è 011\textcolor{red}{\#}001\textcolor{red}{\#}000$\#\#\#$
+\end{esempio}
+\begin{center}
+	\includegraphics[width=0.7\linewidth]{lista-matrice-adiacenza-grafi.png}
+\end{center}
 \subsubsection{$PATH$}
+Sia un grafo orientato $G$ che contiene i nodi $s$ e $t$. Il problema $PATH$ consiste nel determinare se esiste un cammino da $s$ a $t$.
+\begin{center}
+	\includegraphics[width=0.4\linewidth]{path-problem.png}
+\end{center}
+\begin{theorem}{$PATH$ Problem}
+	d$PATH = \{\langle G, s, t \rangle \mid G \text{ è un grafo orientato con cammino da } s \text{ a } t\}$
+	\begin{center}
+		$PATH \in \mathcal{P}$
+	\end{center}
+	\footnotesize
+	\begin{ragionamento}
+		Costruisco un algoritmo di decisione deterministico in tempo polinomiale per $PATH$. Uso l'algoritmo di ricerca in ampiezza\footnote{algoritmo BFS:
+			\begin{enumerate}
+				\item parto dal nodo sorgente $s$, lo aggiungo alla queue e lo segno come visitato
+				\item finché la queue non è vuota:
+				      \begin{enumerate}
+					      \item estraggo un nodo $u$ dalla queue
+					      \item per ogni nodo adiacente a $u$ non ancora visitato, aggiungilo alla queue e segnalo come visitato
+				      \end{enumerate}
+			\end{enumerate}
+			L'algoritmo termina quando tutti i nodi raggiungibili da $s$ sono stati visitati. Se $t$ è tra i nodi visitati, allora esiste un cammino da $s$ a $t$.
+		}.
+	\end{ragionamento}
+	\begin{proof}
+		Costruisco una MdT $M$ deterministica a 2 nastri che decide $PATH$ come segue. Sia $\langle G, s, t\rangle$ la codifica del grafo orientato $G$ e dei nodi $s, t$.\\
+		\textcolor{red}{1. Costruzione della MdT $M$} \\
+		$M$ su input $\langle G, s, t \rangle$:
+		\begin{enumerate}
+			\item Marca il nodo $s$ come visitato sul secondo nastro
+			\item Ripeti quanto segue finchè si possono marcare nuovi nodi\footnote{\underline{Attenzione:} non scrivo "finché tutti i nodi non vengono visitati" perchè
+				      se alcuni nodi non sono raggiungibili da $s$, non verranno mai marcati — quindi il ciclo “finché tutti” non terminerebbe mai.}:
+			      \begin{enumerate}
+				      \item Scorri tutti gli archi del grafo $G$ sul nastro 1.
+				      \item Se trovi un arco $(u,v)$ che va da un nodo $u$ già visitato a un nodo $v$ non visitato, allora marca $v$ sul nastro 2.
+			      \end{enumerate}
+			\item Se $t$ è marcato come visitato\footnote{esite un cammino da $s$ a $t$}, allora accetta. Altrimenti, rifiuta.
+		\end{enumerate}
+		\textcolor{red}{2. Analisi della complessità temporale della MdT $M$}
+		\begin{enumerate}
+			\item Verifico che ciascun passo possa essere eseguito in tempo polinomiale su una MdT deterministica:
+			      \begin{itemize}
+				      \item \textbf{Passo 1:} operazione che, indipendentemente dalla dimensione del grafo, ha sempre tempo costante O$(1)$.
+				      \item \textbf{Passo 2:} questo passo (ciclo, ripetuto massimo $n$ volte dove $n$ sono i nodi) fa il lavoro grosso:
+				            \begin{itemize}
+					            \item Scorre tutti gli archi $e$ del grafo, tempo O$(e)$
+					            \item Controlla se, per ogni arco $(u,v)$, $u$ è stato visitato e $v$ no (ricerca nel nastro 2, tempo O($n$))
+					            \item Se trovo un arco valido, allora marco $v$ come visitato (marcatura tempo O(1))
+				            \end{itemize}
+				            Pertanto, ho O($n)\cdot \big[O(e)\cdot O(n)\cdot O(1)\big]=O(n)\cdot \big[O(e \cdot n)\big]=O(e \cdot n^2)$
+				      \item \textbf{Passo 3:} operazione che, indipendentemente dalla dimensione del grafo, ha sempre tempo costante O$(1)$.
+			      \end{itemize}
+			\item Mostro che il numero tot di passi dell'algoritmo, su input di lunghezza $n$, cresce al massimo come un polinomio:
+			      \begin{itemize}
+				      \item \textbf{Passo 1:} tempo O(1)
+				      \item \textbf{Passo 2:} tempo O($e \cdot n^2$)
+				      \item \textbf{Passo 3:} tempo O(1)
+			      \end{itemize}
+			      Pertanto, la complessità nel caso pessimo dell'algoritmo è:
+			      \begin{center}
+				      $tC_M(x)$=O(1)+O($e \cdot n^2$)+O(1)=\textcolor{red}{O($e \cdot n^2$)} \\ dove "$n$" sono i nodi, "$e$" gli archi e "$x$" è la lunghezza dell'input $\langle G, s, t \rangle$
+			      \end{center}
+			      La complessità è quindi polinomiale. \\
+		\end{enumerate}
+		\underline{Conclusione:} Ho costruito una MdT $M$ deterministica che decide $PATH$ in tempo polinomiale. Quindi, $PATH \in \mathcal{P}$.
+	\end{proof}
+\end{theorem}
+
 \subsubsection{$RELPRIME$}
+Due numeri $x$ e $y$ sono relativamente primi se 1 è l'unico numero intero che li divide entrambi. Per esempio, 4 e 8 non sono relativamente primi perchè 2 li divide entrambi.
+\begin{theorem}{RELPRIME Problem}
+	d$RELPRIME = \{\langle x,y \rangle \mid x \text{ e } y \text{ sono relativamente primi}\}$
+	\begin{center}
+		$RELPRIME \in \mathcal{P}$
+	\end{center}
+	\footnotesize
+	\begin{ragionamento}
+		Costruisco un algoritmo di decisione determinisitco in tempo polinomiale per $RELPRIME$. Uso l'algoritmo di Euclide per calcolare il $mcd$.
+		\begin{center}
+			$x$ e $y$ sono relativamente primi $\iff mcd(x,y)=1$
+		\end{center}
+	\end{ragionamento}
+	\begin{proof}
+		\textcolor{red}{1. Algoritmo di Euclide:} \\
+		Sia $E$ la MdT che calcola il massimo comune divisore di $x$ e $y$ usando l'algoritmo di Euclide. \\ \\
+		$E$ su input $\langle x,y \rangle$ dove $x$ e $y$ sono numeri naturali in codifica binaria:
+		\begin{enumerate}
+			\item Ripeti finchè $y \neq 0$:
+			      \begin{enumerate}
+				      \item Calcola $x$ mod $y$ e assegna il valore a $x$ ($x \leftarrow x$ mod $y$)
+				      \item Scambia $x$ e $y$ ($swap(x,y)$)
+			      \end{enumerate}
+			\item Restituisci $x$ (l'output che alla fine sarà il $mcd$)
+		\end{enumerate}
+		\textcolor{red}{2. Costruisco MdT che decide $RELPRIME$:} \\
+		Costruisco la MdT $R$ che simula la MdT $E$. \\ \\
+		$R$ su input $\langle x,y \rangle$ dove $x$ e $y$ sono numeri naturali in codifica binaria:
+		\begin{enumerate}
+			\item Esegue $E$ su $\langle x,y \rangle$:
+			      \begin{itemize}
+				      \item Se $E$ restituisce 1, allora $R$ accetta.
+				      \item Se $E$ restituisce un altro valore diverso da 1, allora $R$ rifiuta.
+			      \end{itemize}
+		\end{enumerate}
+		Quindi $R$ accetta solo se $mcd(x,y)=1$, rifiuta altrimenti. Pertanto $R$ è una MdT che decide correttamente $RELPRIME$. Adesso analizzo la complessità. \\
+		\textcolor{red}{3. Analisi della complessità temporale}
+		\begin{enumerate}
+			\item Analizzo ciascun passo della MdT $E$:
+			      \begin{itemize}
+				      \item \textbf{Passo 1.a:} il calcolo del modulo richiede tempo O($n^2$), l'assegnazione $x=x$ mod $y$ richiede tempo O($n$); quindi O($n^2$)+O($n$)=O($n^2$)
+				      \item \textbf{Passo 1.b:} scambiare $x$ e $y$ richiede tempo O($n$)
+				      \item \textbf{Passo 1:} Quante iterazioni servono affinchè $y=0$? O($\log_2x$)=O($n$)
+				      \item \textbf{Passo 2:} restituire il valore di $x$ richiede tempo O($n$)
+			      \end{itemize}
+			      Nel passo 1: $O(\log_2x)\cdot\big[O(n^2)+O(n)\big]=O(\log_2x)\cdot\big[O(n^2)\big]=O(n)\cdot\big[O(n^2)\big]=\textcolor{red}{O(n^3)}$ \\
+			      Nel passo 2: $O(n)$
+			\item Mostro che il numero tot di passi dell'algoritmo, su input di lunghezza n, cresce
+			      al massimo come un polinomio:
+				  \begin{itemize}
+					\item La MdT $E$: O($n^3$)
+					\item La MdT $R$ che simula $E$ ha O($n^3$) e poi accetta o rifiuta in base a cosa restituisce $E$, quindi O($n$)
+				  \end{itemize}
+			Pertanto, la complessità è $tC_R(n)=O(n^3)+O(n)=O(n^3)$ dove $n$ è la lunghezza dell'input, quindi polinomiale.
+		\end{enumerate}
+		\underline{Conclusione:} Ho costruito una MdT $R$ determinisitca che decide $RELPRIME$ in tempo polinomiale. Quindi, $RELPRIME \in \mathcal{P}$
+	\end{proof}
+\end{theorem}
+
 \subsection{$\mathcal{NP}$}
+La classe $\mathcal{NP}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) non deterministica in tempo polinomiale.
+Quindi, è l'insieme dei linguaggi decidibili in tempo polinomiale. \\ \\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Riduzione polinomiale}
+Ricorda la notazione $f$: input $\rightarrow$ output
+\begin{definition}[Funzione di riduzione in tempo polinomiale]
+	Sia $L_1$,$L_2$ due linguaggi su $\Sigma_{1}^*,\Sigma_{2}^*,$ rispettivamente.
+	Si dice che $L_1$ è polinomialmente riducibile a $L_2$, e si scrive \textcolor{red}{$L_1 \leq_{p} L_2$} se $\exists$ una funzione computabile totale calcolabile in tempo polinomiale
+	$f:\Sigma^*_1 \rightarrow \Sigma^*_2$ chiamata \textbf{funzione di riduzione in tempo polinomiale} t.c. $\forall{w}\in \Sigma^*_1$
+	\begin{align*}
+		w \in L_1 \iff f(w) \in L_2
+	\end{align*}
+	Spiegazione informale:\\
+	Per effetturare una riduzione da $L_1$ a $L_2$, deve esistere una MdT $R$ (macchina di riduzione) che prende in input
+	una qualunque stringa $w \in \Sigma^*_1$ e la trasforma in una stringa $f(w) \in \Sigma^*_2$.
+	Ovvero, se la MdT $R$ prende in input un'istanza di $L_1$ allora produce come output un'istanza di $L_2$. \\
+	La MdT $R$ calcola la funzione di riduzione $f$ in tempo polinomiale. \\
+	In questo modo, se avessimo una MdT che decide $L_2$, potremmo decidere $L_1$ applicando $f$.
+\end{definition}
+\begin{theorem}{5.1}
+	SSe $A \leq_p B$ e $B \in \mathcal{P}$, allora $A \in \mathcal{P}$
+\end{theorem}
 \subsubsection{$\mathcal{NP}$-Difficile}
+Un problema $B$ è $\mathcal{NP}$-Difficile se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $B$ in tempo polinomiale.
+\begin{theorem}{$\mathcal{NP}$-Difficile}
+	sUn linguaggio $L$ è $\mathcal{NP}$-Difficile se: \\ $\forall{Q}$ linguaggio $\in \mathcal{NP}$, $\exists f$ riduzione 
+	polinomiale da $Q$ a $L$ ($Q \leq_p L$).
+\end{theorem}
+Un problema può:
+\begin{itemize}
+	\item essere $\mathcal{NP}$-Difficile $\land \in \mathcal{NP}$, oppure
+	\item essere $\mathcal{NP}$-Difficile $\land \notin \mathcal{NP}$
+\end{itemize}
+Se il problema $B$ è $\mathcal{NP}$-Difficile $\land \in \mathcal{NP} \implies B$ è $\mathcal{NP}$-Completo.
 \subsubsection{$\mathcal{NP}$-Completo}
+\begin{theorem}{$\mathcal{NP}$-Completo}
+	sUn linguaggio $L$ è $\mathcal{NP}$-Completo se:
+	\begin{itemize}
+		\item $L \in \mathcal{NP}$, e
+		\item $L \in \mathcal{NP}$-Difficile 
+	\end{itemize}
+\end{theorem}
+
+\begin{theorem}{5.2.3}
+	sSe $B$ è $\mathcal{NP}$-Completo e $B \leq_p C$ dove $C \in \mathcal{P}$, allora $C$ è $\mathcal{NP}$-Completo.
+\end{theorem}
 \subsubsection{$HAMPATH$}
 \subsubsection{$CLIQUE$}
 \subsubsection{$SUBSET-SUM$}
@@ -1855,7 +2119,9 @@ La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un l
 \subsubsection{$2-SAT$}
 \subsubsection{$3-SAT$}
 \subsubsection{$VERTEX COVER$}
-\subsubsection{Riduzione polinomiale}
+
+\subsection{$\mathcal{P} \neq \mathcal{NP}$}
+\subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \break
