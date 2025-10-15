@@ -14,6 +14,7 @@
 \usetikzlibrary{automata, positioning, arrows}
 \tcbuselibrary{breakable}
 \usepackage{graphicx}
+\usepackage[table]{xcolor} % da mettere nel preambolo
 \usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
 \graphicspath{ {./media/} }
 
@@ -1831,7 +1832,7 @@ tra tutti gli input di lunghezza $n$.
 
 
 \subsection{$\mathcal{P}$}
-La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) deterministica in tempo polinomiale.
+La classe $\mathcal{P}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) \textcolor{red}{deterministica} in tempo polinomiale.
 Quindi, è l'insieme dei linguaggi decidibili in tempo polinomiale. \\ \\
 \textcolor{red}{Come dimostro che un algoritmo appartiene alla classe $\mathcal{P}$ ?}
 \begin{enumerate}
@@ -2036,38 +2037,44 @@ Due numeri $x$ e $y$ sono relativamente primi se 1 è l'unico numero intero che 
 			      Nel passo 2: $O(n)$
 			\item Mostro che il numero tot di passi dell'algoritmo, su input di lunghezza n, cresce
 			      al massimo come un polinomio:
-				  \begin{itemize}
-					\item La MdT $E$: O($n^3$)
-					\item La MdT $R$ che simula $E$ ha O($n^3$) e poi accetta o rifiuta in base a cosa restituisce $E$, quindi O($n$)
-				  \end{itemize}
-			Pertanto, la complessità è $tC_R(n)=O(n^3)+O(n)=O(n^3)$ dove $n$ è la lunghezza dell'input, quindi polinomiale.
+			      \begin{itemize}
+				      \item La MdT $E$: O($n^3$)
+				      \item La MdT $R$ che simula $E$ ha O($n^3$) e poi accetta o rifiuta in base a cosa restituisce $E$, quindi O($n$)
+			      \end{itemize}
+			      Pertanto, la complessità è $tC_R(n)=O(n^3)+O(n)=O(n^3)$ dove $n$ è la lunghezza dell'input, quindi polinomiale.
 		\end{enumerate}
 		\underline{Conclusione:} Ho costruito una MdT $R$ determinisitca che decide $RELPRIME$ in tempo polinomiale. Quindi, $RELPRIME \in \mathcal{P}$
 	\end{proof}
 \end{theorem}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$\mathcal{NP}$}
-La classe $\mathcal{NP}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) non deterministica in tempo polinomiale.
-Quindi, è l'insieme dei linguaggi decidibili in tempo polinomiale. \\ \\
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+La classe $\mathcal{NP}$ è l'insieme dei linguaggi \textit{decisi}\footnote{un linguaggio
+	L è decidibile se $\exists$ una MdT che decide $L$.} da una MdT (decider) \textcolor{red}{non deterministica} in tempo polinomiale.
+Quindi, è l'insieme dei linguaggi decidibili in tempo polinomiale.
+\begin{osservazioni}[Osservazione]
+	\footnotesize
+	La classe $\mathcal{NP}$ è l'insieme dei linguaggi:
+	\begin{itemize}
+		\item risolvibili da una MdT non deterministica in tempo polinomiale (senza certificato), oppure
+		\item verificabili da una MdT deterministica in tempo polinomiale, dato come input un certificato
+	\end{itemize}
+\end{osservazioni}
+\begin{table}[h!]
+	\centering
+	\footnotesize
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\rowcolor{gray!30}
+		\textbf{Tipo di MdT}                                & \textbf{Input}        & \textbf{Richiede certificato?} \\
+		\hline
+		\cellcolor{blue!15} Non Deterministica              & istanza               & No                             \\
+		\hline
+		\cellcolor{yellow!15} Deterministica (verificatore) & istanza + certificato & Sì                             \\
+		\hline
+	\end{tabular}
+	\caption{Differenza tra MdT nondeterministica e MdT deterministica (verificatore) nei problemi NP}
+\end{table}
 
 \subsubsection{Riduzione polinomiale}
 Ricorda la notazione $f$: input $\rightarrow$ output
@@ -2085,40 +2092,277 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 	La MdT $R$ calcola la funzione di riduzione $f$ in tempo polinomiale. \\
 	In questo modo, se avessimo una MdT che decide $L_2$, potremmo decidere $L_1$ applicando $f$.
 \end{definition}
-\begin{theorem}{5.1}
+\begin{theorem}{5.2.1.1}
 	SSe $A \leq_p B$ e $B \in \mathcal{P}$, allora $A \in \mathcal{P}$
 \end{theorem}
+\begin{theorem}{5.2.1.2}
+	SSe $A \leq_p B$ e $B \in \mathcal{NP}$, allora $A \in \mathcal{NP}$
+\end{theorem}
+
 \subsubsection{$\mathcal{NP}$-Difficile}
 Un problema $B$ è $\mathcal{NP}$-Difficile se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $B$ in tempo polinomiale.
 \begin{theorem}{$\mathcal{NP}$-Difficile}
-	sUn linguaggio $L$ è $\mathcal{NP}$-Difficile se: \\ $\forall{Q}$ linguaggio $\in \mathcal{NP}$, $\exists f$ riduzione 
+	sUn linguaggio $L$ è $\mathcal{NP}$-Difficile se: \\ $\forall{Q}$ linguaggio $\in \mathcal{NP}$, $\exists f$ riduzione
 	polinomiale da $Q$ a $L$ ($Q \leq_p L$).
 \end{theorem}
-Un problema può:
+Un problema $B$ può:
 \begin{itemize}
 	\item essere $\mathcal{NP}$-Difficile $\land \in \mathcal{NP}$, oppure
 	\item essere $\mathcal{NP}$-Difficile $\land \notin \mathcal{NP}$
 \end{itemize}
-Se il problema $B$ è $\mathcal{NP}$-Difficile $\land \in \mathcal{NP} \implies B$ è $\mathcal{NP}$-Completo.
+Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\mathcal{NP}$-Completo.
 \subsubsection{$\mathcal{NP}$-Completo}
 \begin{theorem}{$\mathcal{NP}$-Completo}
 	sUn linguaggio $L$ è $\mathcal{NP}$-Completo se:
 	\begin{itemize}
 		\item $L \in \mathcal{NP}$, e
-		\item $L \in \mathcal{NP}$-Difficile 
+		\item $L \in \mathcal{NP}$-Difficile
 	\end{itemize}
 \end{theorem}
-
 \begin{theorem}{5.2.3}
-	sSe $B$ è $\mathcal{NP}$-Completo e $B \leq_p C$ dove $C \in \mathcal{P}$, allora $C$ è $\mathcal{NP}$-Completo.
+	s
+	\begin{itemize}
+		\item $B$ è $\mathcal{NP}$-Completo
+		\item $C \in \mathcal{P}$
+	\end{itemize}
+	Se $B \leq_p C$, allora $C$ è $\mathcal{NP}$-Completo.
 \end{theorem}
+
 \subsubsection{$HAMPATH$}
+\begin{definition}[Cammino Hamiltoniano]
+	Si definisce cammino hamiltoniano in un grafo (orientato o non orientato) \textcolor{red}{un cammino
+		che tocca tutti i nodi del grafo una e una sola volta}.
+\end{definition}
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{hampath-example.png}
+\end{center}
+\begin{theorem}{$HAMPATH$ Problem}
+	s\footnotesize
+	$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{hampath-problem.png}
+	\end{center}
+	\begin{ragionamento}
+		per dimostrarlo, costruisco una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale (senza certificato).
+	\end{ragionamento}
+	\begin{proof}
+		Sia $H$ una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale come segue. $\langle G,s,t \rangle$ è la codifica binaria
+		del grafo orientato $G$ e dei nodi $s,t$ dove $s \neq t$ (codifica come lista di adiacenza o matrice di adiacenza). \\ \\
+		$H$ ha 3 nastri:
+		\begin{itemize}
+			\item \textbf{Nastro 1:} codifica del grafo in input
+			\item \textbf{Nastro 2:} contiene sequenza di nodi generate $p_1, \cdots, p_n$ dove $n$ rappresenza il numero di nodi di $G$
+			\item \textbf{Nastro 3:} nastro di lavoro; usato per controllare se la sequenza è hamiltoniana (che non ci siano nodi ripetuti)
+		\end{itemize}
+		$H$ su input $\langle G,s,t \rangle$:
+		\begin{enumerate}
+			\item $H$ genera una sequenza di nodi e la scrive sul nastro 2.
+			\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana; se non lo è, rifiuta.
+			\item $H$ usa il nastro 2 per controllare se $p_1=s \land p_n=t$; se il controllo fallisce, rifiuta.
+			\item $H$ usa il nastro 2 per controllare, se, per la sequenza fornita, gli archi esistono davvero in $G$;
+			      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ della sequenza, verifica che esista l'arco corrispondente in $G$; se
+			      per qualche $i$ tale arco non esiste, rifiuta. Altrimenti $H$ accetta l'input $\langle G,s,t \rangle$.
+		\end{enumerate}
+		Analizzo la complessità:
+		\begin{enumerate}
+			\item Per il passo 1, scrivere un numero binario $n$ costa $O(\log_2n)$. Quindi scrivere una sequenza di $n$ nodi costa $O(n \cdot \log_2n)$
+			\item Per il passo 2, viene copiata la sequenza dal nastro 2 al nastro 3 che costa $O(n \cdot \log_2n)$, poi controlla che nessun nodo
+			      sia ripetuto, ovvero controllare che tutti i nodi siano distinti $O(n^2\log_2n)$, strategia spiegata nelle note\footnote{
+				      Ripeto il ciclo per gli $n$ nodi della sequenza:
+				      \begin{enumerate}
+					      \item Copiare la codifica del $i$-esimo nodo dal nastro 2 al nastro 3, costo $O(\log_2n)$
+					      \item Riportare la testina del nastro 2 all'inizio della sequenza, costo $O(n\log_2n)$
+					      \item Scorrere la sequenza degli $n$ nodi confrontandoli con il nodo scritto sul nastro 3, costo $n\cdot O(\log_2n)$ ovvero $O(n \log_2n)$
+				      \end{enumerate}
+				      Dato che i passi a,b,c sono in sequenza allora ho che la complessità è $O(\log_2n)+O(\log_2n)+O(n\log_2n)$ ovvero $O(n\log_2n)$. Ma il ciclo
+				      si deve ripetere per gli $n$ nodi della sequenza, quindi la complessità finale sarà $n\cdot O(n\log_2n)=\textcolor{red}{O(n^2\log_2n)}$. \\
+			      }.
+			\item Per il passo 3, controlla se $p_1=s \land p_n=t$, costa O($n\log_2n$); strategia spiegata nelle note\footnote{
+				      Prima di tutto, so che la testina del nastro 2 è alla fine, e quindi:
+				      \begin{enumerate}
+					      \item Copio il valore di $s$ dal nastro 1 al nastro 3. La testina del nastro 1 deve fare al massimo $O(n\log_2n)$ spostamenti
+					            per arrivare al valore di $s$, poi copiarlo sul nastro 3 costa $O(\log_2n)$. Quindi $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$
+					      \item Copio il valore di $t$ dal nastro 1 al nastro 3, stesso costo $O(n\log_2n)$
+					      \item Confronto $p_n$ del nastro 2 con $t$ sul nastro 3 muovendo entrambe le testine verso sinistra, costo $O(\log_2n)$
+					      \item Muovo la testina del nastro 2 fino all'inizio della sequenza $O(n\log_2n)$
+					      \item Confronto $p_1$ del nastro 2 con $s$ sul nastro 3, costo $O(\log_2n)$
+				      \end{enumerate}
+				      Dato che i passi sono sequenziali, il costo complessivo è: $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(n\log_2n)+O(\log_2n)=\textcolor{red}{O(n\log_2n)}$\\
+			      }.
+			\item Per il passo 4, controlla se gli archi esistono, costa $O(n^2\log_2n)$; strategia spiegata nelle note\footnote{
+				      Ripeto il ciclo per ogni coppia $(p_i, p_{i+1})$ quindi per $i=1, \cdots, n-1$:
+				      \begin{enumerate}
+					      \item Posiziona la testina del nastro 2 sull'$i$-esimo nodo, ovvero su $p_i$, costo $O(n\log_2n)$
+					      \item Posiziona la testina del nastro 1 sull'$i$-esimo nodo, costo $O(n\log_2n)$
+					      \item Confronta l'$i$-esimo nodo nei due nastri per vedere se si tratta dello stesso, costo $O(\log_2n)$
+					      \item Muovi la testina dal nodo $p_i$ al nodo $p_{i+1}$ sul 2 nastro, costo $O(\log_2n)$
+					      \item Confronta i nodi della lista di adiacenza dell'$i$-esimo nodo sul nastro 1 con il nodo $p_{i+1}$ del nastro 2; spostamento
+					            e lettura per $n$ nodi $O(n\log_2n)$ quindi sul nastro 1 costo $O(n\log_2n)$ con confronto del nastro 2, $O(\log_2n)$; quindi
+					            $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$.
+				      \end{enumerate}
+				      Dato che i passi a-b-c-d-e sono in sequenza allora la complessità è $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(\log_2n)+O(n\log_2n)=O(n\log_2n)$. Poi
+				      dato che il ciclo va ripetuto per $n-1$ volte allora la complessità finale sarà $(n-1)\cdot(O(n\log_2n))=O(n)\cdot(O(n\log_2n))
+					      =\textcolor{red}{O(n^2\log_2n)}$
+			      }.
+		\end{enumerate}
+		\underline{Conclusione:} La complessità finale della MdT $H$ è $tC_H(n)=O(n\log_2n)+O(n^2\log_2n)+O(n\log_2n)+O(n^2\log_2n)=\textcolor{red}{O(n^2\log_2n)}$ dove
+		$n$ rappresenta la lunghezza dell'input. Quindi una complessità polinomiale. Ho costruito una MdT $H$ non deterministica che decide $HAMPATH$ in 
+		tempo polinomiale, pertanto $HAMPATH \in \mathcal{NP}$.
+	\end{proof}
+	\textcolor{red}{Importante:} $H$ è una MdT non deterministica e quindi questo vuol dire che $H$ esegue i passi dal 1 al 4
+		su sequenze diverse in modo parallelo (rami). Ogni sequenza corrisponde a un ramo di computazione, e
+		l'input è accettato se almeno un ramo accetta (termina in uno stato accettante).
+	$\rule{\linewidth}{0.3pt}$  % linea orizzontale lunga quanto la pagina, spessore 0.4pt$
+	Spiegazione dettagliata della MdT non deterministica $H$. \\ \\
+	$H$ su input $\langle G,s,t \rangle$:
+	\begin{enumerate}
+		\item $H$ genera una sequenza di nodi e la scrive sul nastro 2
+		\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana:
+		      \begin{itemize}
+			      \item Se sì, vai al passo 3.
+			      \item Se no, allora rifiuta la sequenza (questo ramo)
+		      \end{itemize}
+		\item $H$ usa il nastro 2 per controllare che $p_1=s$ e che $p_n=t$
+		      \begin{itemize}
+			      \item Se sì, vai al passo 4.
+			      \item Se no, allora rifiuta la sequenza (questo ramo)
+		      \end{itemize}
+		\item $H$ usa il nastro 2 per controllare se per la sequenza fornita, gli archi esistono davvero in $G$;
+		      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ nella sequenza, verifica che esista l'arco corrispondente in $G$:
+		      \begin{itemize}
+			      \item Se sì, allora accetta l'input $\langle G,s,t \rangle$
+			      \item Se no, allora rifiuta (questo ramo)
+		      \end{itemize}
+	\end{enumerate}
+
+
+
+\end{theorem}
+
+
+
+\begin{proof}
+	Sia $\langle G,s,t\rangle$ la codifica binaria di un grafo orientato $G$ con $n$ nodi e di due vertici distinguibili $s,t$ (i vertici sono numerati $1,\dots,n$ e codificati in binario).
+	Costruiamo una macchina di Turing nondeterministica $H$ a tre nastri che decide $HAMPATH$ in tempo polinomiale.
+
+	\textbf{Struttura dei nastri.}
+	\begin{itemize}
+		\item Nastro 1: contiene l'input $\langle G,s,t\rangle$ (codifica del grafo, ad es.\ matrice di adiacenza o lista di archi).
+		\item Nastro 2: viene usato per scrivere la sequenza nondeterministicamente scelta $p_1,\dots,p_n$.
+		\item Nastro 3: nastro di lavoro per i controlli (marcature, confronti, ecc.).
+	\end{itemize}
+
+	\textbf{Descrizione di $H$ su input $\langle G,s,t\rangle$.}
+	\begin{enumerate}
+		\item \emph{Generazione nondeterministica.} Nondeterministicamente $H$ scrive sul nastro 2 una sequenza di $n$ numeri $p_1,\dots,p_n$, ciascuno in $\{1,\dots,n\}$. (Ogni possibile sequenza corrisponde a un ramo di computazione.)
+		\item \emph{Verifica forma e range.} Se la sequenza non ha esattamente $n$ elementi oppure contiene un elemento fuori dall'intervallo $1,\dots,n$, allora \emph{questo ramo} viene rifiutato.
+		\item \emph{Controllo di ripetizioni.} Usando il nastro 3, $H$ verifica che tutti i $p_i$ siano distinti (es.: per ogni $p_i$ controlla se è già stato segnato sul nastro 3; in caso contrario lo marca). Se trova una ripetizione, \emph{questo ramo} viene rifiutato.
+		\item \emph{Controllo degli estremi.} verifica che $p_1 = s$ e $p_n = t$. Se uno dei due controlli fallisce, \emph{questo ramo} viene rifiutato.
+		\item \emph{Controllo degli archi.} Per ogni $i = 1,\dots,n-1$ verifica che $(p_i,p_{i+1})$ sia un arco di $G$ (cercando nella rappresentazione di $G$ sul nastro 1). Se per qualche $i$ l'arco manca, \emph{questo ramo} viene rifiutato.
+		\item \emph{Accettazione.} Se tutti i controlli precedenti passano, allora \emph{questo ramo} accetta l'input.
+	\end{enumerate}
+
+	\textbf{Correttezza.} Se esiste un cammino hamiltoniano di $G$ che va da $s$ a $t$, allora esiste almeno una sequenza $p_1,\dots,p_n$ che supera tutti i controlli; la macchina $H$ in corrispondenza della scelta nondeterministica di tale sequenza ha un ramo che accetta, quindi $H$ accetta $\langle G,s,t\rangle$. Viceversa, se $H$ accetta, allora l'esistenza di un ramo accettante fornisce una sequenza che è un cammino hamiltoniano da $s$ a $t$.
+
+	\textbf{Tempo.} La generazione scrive $n$ numeri (ogni numero ha al più $\lceil\log n\rceil$ bit), quindi la scrittura è di lunghezza polinomiale. I controlli (verifica lunghezza e range, controllo ripetizioni, controllo estremi, verifica degli archi) possono essere eseguiti in tempo polinomiale (ad esempio $O(n^2)$ se si usa una ricerca lineare per alcuni passi, oppure $O(n^2)$ anche con matrice di adiacenza), dunque ogni ramo termina in tempo polinomiale. Perciò $H$ è una MdT nondeterministica che decide $HAMPATH$ in tempo nondeterministicamente polinomiale.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{$HAMCYCLE$}
 \subsubsection{$CLIQUE$}
 \subsubsection{$SUBSET-SUM$}
 \subsubsection{$SAT$}
 \subsubsection{$2-SAT$}
 \subsubsection{$3-SAT$}
 \subsubsection{$VERTEX COVER$}
+\subsection{$\mathcal{P}$ vs $\mathcal{NP}$}
+La differenza sostanziale tra $\mathcal{P}$ e $\mathcal{NP}$ è:
+\begin{itemize}
+	\item la classe $\mathcal{P}$ è l'insieme dei problemi \textcolor{red}{\textit{risolvibili}} da una MdT deterministica in tempo polinomiale.
+	\item la classe $\mathcal{NP}$ è l'insieme dei problemi \textcolor{red}{\textit{risolvibili}} da una MdT non deterministica in tempo polinomiale (senza
+	      certificato); oppure,\textcolor{red}{\textit{ verificabili}} da una MdT deterministica in tempo polinomiale, dato un certificato.
+\end{itemize}
+Ovvero, se $C \in \mathcal{NP}$:
+\begin{itemize}
+	\item $\nexists$ un algoritmo deterministico che decide $C$ in tempo polinomiale
+	\item $\exists$ un algoritmo deterministico che decide $C$ in tempo esponenziale (o la complessità è piu grande di exp?)
+	\item $\exists$ un algoritmo deterministico che verifica un certificato per $C$ in tempo polinomiale
+	\item $\exists$ un algoritmo non deterministico che decide $C$ in tempo polinomiale (senza un certificato)
+\end{itemize}
+
+
+
+
 
 \subsection{$\mathcal{P} \neq \mathcal{NP}$}
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
