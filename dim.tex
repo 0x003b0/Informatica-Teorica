@@ -2123,7 +2123,7 @@ Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\
 	s
 	\begin{itemize}
 		\item $B$ è $\mathcal{NP}$-Completo
-		\item $C \in \mathcal{P}$
+		\item $C \in \mathcal{NP}$
 	\end{itemize}
 	Se $B \leq_p C$, allora $C$ è $\mathcal{NP}$-Completo.
 \end{theorem}
@@ -2206,12 +2206,12 @@ Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\
 			      }.
 		\end{enumerate}
 		\underline{Conclusione:} La complessità finale della MdT $H$ è $tC_H(n)=O(n\log_2n)+O(n^2\log_2n)+O(n\log_2n)+O(n^2\log_2n)=\textcolor{red}{O(n^2\log_2n)}$ dove
-		$n$ rappresenta la lunghezza dell'input. Quindi una complessità polinomiale. Ho costruito una MdT $H$ non deterministica che decide $HAMPATH$ in 
+		$n$ rappresenta la lunghezza dell'input. Quindi una complessità polinomiale. Ho costruito una MdT $H$ non deterministica che decide $HAMPATH$ in
 		tempo polinomiale, pertanto $HAMPATH \in \mathcal{NP}$.
 	\end{proof}
 	\textcolor{red}{Importante:} $H$ è una MdT non deterministica e quindi questo vuol dire che $H$ esegue i passi dal 1 al 4
-		su sequenze diverse in modo parallelo (rami). Ogni sequenza corrisponde a un ramo di computazione, e
-		l'input è accettato se almeno un ramo accetta (termina in uno stato accettante).
+	su sequenze diverse in modo parallelo (rami). Ogni sequenza corrisponde a un ramo di computazione, e
+	l'input è accettato se almeno un ramo accetta (termina in uno stato accettante).
 	$\rule{\linewidth}{0.3pt}$  % linea orizzontale lunga quanto la pagina, spessore 0.4pt$
 	Spiegazione dettagliata della MdT non deterministica $H$. \\ \\
 	$H$ su input $\langle G,s,t \rangle$:
@@ -2234,114 +2234,103 @@ Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\
 			      \item Se no, allora rifiuta (questo ramo)
 		      \end{itemize}
 	\end{enumerate}
+\end{theorem}
 
+\subsubsection{$HAMCYCLE$}
 
-
+\subsubsection{$CLIQUE$}
+\begin{definition}[Grafo completo]
+	Un grafo completo è un grafo non orientato nel quale ogni nodo è collegato a tutti i vertici rimanenti.
+	\begin{center}
+		\includegraphics[width=0.2\linewidth]{complete-graph.png}
+	\end{center}
+\end{definition}
+Un \textcolor{red}{clique} è un sottografo completo di un grafo non orientato.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{clique.png}
+\end{center}
+Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura sopra è un 5-clique)
+\begin{theorem}{$CLIQUE$ Problem}
+	dDato $G$ grafo non orientato, esiste un sottografo completo di $G$ con $k$ vertici?
+	\begin{center}
+		$CLIQUE = \{\langle G,k \rangle \mid G \text{ grafo non orientato con } k\text{-clique}\}$ \\
+		$CLIQUE \in \mathcal{NP}$
+	\end{center}
+	\footnotesize
 \end{theorem}
 
 
 
-\begin{proof}
-	Sia $\langle G,s,t\rangle$ la codifica binaria di un grafo orientato $G$ con $n$ nodi e di due vertici distinguibili $s,t$ (i vertici sono numerati $1,\dots,n$ e codificati in binario).
-	Costruiamo una macchina di Turing nondeterministica $H$ a tre nastri che decide $HAMPATH$ in tempo polinomiale.
 
-	\textbf{Struttura dei nastri.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Polinomio Booleano}
+\begin{definition}[Variabile booleana] Una \textcolor{red}{variabile booleana} è una variabile $x$ che assume solo due valori:
 	\begin{itemize}
-		\item Nastro 1: contiene l'input $\langle G,s,t\rangle$ (codifica del grafo, ad es.\ matrice di adiacenza o lista di archi).
-		\item Nastro 2: viene usato per scrivere la sequenza nondeterministicamente scelta $p_1,\dots,p_n$.
-		\item Nastro 3: nastro di lavoro per i controlli (marcature, confronti, ecc.).
+		\item $x=0$ (falso)
+		\item $x=1$ (vero)
 	\end{itemize}
+\end{definition}
+\textcolor{red}{Operatori logici:}
+\begin{itemize}
+	\item AND, indicato con il simbolo $\land$
+	\item OR, indicato con il simbolo $\lor$
+	\item NOT, indicato con il simbolo $\lnot$
+\end{itemize}
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{boolean-exp.png}
+\end{center}
+\begin{definition}[Letterale]
+	Un \textcolor{red}{letterale} $x$ è una variabile booleana o la sua negazione $\overline{x}$.
+\end{definition}
+\begin{definition}[Clausola]
+	Una \textcolor{red}{clausola} è una disgiunzione di letterali:
+	\[
+		(x_1 \lor \cdots \lor x_n)
+	\]
+	La clausola è vera se almeno uno dei suoi letterali è vero.
+\end{definition}
+\begin{definition}[CNF]
+	Una formula è in \textcolor{red}{forma normale congiuntiva} se è una congiunzione ($\land$) di clausole (dove le clausole sono una disgiunzione di letterali):
+	\[
+		\underbrace{(x_{1,1} \lor \dots \lor x_{1,n})}_{\text{clausola 1}}
+		\land 
+		\underbrace{(x_{2,1} \lor \dots \lor x_{2,n})}_{\text{clausola 2}}
+		\land \dots \land 
+		\underbrace{(x_{n,1} \lor \dots \lor x_{n,n})}_{\text{clausola n}}
+	\]
+	La formula in CNF è vera se tutte le clausole sono vere.
+\end{definition}
+\begin{definition}[Polinomio booleano] 
+	Un \textcolor{red}{polinomio booleano}/formula booleana $p$ è un'espressione costruita con:
+	\begin{itemize}
+		\item letterali (positivi o negativi)
+		\item operatori logici ($\land, \lor, \lnot$)
+	\end{itemize}
+\end{definition}
+\begin{esercizio}[Esempio]
+	\footnotesize
+	Date le variabili $\{x_1,x_2,x_3\}$, un polinomio booleano in CNF può essere:
+	\[
+	p = (x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)
+	\]
+\end{esercizio}
 
-	\textbf{Descrizione di $H$ su input $\langle G,s,t\rangle$.}
-	\begin{enumerate}
-		\item \emph{Generazione nondeterministica.} Nondeterministicamente $H$ scrive sul nastro 2 una sequenza di $n$ numeri $p_1,\dots,p_n$, ciascuno in $\{1,\dots,n\}$. (Ogni possibile sequenza corrisponde a un ramo di computazione.)
-		\item \emph{Verifica forma e range.} Se la sequenza non ha esattamente $n$ elementi oppure contiene un elemento fuori dall'intervallo $1,\dots,n$, allora \emph{questo ramo} viene rifiutato.
-		\item \emph{Controllo di ripetizioni.} Usando il nastro 3, $H$ verifica che tutti i $p_i$ siano distinti (es.: per ogni $p_i$ controlla se è già stato segnato sul nastro 3; in caso contrario lo marca). Se trova una ripetizione, \emph{questo ramo} viene rifiutato.
-		\item \emph{Controllo degli estremi.} verifica che $p_1 = s$ e $p_n = t$. Se uno dei due controlli fallisce, \emph{questo ramo} viene rifiutato.
-		\item \emph{Controllo degli archi.} Per ogni $i = 1,\dots,n-1$ verifica che $(p_i,p_{i+1})$ sia un arco di $G$ (cercando nella rappresentazione di $G$ sul nastro 1). Se per qualche $i$ l'arco manca, \emph{questo ramo} viene rifiutato.
-		\item \emph{Accettazione.} Se tutti i controlli precedenti passano, allora \emph{questo ramo} accetta l'input.
-	\end{enumerate}
-
-	\textbf{Correttezza.} Se esiste un cammino hamiltoniano di $G$ che va da $s$ a $t$, allora esiste almeno una sequenza $p_1,\dots,p_n$ che supera tutti i controlli; la macchina $H$ in corrispondenza della scelta nondeterministica di tale sequenza ha un ramo che accetta, quindi $H$ accetta $\langle G,s,t\rangle$. Viceversa, se $H$ accetta, allora l'esistenza di un ramo accettante fornisce una sequenza che è un cammino hamiltoniano da $s$ a $t$.
-
-	\textbf{Tempo.} La generazione scrive $n$ numeri (ogni numero ha al più $\lceil\log n\rceil$ bit), quindi la scrittura è di lunghezza polinomiale. I controlli (verifica lunghezza e range, controllo ripetizioni, controllo estremi, verifica degli archi) possono essere eseguiti in tempo polinomiale (ad esempio $O(n^2)$ se si usa una ricerca lineare per alcuni passi, oppure $O(n^2)$ anche con matrice di adiacenza), dunque ogni ramo termina in tempo polinomiale. Perciò $H$ è una MdT nondeterministica che decide $HAMPATH$ in tempo nondeterministicamente polinomiale.
-\end{proof}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{$HAMCYCLE$}
-\subsubsection{$CLIQUE$}
-\subsubsection{$SUBSET-SUM$}
 \subsubsection{$SAT$}
+Dato 
+
 \subsubsection{$2-SAT$}
 \subsubsection{$3-SAT$}
 \subsubsection{$VERTEX COVER$}
