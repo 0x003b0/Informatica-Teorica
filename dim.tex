@@ -117,6 +117,8 @@ fonttitle=\bfseries,
 	\]
 \end{definition}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Leggi di De Morgan}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Tipi di dimostrazioni}
 \begin{tikzpicture}[
 		level 1/.style={
@@ -2046,6 +2048,7 @@ Due numeri $x$ e $y$ sono relativamente primi se 1 è l'unico numero intero che 
 		\underline{Conclusione:} Ho costruito una MdT $R$ determinisitca che decide $RELPRIME$ in tempo polinomiale. Quindi, $RELPRIME \in \mathcal{P}$
 	\end{proof}
 \end{theorem}
+\subsubsection{$2-SAT$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$\mathcal{NP}$}
@@ -2306,33 +2309,379 @@ Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura so
 	Una formula è in \textcolor{red}{forma normale congiuntiva} se è una congiunzione ($\land$) di clausole (dove le clausole sono una disgiunzione di letterali):
 	\[
 		\underbrace{(x_{1,1} \lor \dots \lor x_{1,n})}_{\text{clausola 1}}
-		\land 
+		\land
 		\underbrace{(x_{2,1} \lor \dots \lor x_{2,n})}_{\text{clausola 2}}
-		\land \dots \land 
+		\land \dots \land
 		\underbrace{(x_{n,1} \lor \dots \lor x_{n,n})}_{\text{clausola n}}
 	\]
 	La formula in CNF è vera se tutte le clausole sono vere.
 \end{definition}
-\begin{definition}[Polinomio booleano] 
-	Un \textcolor{red}{polinomio booleano}/formula booleana $p$ è un'espressione costruita con:
+\begin{definition}[Formula booleana]
+	Un \textcolor{red}{formula booleana} è un'espressione costruita con:
 	\begin{itemize}
 		\item letterali (positivi o negativi)
 		\item operatori logici ($\land, \lor, \lnot$)
 	\end{itemize}
 \end{definition}
+\begin{definition}[Polinomio booleano]
+	Un \textcolor{red}{polinomio booleano} è un'espressione costruita con:
+	\begin{itemize}
+		\item letterali (positivi o negativi)
+		\item operatori aritmetici in cui:
+		      \begin{itemize}
+			      \item ($\lnot x$) corrisponde a $1-x$
+			      \item ($x \land y$) corrisponde a $x \cdot y$
+			      \item ($x \lor y$) corrisponde a $x + y - x \cdot y$
+		      \end{itemize}
+	\end{itemize}
+	Quindi il polinomio booleano è la rappresentazione algebrica della formula booleana.
+\end{definition}
 \begin{esercizio}[Esempio]
 	\footnotesize
-	Date le variabili $\{x_1,x_2,x_3\}$, un polinomio booleano in CNF può essere:
+	Date le variabili $\{x_1,x_2,x_3\}$, una formula booleana in CNF può essere:
 	\[
-	p = (x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)
+		f = (x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)
 	\]
+	mentre il corrispondente polinomio booleano è:
+	\begin{center}
+		$p = (x_1 \lor (1-x_2)) \land ((1-x_1) \lor x_3)$ \\
+		$= \big[(x_1+(1-x_2))-(x_1 \cdot (1-x_2))\big] \land \big[((1-x_1)+x_3) - ((1-x_1)\cdot x_3)\big]$ \\
+		$= \big[(x_1+(1-x_2))-(x_1 \cdot (1-x_2))\big] \cdot \big[((1-x_1)+x_3) - ((1-x_1)\cdot x_3)\big]$ \\
+		sviluppando e sapendo che per proprietà booleana $x_i^2=x_i$ allora ottengo: \\
+		$= x_1x_2+x_1x_3-x_1-x_2+1$
+	\end{center}
+
 \end{esercizio}
 
 \subsubsection{$SAT$}
-Dato 
+Data una formula booleana $f$ scritta in CNF, esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera formula $f$ vera\footnote{la formula booleana
+	restituisce come output 1}?
+\begin{osservazioni}[Osservazione]
+	\footnotesize
+	Il numero di letterali in ogni clausola può variare; non c'è un limite fisso. \\
+	Per esempio:
+	\begin{center}
+		$(x \lor y) \land (\overline{z} \lor w \lor u) \land (v)$
+	\end{center}
+	Nella prima clausola ci sono 2 lettarli, nella seconda 3 e nell'ultima 1.
+\end{osservazioni}
+\begin{theorem}{$SAT$ Problem}
+	gData $f$, una formula booleana in CNF, determinare se $\exists$ un qualche assegnamento di valori alle variabili che renda $f$ vera.
+	\begin{center}
+		$SAT = \{\langle f \rangle \mid f \text{ è una cnf-formula booleana soddisfacibile}\}$ \\
+		$SAT \in \mathcal{NP}$
+	\end{center}
+	\footnotesize
+	\begin{proof}
+		Sia $\{x_1,x_2,...,x_n\}$ l'insieme delle variabili booleane. \\
+		\textbf{\textcolor{red}{1. Codifica}} \\
+		Ogni variabile è codificata in binario come segue: numero del letterale in binario seguito da $\#1$ se il letterale è positivo
+		oppure $\#0$ se il letterale è negativo. \\ \\
+		\begin{tabular}{|c|c|}
+			\hline
+			\textbf{Letterale} & \textbf{Codifica} \\ \hline
+			$x_i$              & $i \# 1$          \\ \hline
+			$\lnot x_i$        & $i \# 0$          \\ \hline
+		\end{tabular} \\ \\
+		Esempio: \\
+		Sia $f$ in CNF: $(x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)$. Verrà codificato come:
+		\[
+			1\#1 \lor 10\#0 \land 1\#0 \lor 11\#1
+		\]
+		\\
+		La codifica finale in input alla MdT sarà composta da:
+		\begin{itemize}
+			\item una lista di interi da 1 a $n$ in binario separati dal simbolo \# (che indicano le variabili presenti nella formula)
+			\item codifica della formula booleana
+		\end{itemize}
+		la lista e la formula sono separati dal simbolo \#\#. \\ \\
+		Esempio: \\
+		Sia $f$ in CNF: $(x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)$. La codifica in input alla MdT sarà:
+		\[
+			\underbrace{1\#10\#11}_{\text{variabili}}
+			\#\#
+			\underbrace{1\#1 \lor 10\#0 \land 1\#0 \lor 11\#1}_{\text{formula booleana}}
+		\]
+		\textbf{\textcolor{red}{2. Alfabeto e Linguaggio}}
+		\begin{itemize}
+			\item Sia $\Sigma_{SAT} = \{0,1,\#,\land,\lor\}$ l'alfabeto del problema $SAT$.
+			\item Sia $L_{SAT}$ oppure semplicemente $SAT$ il linguaggio del problema, ovvero l'insieme di tutte le formule booleane per cui esiste un assegnamento che le rende vere. \\
+			      $L_{SAT} = \{\langle f \rangle \mid f \text{ formula booleana soddisfacibile}\}$
+		\end{itemize}
+		\textbf{\textcolor{red}{3. Costruzione della MdT non deterministica}} \\
+		Costruisco una MdT $S$ non deterministica che decide $SAT$ in tempo polinomiale. \\
+		$S$ ha due nastri:
+		\begin{itemize}
+			\item \textbf{Nastro 1:} codifica finale
+			\item \textbf{Nastro 2:} nastro di lavoro che genera su di esso (non deterministicamente) un assegnamento alle variabili come segue:
+			      \[
+				      x_1\#t(x_1)\textcolor{red}{\#\#}x_2\#t(x_2)\textcolor{red}{\#\#}\cdots x_n\#t(x_n)
+			      \]
+			      dove:
+			      \begin{itemize}
+				      \item $x_i$ è la rappresentazione binaria dell'indice $i$ della variabile corrispondente
+				      \item $t(x_i)$ indica l'assegnamento del valore alla variabile $x_i$, che può essere 1 o 0
+			      \end{itemize}
+		\end{itemize}
+		Esempio grafico dei nastri nel caso della formula $(x_1 \lor \overline{x_2}) \land (\overline{x_1} \lor x_3)$:
+		\begin{center}
+			\includegraphics[width=1.04\linewidth]{sat-tapes-mdt.png}
+		\end{center}
+		\textbf{\textcolor{red}{4. Funzionamento della MdT $S$ non deterministica}} \\
+		$S$ è la MdT non deterministica e $\langle f \rangle$ è codifica finale sopra descritta. \\ \\
+		$S$ su input $\langle f \rangle$: \\
+		Sul nastro 1 ho la codifica finale di $f$ e il nastro 2 è vuoto.
+		\begin{enumerate}
+			\item $S$ controlla che la stringa in input sul nastro 1 sia sintatticamente corretta; se non lo è, rifiuta.
+			\item $S$ sul nastro 2 genera (non deterministicamente) un assegnamento alle variabili.
+			\item $S$ esamina l'input sul nastro 1 da sinistra verso destra, fino ad incontrare un letterale:
+			      \begin{enumerate}
+				      \item Confronta il letterale della clausola sul nastro 1 $v\#t(v)$ con l'assegnamento corrispondente sul nastro 2 $x_i\#t(x_i)$:
+				            \begin{itemize}
+					            \item Se corrispondono, la clausola è soddisfatta (basta un assegnamento vero per rendere vera l'intera clausola vera);
+					                  \begin{itemize}
+						                  \item Se la clausola appena esaminata era l'ultima, allora $S$ accetta e termina ($f \in SAT$).
+						                  \item Se la clausola appena esaminata non era l'ultima, allora passo alla clausola successiva;
+					                  \end{itemize}
+					            \item Se non corrispondono, esamino il letterale successivo;
+					                  \begin{itemize}
+						                  \item Se il letterale appena esaminato è l'ultimo della clausola, allora $S$ rifiuta e termina ($f \notin SAT$).
+						                  \item Se il letterale appena esaminato non è l'ultimo della clausola, allora passa al letterale successivo;
+					                  \end{itemize}
+				            \end{itemize}
+			      \end{enumerate}
 
-\subsubsection{$2-SAT$}
+			      \textbf{Spiegazione dettagliata:} \\
+			      A seguito viene spiegato il comportamento di $S$ con ciclo interno ed esterno perchè cosi è più facile calcolare la complessità.
+			      \textcolor{red}{Ricordo che la formula è vera se tutte le sue clausole sono vere (dove ogni clausola è vera se almeno uno dei valori è vero)}.
+			      \begin{enumerate}
+				      \item Ciclo esterno: scansiona tutte le clausole della formula
+				      \item Ciclo interno: scansione ogni letterale della clausola
+			      \end{enumerate}
+
+			      \begin{itemize}
+				      \item Per ogni clausola della formula booleana (ciclo esterno):
+
+				            \begin{itemize}
+					            \item Per ogni letterale della clausola (ciclo interno):
+					                  \begin{enumerate}
+						                  \item Confronta il letterale sul nastro 1 $v\#t(v)$ con l'assegnamento corrispondente sul nastro 2 $x_1\#t(x_1)$:
+						                        \begin{itemize}
+							                        \item Se coincidono, la clausola è soddisfatta, quindi esci dal ciclo interno (uscendo dal ciclo interno va allo step (a) sotto)
+							                        \item Se non coincidono e il letterale esaminato è l'ultimo della clausola, $S$ rifiuta e termina; Altrimenti passa al prossimo letterale.
+						                        \end{itemize}
+					                  \end{enumerate}
+				            \end{itemize}
+				            \begin{enumerate}
+					            \item Se la clausola è l'ultima dell'intera formula booleana, allora $S$ accetta e termina.\footnote{non importa specificare che la clausola è soddisfatta perchè questo passo
+						                  della computazione è eseguibile uscendo dal ciclo interno solo quando la clausola è soddisfatta}
+					            \item Se la clausola non è l'ultima dell'intera formula booleana, allora passa alla prossima clausola.
+				            \end{enumerate}
+			      \end{itemize}
+
+
+		\end{enumerate}
+		\textbf{\textcolor{red}{5. Complessità della MdT $S$}}
+		\begin{enumerate}
+			\item Analizzo complessità ciclo interno: (ripetuto per $n$ letterali in caso pessimo) \\
+			      In questo caso il caso pessimo è quando analizza tutti i letterali fino all'ultimo della clausola.
+			      Confronto costa $O(\log_2n)$ sul nastro 1 e $O(\log_2n)$ sul nastro 2 perchè deve leggere e muovere la testina in base a quanto è lungo il letterale in esame (in codifica binaria). \\
+			      Approssimativamente, ripeto il ciclo per $n$ letterali, quindi la complessità è $n \cdot O(\log_2n) = O(n \log_2n)$.
+			\item Analizzo complessità ciclo esterno: (ripetuto per $n$ clausole della formula booleana in caso pessimo) \\
+			      In questo caso il caso pessimo è quando analizza tutte le clausole dell'intera formula.
+			      Approssimativamente, costa $O(n)$.
+		\end{enumerate}
+		Mettendo tutto insieme, la complessità di $S$ è $O(n \log_2n) \cdot O(n)=O(n^2 \log_2n)$ e quindi polinomiale. \\ \\
+		\underline{Conclusione:} La MdT $S$ non deterministica decide $SAT$ in tempo polinomiale. Pertanto, $SAT \in \mathcal{NP}$
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}{Teorema di Cook-Levin}
+	d$SAT$ è $\mathcal{NP}$-Hard.
+	\footnotesize
+	\begin{ragionamento}
+		Devo costruire una funzione di riduzione in tempo polinomiale in modo che ogni problema in $\mathcal{NP}$ possa essere riducibile a $SAT$. Ma i problemi in $\mathcal{NP}$
+		sono infiniti, non posso provarli tutti, non finirei mai. Dato che ogni problema $\mathcal{NP}$ è per definizione decidibile da una MdT non deterministica in tempo polinomiale,
+		per fare la riduzione uso il concetto di \textit{tableau}. \\
+		Il \textcolor{red}{tableau} è una rappresentazione generica dell'esecuzione di una macchina non deterministica, quindi il tableau \textcolor{red}{può simulare qualsiasi macchina
+			non deterministica che lavora in tempo polinomiale}. In questo modo posso rappresentare qualsiasi problema $\mathcal{NP}$.
+		\begin{center}
+			\includegraphics[width=0.8\linewidth]{tableau.png}
+		\end{center}
+		Osservazioni sul tableau: \\
+		È una tabella $n^k \times n^k$ dove ogni riga rappresenta "la fotografia" della MdT in un instante di tempo. \\ Le righe rappresentano le configurazioni di un ramo della computazione
+		di una MdT su un input $w$ (l'intero tableau rappresenta solo un ramo di computazione, non è che ogni riga rappresenta
+		un ramo diverso).
+		\begin{itemize}
+			\item \textbf{Tableau:} tabella che mostra tutte le configurazioni di un singolo ramo.
+			\item  \textbf{Riga del tableau:} Una configurazione (stato $q_i$ + contenuto nastro + posizione testina).
+		\end{itemize}
+	\end{ragionamento}
+	\begin{proof}
+		Sia $A$ un generale problema $\mathcal{NP}$ e sia $N$ la MdT non deterministica che decide $A$ in tempo polinomiale. \\
+		\textcolor{red}{\textbf{1. Tableau per MdT non deterministica $N$}} \\
+		Adesso descrivo il tableau per la MdT non deterministica $N$ su input $w$:
+		\begin{itemize}
+			\item \textbf{La prima riga:} configurazione iniziale di $N$. \\
+			      (\textit{esempio: la macchina parte nello stato iniziale $q_0$ con l'input scritto sul nastro e la testina sulla prima cella dell'input})
+			\item \textbf{La seconda riga:} rappresenta lo stato della macchina dopo il primo passo della computazione. \\
+			      \vdots
+			\item \textbf{La $i$-esima riga:} rappresenta lo stato della macchina dopo l' $i-1$-esimo passo della computazione.
+		\end{itemize}
+		Assumo che ogni riga (configurazione) abbia come simbolo \# nella prima e nell'ultima cella. \\
+		Inoltre, un tableau è detto accettante se almeno una delle sue righe è una configurazione accettante; In altre parole, se troviamo un tableau accettante,
+		sappiamo che esiste un ramo della MdT non deterministica che accetta l'input $w$.
+		Per sapere se la macchina $N$ accetta $w$, basta verificare se esiste almeno un tableau accettante (perchè per ogni ramo esiste un tableau). \\
+		\textcolor{red}{\textbf{2. Descrizione della funzione di riduzione $f$}} \\
+		Sia $w$ un'istanza del problema $A$ e sia $f(w)$ un'istanza del problema $SAT$. Con input $w$, la funzione di riduzione produce come output la formula booleana $f(w)=\phi$. \\
+		\begin{enumerate}
+			\item \textcolor{blue}{\textbf{Descrivo le variabili booleane della formula $\phi$}} (delle parti di $\phi$?)
+			      \begin{itemize}
+				      \item Sia $Q$ l'insieme degli stati di $N$
+				      \item Sia $\Gamma$ l'alfabeto del nastro di $N$
+				      \item Sia $C= Q \cup \Gamma \cup \{\#\}$
+				      \item Sia $s \in C$ un simbolo che può apparire in una cella del tableau \\ (ogni cella può contenere uno solo dei simboli in $C$:
+				            o uno stato, o un simbolo del nastro, o il simbolo \#)
+			      \end{itemize}
+			      Per ogni cella $[i,j]$ e per ogni simbolo $s \in C$, ho la variabile booleana $x_{i,j,s}$ dove:
+			      \[
+				      x_{i,j,s} =
+				      \begin{cases}
+					      1 & \text{se la cella } [i,j] \text{ contiene il simbolo } s \\
+					      0 & \text{altrimenti}
+				      \end{cases}
+			      \]
+			      Esempio nelle note\footnote{$x_{0,2,q_1}=1$ la variabile vale 1 perchè la cella della riga 0 e della colonna 2 contiene il simbolo $q_1$.}
+			\item \textcolor{blue}{\textbf{Descrivo la formula $\phi$}} \\
+			      Costruisco la formula booleana $\phi$ tale che un'assegnazione di valori che soddisfa $\phi$ rappresenta un tableau accettante della macchina $N$ sull'input $w$, ovvero:
+			      \begin{center}
+				      $\phi$ è soddisfacibile $\iff N$ accetta $w$
+			      \end{center}
+			      La formula \textcolor{red}{$\phi$} è composta da 4 sottoformule, congiunte tra loro mediante l'operatore logico AND:
+			      \[
+				      \phi = \varphi_{cell} \land \varphi_{start} \land \varphi_{move} \land \varphi_{accept}
+			      \]
+			\item \textcolor{blue}{\textbf{Descrivo ogni sottoformula $\varphi$ di $\phi$}}
+			      \begin{itemize}
+				      \item $\varphi_{cell}$:  ogni cella contiene esattamente un simbolo (solo uno).
+				      \item $\varphi_{start}$: la prima riga del tableau rappresenta lo stato iniziale di $N$ su $w$.
+				      \item $\varphi_{move}$:  ogni riga del tableau segue la precedente secondo le regole di $N$
+				            (assicura che ogni computazione segua legalmente la precedente secondo le regole di $N$)
+				      \item $\varphi_{accept}$: almeno in una cella appare lo stato di accettazione $q_{accept}$.
+			      \end{itemize}
+		\end{enumerate}
+		Ogni sottoformula diventa vera se è vera anche nel tableau.
+		Quindi la formula $\phi = \varphi_{cell} \land \varphi_{start} \land \varphi_{move} \land \varphi_{accept}$ è vera
+		se e solo se ogni $\varphi_i$ è vera. \\
+		In poche parole, se il tableau è un tableau accettante ($N$ accetta $w$), allora $\phi$ è vera/soddisfacibile.
+
+		\textcolor{red}{\textbf{3. Calcolo complessità della funzione di riduzione $f$}} \\
+		Preso in input qualunque stringa $w$, voglio dimostrare che posso costruire un'istanza di $SAT$ in tempo polinomiale.
+		Ovvero dato in input $w$, la funzione di riduzione $f$ restituisce $f(w)=\varphi_{cell} \land \varphi_{start} \land \varphi_{move} \land \varphi_{accept}$
+		in tempo polinomiale rispetto alla lunghezza dell'input $w$. $f(w)=\phi$.
+		\begin{enumerate}
+			\item \textbf{Esamino la dimensione di $\phi$, ovvero quante variabili ha (le variabili sono le $x_{i,j,s}$):}
+			      La tabella ha dimensione $n^k \times n^k$ e quindi ci sono $n^{2k}$ celle. Per ogni cella ci sono tante variabili quante sono le possibilità
+			      di simbolo $s \in C$, quindi la complessità è $|C|\cdot O(n^{2k})$ e quindi \textcolor{red}{$O(n^{2k})$}.
+			\item \textbf{Analizzo ogni parte della formula $\phi$:}
+			      \begin{enumerate}
+				      \item $\varphi_{cell}$: ogni cella contiene esattamente uno dei simboli di $C$, $O(n^{2k})$
+				      \item $\varphi_{start}$: la prima riga è la configurazione iniziale di $N$ su $w$; ogni riga contiene $n^k$ celle, quindi $O(n^k)$
+				      \item $\varphi_{move}$: ogni riga segue la precedente secondo le regole di $N$, $O(n^{2k})$
+				      \item $\varphi_{accept}$: almeno una cella contiene lo stato di accettazione $q_{accept}$, controllo tutte le celle nel caso peggiore e quindi $O(n^{2k})$
+			      \end{enumerate}
+		\end{enumerate}
+		Pertanto la complessità finale di $\phi$ è $O(n^{2k})+O(n^{k})+O(n^{2k})+O(n^{2k})=\textcolor{red}{O(n^{2k})}$ quindi polinomiale.\\
+		Quindi la riduzione è polinomiale. \\
+
+		\textcolor{red}{\textbf{4. La formula $\phi$ non è in CNF}} \\
+		La formula booleana $f(w)$ ovvero $\phi = \varphi_{cell} \land \varphi_{start} \land \varphi_{move} \land \varphi_{accept}$ non è in CNF.
+		Tuttavia, il problema $SAT$ richiede che l'input sia una formula in CNF. Come posso fare?
+		Applico la \textcolor{red}{trasformazione di Tseitin}, che prende in input una formula booleana arbitraria e restituisce la formula in CNF
+		equisoddisfacibile. Tutto ciò in tempo polinomiale.
+
+		\[
+			w \xrightarrow[\text{polinomiale}]{\text{Cook–Levin}} \phi
+			\xrightarrow[\text{polinomiale}]{\text{Tseitin}} \phi_{\text{CNF}}
+		\]
+
+		\underline{Conclusione:} Poiché la costruzione della formula $\phi$ richiede tempo polinomiale rispetto alla lunghezza di $w$,
+		e $\phi$ è soddisfacibile se e solo se la macchina $N$ accetta $w$,
+		otteniamo una formula booleana $\phi$ che rappresenta l’accettazione di $N$ su $w$.
+
+		Tuttavia, $\phi$ non è necessariamente in forma normale congiuntiva (CNF), come richiesto da $SAT$.
+		Per questo, applichiamo la \textbf{trasformazione di Tseitin}, che in tempo polinomiale produce una formula $\phi'$ in CNF \textit{equisoddisfacibile} a $\phi$.
+		Quindi esiste una riduzione polinomiale $f$ tale che:
+		\[
+			w \in A \iff \phi' \in SAT
+		\]
+		Pertanto, $SAT$ è $\mathcal{NP}$-Hard. \\
+		Poiché $SAT \in \mathcal{NP}$ e $SAT$ è $\mathcal{NP}$-Hard, segue che $SAT$ è $\mathcal{NP}$-Completo.
+	\end{proof}
+\end{theorem}
+
+\begin{theorem}{5.2.8}
+	s$SAT$ è $\mathcal{NP}$-Completo.
+	\footnotesize
+	\begin{proof}
+		Dato che si è dimostrato che:
+		\begin{itemize}
+			\item $SAT \in \mathcal{NP}$
+			\item $SAT$ è $\mathcal{NP}$-Hard
+		\end{itemize}
+		Segue che $SAT$ è $\mathcal{NP}$-Completo.
+	\end{proof}
+\end{theorem}
+
 \subsubsection{$3-SAT$}
+Data una formula booleana $\phi$ scritta in CNF, in cui ogni clausola contiene esattamente 3 letterali,
+ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera formula vera\footnote{la formula booleana
+	restituisce come output 1}?
+\begin{theorem}{$3-SAT$ Problem}
+	sData $\phi$ una formula booleana in CNF, dove ogni clausola contiene esattamente 3 letterali, determinare se $\exists$ un qualche
+	assegnamento di valori alle variabili che renda $\phi$ vera.
+	\begin{center}
+		$3-SAT = \{\langle f \rangle \mid f \text{ è una 3cnf-formula booleana soddisfacibile}\}$ \\
+		$3-SAT$ è $\mathcal{NP}$-Completo
+	\end{center}
+	\footnotesize
+	\begin{ragionamento}
+		Per dimostrare che $3-SAT$ è $\mathcal{NP}$-Completo devo:
+		\begin{enumerate}
+			\item Dimostrare che $3-SAT \in \mathcal{NP}$
+			\item Dimostrare che $3-SAT$ è $\mathcal{NP}$-Hard
+		\end{enumerate}
+	\end{ragionamento}
+	\begin{proof}
+		\textcolor{red}{\textbf{1. Dimostro che $3-SAT \in \mathcal{NP}$:}}\\
+		La stessa MdT non deterministica che decide $SAT$ in tempo polinomiale decide anche $3-SAT$.
+		Pertanto, $3-SAT \in \mathcal{NP}$. \\ \\
+		\textcolor{red}{\textbf{2. Dimostro che $3-SAT$ è $\mathcal{NP}$-Hard:}}\\
+		Per dimostrare che $3-SAT$ è $\mathcal{NP}$-Hard, effettuo una riduzione polinomiale da $SAT$ (che è $\mathcal{NP}$-Hard) a $3-SAT$, 
+		costruendo per ogni formula CNF arbitraria una formula 3-CNF equisoddisfacibile. 
+		\begin{center}
+			$SAT \leq_p 3-SAT$
+		\end{center}
+		
+		
+		f
+		\\ \\ \\
+		Poiché $SAT$ è $\mathcal{NP}$-Hard e 
+		la riduzione è polinomiale, anche $3-SAT$ è $\mathcal{NP}$-Hard.
+	\end{proof}
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
 \subsubsection{$VERTEX COVER$}
 \subsection{$\mathcal{P}$ vs $\mathcal{NP}$}
 La differenza sostanziale tra $\mathcal{P}$ e $\mathcal{NP}$ è:
@@ -2352,7 +2701,7 @@ Ovvero, se $C \in \mathcal{NP}$:
 
 
 
-
+\subsection{Come capire quali problemi sono riducibili ad altri (trucchi)}
 \subsection{$\mathcal{P} \neq \mathcal{NP}$}
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
