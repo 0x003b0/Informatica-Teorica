@@ -2131,154 +2131,9 @@ Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\
 	Se $B \leq_p C$, allora $C$ è $\mathcal{NP}$-Completo.
 \end{theorem}
 
-\subsubsection{$HAMPATH$}
-\begin{definition}[Cammino Hamiltoniano]
-	Si definisce cammino hamiltoniano in un grafo (orientato o non orientato) \textcolor{red}{un cammino
-		che tocca tutti i nodi del grafo una e una sola volta}.
-\end{definition}
-\begin{center}
-	\includegraphics[width=0.3\linewidth]{hampath-example.png}
-\end{center}
-\begin{theorem}{$HAMPATH$ Problem}
-	s\footnotesize
-	$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$
-	\begin{center}
-		\includegraphics[width=0.7\linewidth]{hampath-problem.png}
-	\end{center}
-	\begin{ragionamento}
-		per dimostrarlo, costruisco una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale (senza certificato).
-	\end{ragionamento}
-	\begin{proof}
-		Sia $H$ una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale come segue. $\langle G,s,t \rangle$ è la codifica binaria
-		del grafo orientato $G$ e dei nodi $s,t$ dove $s \neq t$ (codifica come lista di adiacenza o matrice di adiacenza). \\ \\
-		$H$ ha 3 nastri:
-		\begin{itemize}
-			\item \textbf{Nastro 1:} codifica del grafo in input
-			\item \textbf{Nastro 2:} contiene sequenza di nodi generate $p_1, \cdots, p_n$ dove $n$ rappresenza il numero di nodi di $G$
-			\item \textbf{Nastro 3:} nastro di lavoro; usato per controllare se la sequenza è hamiltoniana (che non ci siano nodi ripetuti)
-		\end{itemize}
-		$H$ su input $\langle G,s,t \rangle$:
-		\begin{enumerate}
-			\item $H$ genera una sequenza di nodi e la scrive sul nastro 2.
-			\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana; se non lo è, rifiuta.
-			\item $H$ usa il nastro 2 per controllare se $p_1=s \land p_n=t$; se il controllo fallisce, rifiuta.
-			\item $H$ usa il nastro 2 per controllare, se, per la sequenza fornita, gli archi esistono davvero in $G$;
-			      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ della sequenza, verifica che esista l'arco corrispondente in $G$; se
-			      per qualche $i$ tale arco non esiste, rifiuta. Altrimenti $H$ accetta l'input $\langle G,s,t \rangle$.
-		\end{enumerate}
-		Analizzo la complessità:
-		\begin{enumerate}
-			\item Per il passo 1, scrivere un numero binario $n$ costa $O(\log_2n)$. Quindi scrivere una sequenza di $n$ nodi costa $O(n \cdot \log_2n)$
-			\item Per il passo 2, viene copiata la sequenza dal nastro 2 al nastro 3 che costa $O(n \cdot \log_2n)$, poi controlla che nessun nodo
-			      sia ripetuto, ovvero controllare che tutti i nodi siano distinti $O(n^2\log_2n)$, strategia spiegata nelle note\footnote{
-				      Ripeto il ciclo per gli $n$ nodi della sequenza:
-				      \begin{enumerate}
-					      \item Copiare la codifica del $i$-esimo nodo dal nastro 2 al nastro 3, costo $O(\log_2n)$
-					      \item Riportare la testina del nastro 2 all'inizio della sequenza, costo $O(n\log_2n)$
-					      \item Scorrere la sequenza degli $n$ nodi confrontandoli con il nodo scritto sul nastro 3, costo $n\cdot O(\log_2n)$ ovvero $O(n \log_2n)$
-				      \end{enumerate}
-				      Dato che i passi a,b,c sono in sequenza allora ho che la complessità è $O(\log_2n)+O(\log_2n)+O(n\log_2n)$ ovvero $O(n\log_2n)$. Ma il ciclo
-				      si deve ripetere per gli $n$ nodi della sequenza, quindi la complessità finale sarà $n\cdot O(n\log_2n)=\textcolor{red}{O(n^2\log_2n)}$. \\
-			      }.
-			\item Per il passo 3, controlla se $p_1=s \land p_n=t$, costa O($n\log_2n$); strategia spiegata nelle note\footnote{
-				      Prima di tutto, so che la testina del nastro 2 è alla fine, e quindi:
-				      \begin{enumerate}
-					      \item Copio il valore di $s$ dal nastro 1 al nastro 3. La testina del nastro 1 deve fare al massimo $O(n\log_2n)$ spostamenti
-					            per arrivare al valore di $s$, poi copiarlo sul nastro 3 costa $O(\log_2n)$. Quindi $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$
-					      \item Copio il valore di $t$ dal nastro 1 al nastro 3, stesso costo $O(n\log_2n)$
-					      \item Confronto $p_n$ del nastro 2 con $t$ sul nastro 3 muovendo entrambe le testine verso sinistra, costo $O(\log_2n)$
-					      \item Muovo la testina del nastro 2 fino all'inizio della sequenza $O(n\log_2n)$
-					      \item Confronto $p_1$ del nastro 2 con $s$ sul nastro 3, costo $O(\log_2n)$
-				      \end{enumerate}
-				      Dato che i passi sono sequenziali, il costo complessivo è: $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(n\log_2n)+O(\log_2n)=\textcolor{red}{O(n\log_2n)}$\\
-			      }.
-			\item Per il passo 4, controlla se gli archi esistono, costa $O(n^2\log_2n)$; strategia spiegata nelle note\footnote{
-				      Ripeto il ciclo per ogni coppia $(p_i, p_{i+1})$ quindi per $i=1, \cdots, n-1$:
-				      \begin{enumerate}
-					      \item Posiziona la testina del nastro 2 sull'$i$-esimo nodo, ovvero su $p_i$, costo $O(n\log_2n)$
-					      \item Posiziona la testina del nastro 1 sull'$i$-esimo nodo, costo $O(n\log_2n)$
-					      \item Confronta l'$i$-esimo nodo nei due nastri per vedere se si tratta dello stesso, costo $O(\log_2n)$
-					      \item Muovi la testina dal nodo $p_i$ al nodo $p_{i+1}$ sul 2 nastro, costo $O(\log_2n)$
-					      \item Confronta i nodi della lista di adiacenza dell'$i$-esimo nodo sul nastro 1 con il nodo $p_{i+1}$ del nastro 2; spostamento
-					            e lettura per $n$ nodi $O(n\log_2n)$ quindi sul nastro 1 costo $O(n\log_2n)$ con confronto del nastro 2, $O(\log_2n)$; quindi
-					            $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$.
-				      \end{enumerate}
-				      Dato che i passi a-b-c-d-e sono in sequenza allora la complessità è $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(\log_2n)+O(n\log_2n)=O(n\log_2n)$. Poi
-				      dato che il ciclo va ripetuto per $n-1$ volte allora la complessità finale sarà $(n-1)\cdot(O(n\log_2n))=O(n)\cdot(O(n\log_2n))
-					      =\textcolor{red}{O(n^2\log_2n)}$
-			      }.
-		\end{enumerate}
-		\underline{Conclusione:} La complessità finale della MdT $H$ è $tC_H(n)=O(n\log_2n)+O(n^2\log_2n)+O(n\log_2n)+O(n^2\log_2n)=\textcolor{red}{O(n^2\log_2n)}$ dove
-		$n$ rappresenta la lunghezza dell'input. Quindi una complessità polinomiale. Ho costruito una MdT $H$ non deterministica che decide $HAMPATH$ in
-		tempo polinomiale, pertanto $HAMPATH \in \mathcal{NP}$.
-	\end{proof}
-	\textcolor{red}{Importante:} $H$ è una MdT non deterministica e quindi questo vuol dire che $H$ esegue i passi dal 1 al 4
-	su sequenze diverse in modo parallelo (rami). Ogni sequenza corrisponde a un ramo di computazione, e
-	l'input è accettato se almeno un ramo accetta (termina in uno stato accettante).
-	$\rule{\linewidth}{0.3pt}$  % linea orizzontale lunga quanto la pagina, spessore 0.4pt$
-	Spiegazione dettagliata della MdT non deterministica $H$. \\ \\
-	$H$ su input $\langle G,s,t \rangle$:
-	\begin{enumerate}
-		\item $H$ genera una sequenza di nodi e la scrive sul nastro 2
-		\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana:
-		      \begin{itemize}
-			      \item Se sì, vai al passo 3.
-			      \item Se no, allora rifiuta la sequenza (questo ramo)
-		      \end{itemize}
-		\item $H$ usa il nastro 2 per controllare che $p_1=s$ e che $p_n=t$
-		      \begin{itemize}
-			      \item Se sì, vai al passo 4.
-			      \item Se no, allora rifiuta la sequenza (questo ramo)
-		      \end{itemize}
-		\item $H$ usa il nastro 2 per controllare se per la sequenza fornita, gli archi esistono davvero in $G$;
-		      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ nella sequenza, verifica che esista l'arco corrispondente in $G$:
-		      \begin{itemize}
-			      \item Se sì, allora accetta l'input $\langle G,s,t \rangle$
-			      \item Se no, allora rifiuta (questo ramo)
-		      \end{itemize}
-	\end{enumerate}
-\end{theorem}
 
-\subsubsection{$HAMCYCLE$}
-
-\subsubsection{$CLIQUE$}
-\begin{definition}[Grafo completo]
-	Un grafo completo è un grafo non orientato nel quale ogni nodo è collegato a tutti i vertici rimanenti.
-	\begin{center}
-		\includegraphics[width=0.2\linewidth]{complete-graph.png}
-	\end{center}
-\end{definition}
-Un \textcolor{red}{clique} è un sottografo completo di un grafo non orientato.
-\begin{center}
-	\includegraphics[width=0.3\linewidth]{clique.png}
-\end{center}
-Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura sopra è un 5-clique)
-\begin{theorem}{$CLIQUE$ Problem}
-	dDato $G$ grafo non orientato, esiste un sottografo completo di $G$ con $k$ vertici?
-	\begin{center}
-		$CLIQUE = \{\langle G,k \rangle \mid G \text{ grafo non orientato con } k\text{-clique}\}$ \\
-		$CLIQUE \in \mathcal{NP}$
-	\end{center}
-	\footnotesize
-\end{theorem}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Polinomio Booleano}
 \begin{definition}[Variabile booleana] Una \textcolor{red}{variabile booleana} è una variabile $x$ che assume solo due valori:
 	\begin{itemize}
@@ -2352,7 +2207,8 @@ Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura so
 	\end{center}
 
 \end{esercizio}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$SAT$}
 Data una formula booleana $f$ scritta in CNF, esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera formula $f$ vera\footnote{la formula booleana
 	restituisce come output 1}?
@@ -2632,10 +2488,11 @@ Data una formula booleana $f$ scritta in CNF, esiste un qualche assegnamento di 
 		Segue che $SAT$ è $\mathcal{NP}$-Completo.
 	\end{proof}
 \end{theorem}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$3-SAT$}
 Data una formula booleana $\phi$ scritta in CNF, in cui ogni clausola contiene esattamente 3 letterali,
- esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera formula vera\footnote{la formula booleana
+esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera formula vera\footnote{la formula booleana
 	restituisce come output 1}?
 \begin{theorem}{$3-SAT$ Problem}
 	sData $\phi$ una formula booleana in CNF, dove ogni clausola contiene esattamente 3 letterali, determinare se $\exists$ un qualche
@@ -2657,19 +2514,291 @@ Data una formula booleana $\phi$ scritta in CNF, in cui ogni clausola contiene e
 		La stessa MdT non deterministica che decide $SAT$ in tempo polinomiale decide anche $3-SAT$.
 		Pertanto, $3-SAT \in \mathcal{NP}$. \\ \\
 		\textcolor{red}{\textbf{2. Dimostro che $3-SAT$ è $\mathcal{NP}$-Hard:}}\\
-		Per dimostrare che $3-SAT$ è $\mathcal{NP}$-Hard, effettuo una riduzione polinomiale da $SAT$ (che è $\mathcal{NP}$-Hard) a $3-SAT$, 
-		costruendo per ogni formula CNF arbitraria una formula 3-CNF equisoddisfacibile. 
+		Per dimostrare che $3-SAT$ è $\mathcal{NP}$-Hard, effettuo una riduzione polinomiale da $SAT$ (che è $\mathcal{NP}$-Hard) a $3-SAT$,
+		costruendo per ogni formula $\phi$ CNF arbitraria una formula $\phi'$ 3-CNF equisoddisfacibile ($\phi$ soddisfacibile $\iff \phi'$ soddisfacibile).
 		\begin{center}
 			$SAT \leq_p 3-SAT$
 		\end{center}
-		
-		
-		f
-		\\ \\ \\
-		Poiché $SAT$ è $\mathcal{NP}$-Hard e 
-		la riduzione è polinomiale, anche $3-SAT$ è $\mathcal{NP}$-Hard.
+		\textcolor{red}{{2.1 Costruisco la funzione di riduzione $f$:}} \\
+		La funzione di riduzione $f$ ha come:
+		\begin{itemize}
+			\item \textbf{input}: istanza di $SAT$, ovvero $\phi$
+			\item \textbf{output}: istanza di $3-SAT$, ovvero $\phi'$
+		\end{itemize}
+		Ogni clausola $u$ della formula $\phi$ che non ha lunghezza 3 viene trasformata indipendentemente in una 3-CNF
+		formula. Vedo i diversi casi:
+		\begin{enumerate}
+			\item \textcolor{blue}{\textbf{Se la clausola ha lunghezza 1:}} un solo letterale $v_1$. Per trasformarla in 3-CNF,
+			      introduco due nuove variabili, $y$ e $z$ e la clausola $u$ diventa:
+			      \begin{center}
+				      $u'=(v_1 \lor y \lor z)\land(v_1 \lor y \lor \overline{z})\land(v_1 \lor \overline{y} \lor z)\land(v_1 \lor \overline{y} \lor \overline{z})$
+			      \end{center}
+			\item \textcolor{blue}{\textbf{Se la clausola ha lunghezza 2:}} due letterali $(v_ \lor v_2)$. Per trasformarla in 3-CNF, introduco
+			      una nuova variabile $y$ e la clausola $u$ diventa:
+			      \begin{center}
+				      $u'=(v_1 \lor v_2 \lor y)\land(v_1 \lor v_2 \lor \overline{y})$
+			      \end{center}
+			\item \textcolor{blue}{\textbf{Se la clausola ha lunghezza $k>3$:}} $k$ letterali $(v_1 \lor \cdots \lor v_k)$. Per trasformarla in 3-CNF:
+			      (Esempio nelle note \footnote{
+				  Sia $u=(v_1 \lor v_2 \lor v_3 \lor v_4 \lor v_5 \lor v_6)$ una clausola di lunghezza $k=6$. Per trasformarla in una formula 3-CNF: 
+				  \begin{enumerate}
+					\item introduco $6-3=3$ nuove variabili $y_1, y_2, y_3$
+					\item dovrò ottenere $6-2=4$ clausole nella nuova formula 3-CNF, quindi:
+					\begin{enumerate}
+						\item nella prima clausola metto due letterali e una variabile e ottengo:
+						\begin{center}
+							$(v_1 \lor v_2 \lor y_1)$
+						\end{center}
+						\item nelle clausole successive alla prima eccetto l'ultima, metto un solo letterale e due variabili (la precedente negata e quella
+						nuova) e ottengo:
+						\begin{itemize}
+							\item seconda clausola: $(\overline{y_1} \lor v_3 \lor y_2)$
+							\item terza clausola: $(\overline{y_2} \lor v_4 \lor y_3)$
+						\end{itemize}
+						\item nell'ultima clausola metto due letterali e la variabile precedente negata e ottengo: 
+						\begin{center}
+							$(v_5 \lor v_6 \lor \overline{y_3})$
+						\end{center}
+					\end{enumerate}
+				  \end{enumerate}
+				  Quindi alla fine $u$ diventa:
+				  \begin{center}
+					$u'=(v_1 \lor v_2 \lor y_1) \land (\overline{y_1} \lor v_3 \lor y_2) \land (\overline{y_2} \lor v_4 \lor y_3) \land (v_5 \lor v_6 \lor \overline{y_3})$
+				  \end{center}
+				  })
+			      \begin{itemize}
+				      \item introduco $k-3$ nuove variabili
+				      \item ottengo $k-2$ clausole in $u'$
+			      \end{itemize}
+		\end{enumerate}
+		Poiché ogni clausola $u$ è equisoddisfacibile con la sua trasformazione $u'$, segue che la formula completa $\phi$ è soddisfacibile se e solo se la formula trasformata $\phi'$ è soddisfacibile:
+		\[
+			\underbrace{\phi}_{\text{SAT}} \text{ soddisfacibile } \iff \underbrace{\phi'}_{\text{3-SAT}} \text{ soddisfacibile}
+		\]
+		\textcolor{red}{{2.2 Analizzo complessità della riduzione $f$:}}
+		\begin{itemize}
+			\item Ogni clausola viene trasformata indipendentemente in una piccola formula 3-CNF
+			\item Una clausola di $n$ letterali produce al massimo $n$ clausole da 3 letterali usando nuove variabili
+		\end{itemize}
+		Se la formula originale $\phi$ ha $m$ clausole, la formula finale $\phi'$ avrà al massimo $O(m \cdot n)$ clausole,
+		cioè polinomiale rispetto al numero totale di letterali della formula originale. \\
+		Pertanto la riduzione è polinomiale. \\
+
+		\underline{Conclusione:} Sapendo che $SAT$ è $\mathcal{NP}$-Hard e avendo costruito una riduzione in tempo polinomiale da $SAT$ a $3-SAT$, segue
+		che $3-SAT$ è $\mathcal{NP}$-Hard.
 	\end{proof}
 \end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{$HAMPATH$}
+\begin{definition}[Cammino Hamiltoniano]
+	Si definisce cammino hamiltoniano in un grafo (orientato o non orientato) \textcolor{red}{un cammino
+		che tocca tutti i nodi del grafo una e una sola volta}.
+\end{definition}
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{hampath-example.png}
+\end{center}
+\begin{theorem}{$HAMPATH$ Problem}
+	s\footnotesize
+	$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{hampath-problem.png}
+	\end{center}
+	\begin{ragionamento}
+		per dimostrarlo, costruisco una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale (senza certificato).
+	\end{ragionamento}
+	\begin{proof}
+		Sia $H$ una MdT non deterministica che decide $HAMPATH$ in tempo polinomiale come segue. $\langle G,s,t \rangle$ è la codifica binaria
+		del grafo orientato $G$ e dei nodi $s,t$ dove $s \neq t$ (codifica come lista di adiacenza o matrice di adiacenza). \\ \\
+		$H$ ha 3 nastri:
+		\begin{itemize}
+			\item \textbf{Nastro 1:} codifica del grafo in input
+			\item \textbf{Nastro 2:} contiene sequenza di nodi generate $p_1, \cdots, p_n$ dove $n$ rappresenza il numero di nodi di $G$
+			\item \textbf{Nastro 3:} nastro di lavoro; usato per controllare se la sequenza è hamiltoniana (che non ci siano nodi ripetuti)
+		\end{itemize}
+		$H$ su input $\langle G,s,t \rangle$:
+		\begin{enumerate}
+			\item $H$ genera una sequenza di nodi e la scrive sul nastro 2.
+			\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana; se non lo è, rifiuta.
+			\item $H$ usa il nastro 2 per controllare se $p_1=s \land p_n=t$; se il controllo fallisce, rifiuta.
+			\item $H$ usa il nastro 2 per controllare, se, per la sequenza fornita, gli archi esistono davvero in $G$;
+			      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ della sequenza, verifica che esista l'arco corrispondente in $G$; se
+			      per qualche $i$ tale arco non esiste, rifiuta. Altrimenti $H$ accetta l'input $\langle G,s,t \rangle$.
+		\end{enumerate}
+		Analizzo la complessità:
+		\begin{enumerate}
+			\item Per il passo 1, scrivere un numero binario $n$ costa $O(\log_2n)$. Quindi scrivere una sequenza di $n$ nodi costa $O(n \cdot \log_2n)$
+			\item Per il passo 2, viene copiata la sequenza dal nastro 2 al nastro 3 che costa $O(n \cdot \log_2n)$, poi controlla che nessun nodo
+			      sia ripetuto, ovvero controllare che tutti i nodi siano distinti $O(n^2\log_2n)$, strategia spiegata nelle note\footnote{
+				      Ripeto il ciclo per gli $n$ nodi della sequenza:
+				      \begin{enumerate}
+					      \item Copiare la codifica del $i$-esimo nodo dal nastro 2 al nastro 3, costo $O(\log_2n)$
+					      \item Riportare la testina del nastro 2 all'inizio della sequenza, costo $O(n\log_2n)$
+					      \item Scorrere la sequenza degli $n$ nodi confrontandoli con il nodo scritto sul nastro 3, costo $n\cdot O(\log_2n)$ ovvero $O(n \log_2n)$
+				      \end{enumerate}
+				      Dato che i passi a,b,c sono in sequenza allora ho che la complessità è $O(\log_2n)+O(\log_2n)+O(n\log_2n)$ ovvero $O(n\log_2n)$. Ma il ciclo
+				      si deve ripetere per gli $n$ nodi della sequenza, quindi la complessità finale sarà $n\cdot O(n\log_2n)=\textcolor{red}{O(n^2\log_2n)}$. \\
+			      }.
+			\item Per il passo 3, controlla se $p_1=s \land p_n=t$, costa O($n\log_2n$); strategia spiegata nelle note\footnote{
+				      Prima di tutto, so che la testina del nastro 2 è alla fine, e quindi:
+				      \begin{enumerate}
+					      \item Copio il valore di $s$ dal nastro 1 al nastro 3. La testina del nastro 1 deve fare al massimo $O(n\log_2n)$ spostamenti
+					            per arrivare al valore di $s$, poi copiarlo sul nastro 3 costa $O(\log_2n)$. Quindi $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$
+					      \item Copio il valore di $t$ dal nastro 1 al nastro 3, stesso costo $O(n\log_2n)$
+					      \item Confronto $p_n$ del nastro 2 con $t$ sul nastro 3 muovendo entrambe le testine verso sinistra, costo $O(\log_2n)$
+					      \item Muovo la testina del nastro 2 fino all'inizio della sequenza $O(n\log_2n)$
+					      \item Confronto $p_1$ del nastro 2 con $s$ sul nastro 3, costo $O(\log_2n)$
+				      \end{enumerate}
+				      Dato che i passi sono sequenziali, il costo complessivo è: $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(n\log_2n)+O(\log_2n)=\textcolor{red}{O(n\log_2n)}$\\
+			      }.
+			\item Per il passo 4, controlla se gli archi esistono, costa $O(n^2\log_2n)$; strategia spiegata nelle note\footnote{
+				      Ripeto il ciclo per ogni coppia $(p_i, p_{i+1})$ quindi per $i=1, \cdots, n-1$:
+				      \begin{enumerate}
+					      \item Posiziona la testina del nastro 2 sull'$i$-esimo nodo, ovvero su $p_i$, costo $O(n\log_2n)$
+					      \item Posiziona la testina del nastro 1 sull'$i$-esimo nodo, costo $O(n\log_2n)$
+					      \item Confronta l'$i$-esimo nodo nei due nastri per vedere se si tratta dello stesso, costo $O(\log_2n)$
+					      \item Muovi la testina dal nodo $p_i$ al nodo $p_{i+1}$ sul 2 nastro, costo $O(\log_2n)$
+					      \item Confronta i nodi della lista di adiacenza dell'$i$-esimo nodo sul nastro 1 con il nodo $p_{i+1}$ del nastro 2; spostamento
+					            e lettura per $n$ nodi $O(n\log_2n)$ quindi sul nastro 1 costo $O(n\log_2n)$ con confronto del nastro 2, $O(\log_2n)$; quindi
+					            $O(n\log_2n)+O(\log_2n)=O(n\log_2n)$.
+				      \end{enumerate}
+				      Dato che i passi a-b-c-d-e sono in sequenza allora la complessità è $O(n\log_2n)+O(n\log_2n)+O(\log_2n)+O(\log_2n)+O(n\log_2n)=O(n\log_2n)$. Poi
+				      dato che il ciclo va ripetuto per $n-1$ volte allora la complessità finale sarà $(n-1)\cdot(O(n\log_2n))=O(n)\cdot(O(n\log_2n))
+					      =\textcolor{red}{O(n^2\log_2n)}$
+			      }.
+		\end{enumerate}
+		\underline{Conclusione:} La complessità finale della MdT $H$ è $tC_H(n)=O(n\log_2n)+O(n^2\log_2n)+O(n\log_2n)+O(n^2\log_2n)=\textcolor{red}{O(n^2\log_2n)}$ dove
+		$n$ rappresenta la lunghezza dell'input. Quindi una complessità polinomiale. Ho costruito una MdT $H$ non deterministica che decide $HAMPATH$ in
+		tempo polinomiale, pertanto $HAMPATH \in \mathcal{NP}$.
+	\end{proof}
+	\textcolor{red}{Importante:} $H$ è una MdT non deterministica e quindi questo vuol dire che $H$ esegue i passi dal 1 al 4
+	su sequenze diverse in modo parallelo (rami). Ogni sequenza corrisponde a un ramo di computazione, e
+	l'input è accettato se almeno un ramo accetta (termina in uno stato accettante).
+	$\rule{\linewidth}{0.3pt}$  % linea orizzontale lunga quanto la pagina, spessore 0.4pt$
+	Spiegazione dettagliata della MdT non deterministica $H$. \\ \\
+	$H$ su input $\langle G,s,t \rangle$:
+	\begin{enumerate}
+		\item $H$ genera una sequenza di nodi e la scrive sul nastro 2
+		\item $H$ usa il nastro 3 per controllare se la sequenza (del nastro 2) è hamiltoniana:
+		      \begin{itemize}
+			      \item Se sì, vai al passo 3.
+			      \item Se no, allora rifiuta la sequenza (questo ramo)
+		      \end{itemize}
+		\item $H$ usa il nastro 2 per controllare che $p_1=s$ e che $p_n=t$
+		      \begin{itemize}
+			      \item Se sì, vai al passo 4.
+			      \item Se no, allora rifiuta la sequenza (questo ramo)
+		      \end{itemize}
+		\item $H$ usa il nastro 2 per controllare se per la sequenza fornita, gli archi esistono davvero in $G$;
+		      Per ogni coppia di nodi consecutiva $(p_i, p_{i+1})$ nella sequenza, verifica che esista l'arco corrispondente in $G$:
+		      \begin{itemize}
+			      \item Se sì, allora accetta l'input $\langle G,s,t \rangle$
+			      \item Se no, allora rifiuta (questo ramo)
+		      \end{itemize}
+	\end{enumerate}
+\end{theorem}
+
+\subsubsection{$HAMCYCLE$}
+
+\subsubsection{$CLIQUE$}
+\begin{definition}[Grafo completo]
+	Un grafo completo è un grafo non orientato nel quale ogni nodo è collegato a tutti i vertici rimanenti.
+	\begin{center}
+		\includegraphics[width=0.2\linewidth]{complete-graph.png}
+	\end{center}
+\end{definition}
+Un \textcolor{red}{clique} è un sottografo completo di un grafo non orientato.
+\begin{center}
+	\includegraphics[width=0.3\linewidth]{clique.png}
+\end{center}
+Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura sopra è un 5-clique)
+\begin{theorem}{$CLIQUE$ Problem}
+	dDato $G$ grafo non orientato, esiste un sottografo completo di $G$ con $k$ vertici?
+	\begin{center}
+		$CLIQUE = \{\langle G,k \rangle \mid G \text{ grafo non orientato con } k\text{-clique}\}$ \\
+		$CLIQUE$ è $\mathcal{NP}$-Completo
+	\end{center}
+	\footnotesize
+	\begin{proof}
+		\textcolor{red}{\textbf{1. Dimostrare che $CLIQUE \in \mathcal{NP}$}} \\
+		Costruisco una MdT $N$ non deterministica che decide $CLIQUE$ in tempo polinomiale come segue. Sia $G=(V,E)$ un grafo non orientato.
+		L'input di \( N \) è la codifica \( \langle G, k \rangle \), dove \( G = (V, E) \) è un grafo non orientato e \( k \in \mathbb{N} \). \\ \\
+		$N$ su input $\langle G,k \rangle$:
+		\begin{enumerate}
+			\item $N$ indovina\footnote{
+				“indovinare” una soluzione, cioè provare tutte le possibilità in parallelo, in senso teorico; 
+				Esistono tantissimi sottoinsiemi di $k$ vertici, e dato che la MdT è non deterministica, è possibile 
+				provarli tutti in parallelo. 
+			} (non deterministicamente) un sottoinsieme $C$ dei vertici di $G$ tale che $|C|=k$
+			\item $N$ verifica se i $k$ vertici scelti formano una clique:
+			\begin{itemize}
+				\item Se sì, $N$ termina in uno stato accettante \\
+				$\langle G,k \rangle \in CLIQUE$
+				\item Se no, $N$ termina in uno stato di rifiuto \\
+				$\langle G,k \rangle \notin CLIQUE$
+			\end{itemize}
+		\end{enumerate}
+		La complessità di $N$ è polinomiale, pertanto $CLIQUE \in \mathcal{NP}$. \\ \\
+		\textcolor{red}{\textbf{2. Dimostrare che $CLIQUE$ è $\mathcal{NP}$-Hard}} \\
+		Per dimostrare che $CLIQUE$ è $\mathcal{NP}$-Hard, effettuo una riduzione polinomiale da $3-SAT$ (che è $\mathcal{NP}$-Hard)
+		a $CLIQUE$, costruendo (o riducendo) per ogni formula $\phi$ 3-CNF arbitraria un grafo non orientato (dove ogni letterale
+		è un nodo e facendo vedere che se i letterali sono della stessa clausola, nel grafo i letterali della 
+		stessa clausola non si collegano tra loro); faccio vedere
+		che la riduzione funziona perchè $\phi$ è soddisfacibile $\iff$ G ha un $k-clique$ (nella formula k è il numero delle clausole!)
+		Effettuo una riduzione da $3-SAT$ a $CLIQUE$: 
+		\begin{center}
+			$3-SAT \leq_p CLIQUE$
+		\end{center}
+		
+	\end{proof}
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2697,9 +2826,6 @@ Ovvero, se $C \in \mathcal{NP}$:
 	\item $\exists$ un algoritmo deterministico che verifica un certificato per $C$ in tempo polinomiale
 	\item $\exists$ un algoritmo non deterministico che decide $C$ in tempo polinomiale (senza un certificato)
 \end{itemize}
-
-
-
 
 \subsection{Come capire quali problemi sono riducibili ad altri (trucchi)}
 \subsection{$\mathcal{P} \neq \mathcal{NP}$}
