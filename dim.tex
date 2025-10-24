@@ -9,6 +9,7 @@
 \usepackage{tikz}
 \usetikzlibrary{mindmap,trees}
 \usepackage[most]{tcolorbox}
+\usepackage{subcaption}  % per avere subfigure
 \tcbuselibrary{theorems}
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, arrows}
@@ -2540,41 +2541,44 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 			      \end{center}
 			\item \textcolor{blue}{\textbf{Se la clausola ha lunghezza $k>3$:}} $k$ letterali $(v_1 \lor \cdots \lor v_k)$. Per trasformarla in 3-CNF:
 			      (Esempio nelle note \footnote{
-				  Sia $u=(v_1 \lor v_2 \lor v_3 \lor v_4 \lor v_5 \lor v_6)$ una clausola di lunghezza $k=6$. Per trasformarla in una formula 3-CNF: 
-				  \begin{enumerate}
-					\item introduco $6-3=3$ nuove variabili $y_1, y_2, y_3$
-					\item dovrò ottenere $6-2=4$ clausole nella nuova formula 3-CNF, quindi:
-					\begin{enumerate}
-						\item nella prima clausola metto due letterali e una variabile e ottengo:
-						\begin{center}
-							$(v_1 \lor v_2 \lor y_1)$
-						\end{center}
-						\item nelle clausole successive alla prima eccetto l'ultima, metto un solo letterale e due variabili (la precedente negata e quella
-						nuova) e ottengo:
-						\begin{itemize}
-							\item seconda clausola: $(\overline{y_1} \lor v_3 \lor y_2)$
-							\item terza clausola: $(\overline{y_2} \lor v_4 \lor y_3)$
-						\end{itemize}
-						\item nell'ultima clausola metto due letterali e la variabile precedente negata e ottengo: 
-						\begin{center}
-							$(v_5 \lor v_6 \lor \overline{y_3})$
-						\end{center}
-					\end{enumerate}
-				  \end{enumerate}
-				  Quindi alla fine $u$ diventa:
-				  \begin{center}
-					$u'=(v_1 \lor v_2 \lor y_1) \land (\overline{y_1} \lor v_3 \lor y_2) \land (\overline{y_2} \lor v_4 \lor y_3) \land (v_5 \lor v_6 \lor \overline{y_3})$
-				  \end{center}
-				  })
+				      Sia $u=(v_1 \lor v_2 \lor v_3 \lor v_4 \lor v_5 \lor v_6)$ una clausola di lunghezza $k=6$. Per trasformarla in una formula 3-CNF:
+				      \begin{enumerate}
+					      \item introduco $6-3=3$ nuove variabili $y_1, y_2, y_3$
+					      \item dovrò ottenere $6-2=4$ clausole nella nuova formula 3-CNF, quindi:
+					            \begin{enumerate}
+						            \item nella prima clausola metto due letterali e una variabile e ottengo:
+						                  \begin{center}
+							                  $(v_1 \lor v_2 \lor y_1)$
+						                  \end{center}
+						            \item nelle clausole successive alla prima eccetto l'ultima, metto un solo letterale e due variabili (la precedente negata e quella
+						                  nuova) e ottengo:
+						                  \begin{itemize}
+							                  \item seconda clausola: $(\overline{y_1} \lor v_3 \lor y_2)$
+							                  \item terza clausola: $(\overline{y_2} \lor v_4 \lor y_3)$
+						                  \end{itemize}
+						            \item nell'ultima clausola metto due letterali e la variabile precedente negata e ottengo:
+						                  \begin{center}
+							                  $(v_5 \lor v_6 \lor \overline{y_3})$
+						                  \end{center}
+					            \end{enumerate}
+				      \end{enumerate}
+				      Quindi alla fine $u$ diventa:
+				      \begin{center}
+					      $u'=(v_1 \lor v_2 \lor y_1) \land (\overline{y_1} \lor v_3 \lor y_2) \land (\overline{y_2} \lor v_4 \lor y_3) \land (v_5 \lor v_6 \lor \overline{y_3})$
+				      \end{center}
+			      })
 			      \begin{itemize}
 				      \item introduco $k-3$ nuove variabili
 				      \item ottengo $k-2$ clausole in $u'$
 			      \end{itemize}
 		\end{enumerate}
 		Poiché ogni clausola $u$ è equisoddisfacibile con la sua trasformazione $u'$, segue che la formula completa $\phi$ è soddisfacibile se e solo se la formula trasformata $\phi'$ è soddisfacibile:
-		\[
-			\underbrace{\phi}_{\text{SAT}} \text{ soddisfacibile } \iff \underbrace{\phi'}_{\text{3-SAT}} \text{ soddisfacibile}
-		\]
+		\begin{center}
+			$\forall{i}(u_i \text{ soddisfacibile } \iff u_i' \text{ soddisfacibile })$ \\
+			\text{implica} \\
+			$\underbrace{\phi}_{\text{SAT}} \text{ soddisfacibile } \iff \underbrace{\phi'}_{\text{3-SAT}} \text{ soddisfacibile}$
+		\end{center}
+
 		\textcolor{red}{{2.2 Analizzo complessità della riduzione $f$:}}
 		\begin{itemize}
 			\item Ogni clausola viene trasformata indipendentemente in una piccola formula 3-CNF
@@ -2584,7 +2588,57 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 		cioè polinomiale rispetto al numero totale di letterali della formula originale. \\
 		Pertanto la riduzione è polinomiale. \\
 
-		\underline{Conclusione:} Sapendo che $SAT$ è $\mathcal{NP}$-Hard e avendo costruito una riduzione in tempo polinomiale da $SAT$ a $3-SAT$, segue
+		\textcolor{red}{{2.3 Dimostro la correttezza della riduzione polinomiale $f$:}} \\
+		Costruire la funzione di riduzione polinomiale non basta, dobbiamo anche dimostrare che valga:
+		\begin{center}
+			$u$ è soddisfacibile $\iff$ $u'$ è soddisfacibile
+		\end{center}
+		\begin{itemize}
+			\item \textcolor{blue}{\textbf{($\Longrightarrow$):}}
+			      \begin{proof}
+				      $u$ è soddisfacibile $\implies u'$ è soddisfacibile \\
+				      Per ipotesi $u=(v_1 \lor \cdots \lor v_k)$ è soddisfacibile, quindi $\exists$ un assegnamento $t$ che soddisfa $u$.
+				      Quindi nella clausola $u$ esiste almeno un letterale vero. Chiamo $v_j$ il primo letterale vero in $u$. \\
+				      Adesso costruisco un assegnamento $t'$ per le nuove variabili $y_i$ introdotte in $u'$ $(y_1,...,y_{k-3})$ in modo che tutte le clausole $u'$ siano vere:
+				      \[
+					      y_i =
+					      \begin{cases}
+						      1 & \text{se } i=1,\dots,j-2,   \\
+						      0 & \text{se } i=j-1,\dots,k-3.
+					      \end{cases}
+				      \]
+				      Pertanto, $u'$ è soddisfacibile.
+			      \end{proof}
+			      \begin{itshape}
+				      Esempio veloce: Sia una clausola di 6 letterali soddisfatta da $t$. \\
+				      Supponi che l'assegnamento $t$ sia così: \\
+				      $v_1=0, v_2=0, v_3=1, v_4=0, v_5=0, v_6=0$ \\
+				      il letterale vero $v_j$ è $v_3$ e quindi $j=3$. \\
+				      Adesso costruisco l'assegnamento $t'$ per $y_i$ in modo che tutte le clausole $u'$ siano vere:
+				      \begin{enumerate}
+					      \item Imposto da $y_1$ a $y_{j-2}$ uguali a 1.
+					      \item Imposto da $y_{j-1}$ a $y_{k-3}$ uguali a 0.
+				      \end{enumerate}
+				      Sapendo che $j=3$ allora: \\
+				      $y_1=1$, $y_2=0$, $y_3=0$ \\
+				      In questo modo, tutte le clausole $u'$ saranno vere.
+			      \end{itshape}
+
+			\item \textcolor{blue}{\textbf{($\Longleftarrow$):}}
+			      \begin{proof}
+				      $u$ è soddisfacibile $\Longleftarrow u'$ è soddisfacibile \\
+				      Ragiono per assurdo (nego la tesi): suppongo che $u$ non sia soddisfacibile, ovvero supponiamo per assurdo che $t$ non soddisfi $u$, cioè che tutti i $v_i$ siano falsi.
+				      Per far sì che $u'$ sia soddisfacibile, le nuove variabili dovrebbero essere tutte vere, cioè $y_1,...,y_{k-3}=1$. In questo modo però, l'ultima clausola della formula 3-CNF
+				      $u'=(v_{k-1} \lor v_k \lor \overline{y_{k-3}})$ non è soddisfatta. Ciò porta ad una contraddizione che rende falsa la mia ipotesi (che $u$ non fosse soddisfacibile);
+				      Pertanto, $u$ è soddisfacibile.
+			      \end{proof}
+		\end{itemize}
+		Abbiamo quindi dimostrato che in questa riduzione polinomiale, vale:
+		\begin{center}
+			$u$ è soddisfacibile $\iff$ $u'$ è soddisfacibile.
+		\end{center}
+		Poiché ogni clausola di $\phi$ è equisoddisfacibile con la sua trasformazione in 3-CNF, segue che: $\phi \text{ è soddisfacibile } \iff \phi' \text{ è soddisfacibile.}$ \\ \\
+		\underline{Conclusione:} Sapendo che $SAT$ è $\mathcal{NP}$-Hard e avendo costruito correttamente una riduzione in tempo polinomiale da $SAT$ a $3-SAT$, segue
 		che $3-SAT$ è $\mathcal{NP}$-Hard.
 	\end{proof}
 \end{theorem}
@@ -2600,7 +2654,10 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 \end{center}
 \begin{theorem}{$HAMPATH$ Problem}
 	s\footnotesize
-	$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$
+	\begin{center}
+		$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$ \\
+		$HAMPATH \in \mathcal{NP}$
+	\end{center}
 	\begin{center}
 		\includegraphics[width=0.7\linewidth]{hampath-problem.png}
 	\end{center}
@@ -2697,9 +2754,23 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 		      \end{itemize}
 	\end{enumerate}
 \end{theorem}
-
+\begin{theorem}{$HAMPATH$ Problem}
+	s\footnotesize
+	\begin{center}
+		$HAMPATH = \{\langle G,s,t \rangle \mid G \text{ grafo orientato con cammino hamiltoniano da } s \text{ a } t\}$ \\
+		$HAMPATH$ è $\mathcal{NP}$-Completo
+	\end{center}
+	\begin{proof}
+		\textcolor{red}{\textbf{1. Dimostrare che $HAMPATH \in \mathcal{NP}$}} \\
+		Lo abbiamo già dimostrato sopra. \\ \\
+		\textcolor{red}{\textbf{2. Dimostrare che $HAMPATH$ è $\mathcal{NP}$-Hard}} \\
+	\end{proof}
+\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$HAMCYCLE$}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$CLIQUE$}
 \begin{definition}[Grafo completo]
 	Un grafo completo è un grafo non orientato nel quale ogni nodo è collegato a tutti i vertici rimanenti.
@@ -2726,92 +2797,230 @@ Un \textcolor{red}{$k$-clique} è un clique che contiene $k$ nodi. (La figura so
 		$N$ su input $\langle G,k \rangle$:
 		\begin{enumerate}
 			\item $N$ indovina\footnote{
-				“indovinare” una soluzione, cioè provare tutte le possibilità in parallelo, in senso teorico; 
-				Esistono tantissimi sottoinsiemi di $k$ vertici, e dato che la MdT è non deterministica, è possibile 
-				provarli tutti in parallelo. 
-			} (non deterministicamente) un sottoinsieme $C$ dei vertici di $G$ tale che $|C|=k$
+				      “indovinare” una soluzione, cioè provare tutte le possibilità in parallelo, in senso teorico;
+				      Esistono tantissimi sottoinsiemi di $k$ vertici, e dato che la MdT è non deterministica, è possibile
+				      provarli tutti in parallelo.
+			      } (non deterministicamente) un sottoinsieme $C$ dei vertici di $G$ tale che $|C|=k$
 			\item $N$ verifica se i $k$ vertici scelti formano una clique:
-			\begin{itemize}
-				\item Se sì, $N$ termina in uno stato accettante \\
-				$\langle G,k \rangle \in CLIQUE$
-				\item Se no, $N$ termina in uno stato di rifiuto \\
-				$\langle G,k \rangle \notin CLIQUE$
-			\end{itemize}
+			      \begin{itemize}
+				      \item Se sì, $N$ termina in uno stato accettante \\
+				            $\langle G,k \rangle \in CLIQUE$
+				      \item Se no, $N$ termina in uno stato di rifiuto \\
+				            $\langle G,k \rangle \notin CLIQUE$
+			      \end{itemize}
 		\end{enumerate}
 		La complessità di $N$ è polinomiale, pertanto $CLIQUE \in \mathcal{NP}$. \\ \\
 		\textcolor{red}{\textbf{2. Dimostrare che $CLIQUE$ è $\mathcal{NP}$-Hard}} \\
 		Per dimostrare che $CLIQUE$ è $\mathcal{NP}$-Hard, effettuo una riduzione polinomiale da $3-SAT$ (che è $\mathcal{NP}$-Hard)
-		a $CLIQUE$, costruendo (o riducendo) per ogni formula $\phi$ 3-CNF arbitraria un grafo non orientato (dove ogni letterale
-		è un nodo e facendo vedere che se i letterali sono della stessa clausola, nel grafo i letterali della 
-		stessa clausola non si collegano tra loro); faccio vedere
-		che la riduzione funziona perchè $\phi$ è soddisfacibile $\iff$ G ha un $k-clique$ (nella formula k è il numero delle clausole!)
-		Effettuo una riduzione da $3-SAT$ a $CLIQUE$: 
+		a $CLIQUE$, costruendo per ogni formula $\phi$ 3-CNF arbitraria un grafo non orientato; faccio vedere
+		che la riduzione funziona perchè $\phi$ è soddisfacibile $\iff$ G ha un $k-clique$. \\
+		Effettuo una riduzione da $3-SAT$ a $CLIQUE$:
 		\begin{center}
 			$3-SAT \leq_p CLIQUE$
 		\end{center}
-		
+		\begin{itemize}
+			\item Sia $\phi$ la 3-CNF formula con $k$ clausole (3 letterali per clausola):
+			      \begin{center}
+				      $\phi = (a_1 \lor b_1 \lor c_1) \land (a_2 \lor b_2 \lor c_2) \land \cdots \land (a_k \lor b_k \lor c_k)$
+			      \end{center}
+		\end{itemize}
+		\textcolor{red}{2.1 Costruisco la funzione di riduzione $f$} \\
+		$f$ riceve come input $\phi$ e genera come output $\langle G,k \rangle$, dove $G$ è un grafo non orientato definito come segue:
+		\begin{enumerate}
+			\item \textcolor{blue}{\textbf{Costruzione dei nodi di $G$}}
+			      \begin{itemize}
+				      \item I nodi di $G$ sono organizzati in $k$ gruppi ($k$ è il numero di clausole nella formula) di 3 nodi ciascuno
+				      \item Ogni gruppo $t_i$ corrisponde quindi ad una clausola della formila, $t_i=(a_i \lor b_i \lor c_i)$
+				      \item Ogni nodo corrisponde ad un letterale della formula $\phi$, quindi in totale $G$ ha $3k$ nodi
+			      \end{itemize}
+			\item \textcolor{blue}{\textbf{Costruzione degli archi di $G$}} \\
+			      Mettiamo archi tra tutte le coppie di nodi, tranne per:
+			      \begin{itemize}
+				      \item Nodi dello stesso gruppo (niente archi tra letterali della stessa clausola)
+				      \item Nodi che rappresentano letterali opposti (niente arco tra $a_i$ e $\overline{a_i}$)
+			      \end{itemize}
+		\end{enumerate}
+		Esempio illustrativo: \\
+		Sia $\phi = (x_1 \lor x_1 \lor x_2) \land (\overline{x_1} \lor \overline{x_2} \lor \overline{x_2}) \land (\overline{x_1} \lor x_2 \lor x_2)$. La funzione di riduzione $f$, con input $\phi$,
+		produce il seguente grafo:
+		\begin{center}
+			\includegraphics[width=0.5\linewidth]{clique-npcomplete.png} \\
+			$\phi$ è soddisfacibile $\iff$ G ha un $k-clique$
+		\end{center}
+
+		\textcolor{red}{2.2 Analizzo complessità della funzione di riduzione $f$} \\
+		Voglio assicurarmi che $f$ sia una riduzione polinomiale. Ricordiamo che: nota\footnote{\textit{quando analizziamo algoritmi su grafi, possiamo esprimere il tempo di esecuzione
+				in base al numero di nodi del grafo, invece che della dimensione della rappresentazione del grafo (cioè della lunghezza dell'input codificato). Esempio: in un problema su grafi,
+				l'algoritmo impiega tempo O($v^2$) dove $v$ è il numero di nodi del grafo.}}. \\
+		Nel caso peggiore ho complessità $O(n^2)$ dove $n$ è la lunghezza dell'input, e quindi polinomiale. \\ \\
+		\textcolor{red}{2.3 Dimostrazione della correttezza della funzione di riduzione $f$} \\
+		Costruire la funzione di riduzione polinomiale non basta, dobbiamo anche dimostrare che valga:
+		\begin{center}
+			$\phi$ è soddisfacibile $\iff$ G ha un $k-clique$
+		\end{center}
+		\begin{itemize}
+			\item \textcolor{blue}{\textbf{($\Longrightarrow$):}}
+			      \begin{proof}
+				      $\phi$ è soddisfacibile $\implies$ $G$ ha un $k-clique$ \\
+				      Per ipotesi, $\phi$ è soddisfacibile e quindi esiste un'assegnazione di valori
+				      alle variabili che rende vera ogni clausola.
+				      In ogni clausola di $\phi$, almeno un letterale risulta vero. \\
+				      In ogni gruppo $t_i$ di $G$ seleziono il nodo corrispondente a un letterale vero (che rende vera la clausola). Se ci sono più letterali veri nella stessa clausola,
+				      scelgo arbitrariamente uno tra questi. \\ \textcolor{red}{I nodi appena selezionati formano una $k-clique$:} il numero di nodi selezionati è $k$ perchè ne abbiamo scelto
+				      uno per ciascuno dei $k$ gruppi. Inoltre, ogni coppia di nodi selezionati è collegata da un arco, perché nessuna coppia rientra nelle eccezioni descritte in precedenza
+				      (stesso gruppo o letterali opposti). \\
+				      Pertanto, $G$ ha un $k-clique$.
+			      \end{proof}
+			\item \textcolor{blue}{\textbf{($\Longleftarrow$):}}
+			      \begin{proof}
+				      $\phi$ è soddisfacibile $\Longleftarrow$ G ha un $k-clique$ \\
+				      Per ipotesi, $G$ ha una $k-clique$ e nessuno dei $k$ nodi della clique è nello stesso gruppo, perchè ricordiamoci che i nodi dello stesso gruppo $t_i$ non
+				      sono collegati tra loro. Quindi, ognuno dei $k$ gruppi contiene esattamente un nodo della clique. \\
+				      Adesso, assegno il valore 1 ($TRUE$) ai letterali corrispondenti ai nodi della clique.
+				      Questo è sempre possibile senza creare contraddizioni, perchè due letterali opposti ($x_i$ e $\overline{x_i}$) non possono entrambi far parte della clique.
+				      Quindi la clique non può contenere contraddizioni, e quindi possiamo assegnare i valori di verità in modo coerente.
+				      \textcolor{red}{Questa assegnazione soddisfa $\phi$}, perchè ogni gruppo $t_i$ di $G$ contiene un nodo della clique, e quindi ogni clausola contiene
+				      almeno un letterale vero (che rende vera la clausola e quindi l'intera formula). \\
+				      Pertanto, $\phi$ è soddisfacibile.
+			      \end{proof}
+		\end{itemize}
+		Abbiamo quindi dimostrato che in questa riduzione polinomiale, vale:
+		$\phi$ è soddisfacibile $\iff$ G ha un $k-clique$. \\ \\
+
+		\underline{Conclusione:} Ho costruito correttamente una riduzione polinomiale da $3-SAT$ a $CLIQUE$, pertanto $CLIQUE$ è $\mathcal{NP}$-Hard.
+		Essendo $CLIQUE \in \mathcal{NP}$ e $\mathcal{NP}$-Hard, segue che $CLIQUE$ è $\mathcal{NP}$-Completo.
 	\end{proof}
 \end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{$VERTEX$ $COVER$}
+Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $V$, si dice "vertex cover" se i nodi di $C$ "coprono/toccano" tutti gli archi del grafo.
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.24\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{vc1.png}
+		\caption{Passo 1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.24\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{vc2.png}
+		\caption{Passo 2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.24\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{vc3.png}
+		\caption{Passo 3}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.24\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{vc4.png}
+		\caption{Passo 4}
+	\end{subfigure}
+	\caption{L'insieme $C=\{2,3,4,5\}$ è vertex cover}
+\end{figure}
+\begin{theorem}{$VERTEX$ $COVER$ Problem}
+	dDato $G$ grafo non orientato e $k \in \mathbb{N}$, esiste un vertex cover $C$ di $G$ con $k$ vertici?
+	\begin{center}
+		$VC = \{\langle G,k \rangle \mid G \text{ grafo non orientato con un vertex cover di } k \text{ nodi}\}$ \\
+		$VC$ è $\mathcal{NP}$-Completo
+	\end{center}
+	\footnotesize
+	\begin{proof}
+		\textcolor{red}{\textbf{1. Dimostrare che $VC \in \mathcal{NP}$}} \\
+		Costruisco una MdT $N$ non deterministica che decide $VC$ in tempo polinomiale come segue. Sia $G=(V,E)$ un grafo non orientato.
+		L'input di \( N \) è la codifica \( \langle G, k \rangle \), dove \( G = (V, E) \) è un grafo non orientato e \( k \in \mathbb{N} \). \\ \\
+		$N$ su input $\langle G, k \rangle$:
+		\begin{enumerate}
+			\item Non deterministicamente sceglie un insieme $C \subseteq V$ di $k$ vertici.
+			\item Per ogni arco $\{x,y\} \in E$, verifica che almeno uno tra $x$ e $y$ appartenga a $C$. \\
+			      (Per ogni singolo arco, devo verificare se uno dei due vertici $x,y$ sono in $C$)
+			\item Se tutti gli archi sono coperti da $C$, accetta l'input; altrimenti rifiuta.
+		\end{enumerate}
+		La scelta non deterministica del sottoinsieme $C$ permette di “provare tutte le possibili soluzioni” contemporaneamente.
+		La verifica che tutti gli archi siano coperti richiede al massimo $|E| \cdot k$ operazioni ($|E|$ numero totale archi del grafo), quindi è tempo polinomiale rispetto alla dimensione dell'input.
+		Ho costruito una MdT non deterministica che decide $VC$ in tempo polinomiale, pertanto $VC \in \mathcal{NP}$. \\ \\
+		\textcolor{red}{\textbf{2. Dimostrare che $VC$ è $\mathcal{NP}$-Hard}} \\
+		Effetto una riduzione polinomiale da $3-SAT$(che è $\mathcal{NP}$-Hard) a $VC$, costruendo per ogni formula $\phi$ 3-CNF arbitraria un grafo non orientato; faccio
+		vedere che la riduzione funziona perchè $\phi$ è soddisfacibile $\iff G$ ha un vertex cover di $k$ nodi.
+		\begin{center}
+			$3-SAT \leq_p VC$
+		\end{center}
+		\begin{itemize}
+			\item Sia $\phi$ la 3-CNF formula con $l$ clausole (3 letterali per clausola):
+			      \begin{center}
+				      $\phi = (a_1 \lor b_1 \lor c_1) \land (a_2 \lor b_2 \lor c_2) \land \cdots \land (a_l \lor b_l \lor c_l)$
+			      \end{center}
+		\end{itemize}
+		\textcolor{red}{2.1 Costruisco la funzione di riduzione $f$} \\
+		$f$ riceve come input $\phi$ e genera come output $\langle G,k \rangle$, dove $G$ è un grafo non orientato definito come segue:
+		\begin{enumerate}
+			\item \textcolor{blue}{\textbf{Costruzione dei nodi di $G$}}
+			      \begin{enumerate}
+				      \item Scrivo un nodo per ogni letterale di ogni clausola (3$l$ nodi)
+				      \item Aggiungo altre $m$ coppie di nodi ($m$ numero delle variabili nella formula) che rappresentano le variabili positive e negate (2$m$ nodi)
+			      \end{enumerate}
+				  Il grafo avrà un totale di $3l+2m$ nodi.
+			\item \textcolor{blue}{\textbf{Costruzione degli archi di $G$}} \\
+			      Mettiamo archi tra:
+			      \begin{enumerate}
+				      \item Nodi che rappresentano letterali della stessa clausola (formando i triangoli)
+				      \item Nodi che rappresentano letterali opposti (tra $a_i$ e $\overline{a_i}$, le coppie di $m$ nodi)
+				      \item Nodi che rappresentano lo stesso letterale tra i triangoli e le coppie di $m$ nodi
+			      \end{enumerate}
+		\end{enumerate}
+		Un vertex cover di $G$ possiede almeno $m+2l$ vertici, perchè:
+		\begin{itemize}
+			\item Per ogni triangolo di clausola devo scegliere almeno 2 nodi nel vertex cover per coprire tutti gli archi del triangolo
+			\item Per ogni coppia di nodi variabile/negazione devo scegliere 1 nodo per coprire l'arco che li collega
+		\end{itemize}
+		Esempio illustrativo: \\
+		Sia $\phi = (x_1 \lor x_1 \lor x_2) \land (\overline{x_1} \lor \overline{x_2} \lor \overline{x_2}) \land (\overline{x_1} \lor x_2 \lor x_2)$. La funzione di riduzione $f$, con input $\phi$,
+		produce il seguente grafo:
+		\begin{center}
+			\includegraphics[width=0.7\linewidth]{vertex-cover-ex.png} \\
+			$\phi$ è soddisfacibile $\iff$ G ha un vertex cover di $k$ nodi
+		\end{center}
+		\textcolor{red}{2.2. Analizzo complessità della funzione di riduzione $f$} \\
 
+		\textcolor{red}{2.3. Dimostrazione della correttezza della funzione di riduzione $f$} \\
+		Costruire la funzione di riduzione polinomiale non basta, dobbiamo anche dimostrare che valga:
+		\begin{center}
+			$\phi$ è soddisfacibile $\iff$ G ha un vertex cover di $k$ nodi
+		\end{center}
+		\begin{itemize}
+			\item \textcolor{blue}{\textbf{($\Longrightarrow$):}}
+			      \begin{proof}
+				      $\phi$ è soddisfacibile $\implies$ $G$ ha un vertex cover di $k$ nodi \\
+				      Per ipotesi, $\phi$ è soddisfacibile e quindi esiste un'assegnazione di valori
+				      alle variabili che rende vera ogni clausola.
+				      In ogni clausola di $\phi$, almeno un letterale risulta vero. \\
+				      
+			      \end{proof}
+			\item \textcolor{blue}{\textbf{($\Longleftarrow$):}}
+			      \begin{proof}
+				      $\phi$ è soddisfacibile $\Longleftarrow G$ ha un vertex cover di $k$ nodi \\
+				      Per ipotesi, $G$ ha un vertex cover di $k$ nodi \\
+			      \end{proof}
+		\end{itemize}
+		Abbiamo quindi dimostrato che in questa riduzione polinomiale, vale:
+		$\phi$ è soddisfacibile $\iff$ $G$ ha un vertex cover di $k$ nodi. \\ \\
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsubsection{$VERTEX COVER$}
+		\underline{Conclusione:} Ho costruito correttamente una riduzione polinomiale da $3-SAT$ a $VC$, pertanto $VC$ è $\mathcal{NP}$-Hard.
+		Essendo $VC \in \mathcal{NP}$ e $\mathcal{NP}$-Hard, segue che $VC$ è $\mathcal{NP}$-Completo.
+	\end{proof}
+\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Come capire quali problemi sono riducibili ad altri (trucchi)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$\mathcal{P}$ vs $\mathcal{NP}$}
 La differenza sostanziale tra $\mathcal{P}$ e $\mathcal{NP}$ è:
 \begin{itemize}
@@ -2827,7 +3036,7 @@ Ovvero, se $C \in \mathcal{NP}$:
 	\item $\exists$ un algoritmo non deterministico che decide $C$ in tempo polinomiale (senza un certificato)
 \end{itemize}
 
-\subsection{Come capire quali problemi sono riducibili ad altri (trucchi)}
+
 \subsection{$\mathcal{P} \neq \mathcal{NP}$}
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
