@@ -2769,6 +2769,7 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$HAMCYCLE$}
+vedi pg. 476 di SudKamp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$CLIQUE$}
@@ -2963,7 +2964,7 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 				      \item Scrivo un nodo per ogni letterale di ogni clausola (3$l$ nodi)
 				      \item Aggiungo altre $m$ coppie di nodi ($m$ numero delle variabili nella formula) che rappresentano le variabili positive e negate (2$m$ nodi)
 			      \end{enumerate}
-				  Il grafo avrà un totale di $3l+2m$ nodi.
+			      Il grafo avrà un totale di $3l+2m$ nodi.
 			\item \textcolor{blue}{\textbf{Costruzione degli archi di $G$}} \\
 			      Mettiamo archi tra:
 			      \begin{enumerate}
@@ -2985,7 +2986,7 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 			$\phi$ è soddisfacibile $\iff$ G ha un vertex cover di $k$ nodi
 		\end{center}
 		\textcolor{red}{2.2. Analizzo complessità della funzione di riduzione $f$} \\
-
+		Per costruire il grafo si richiede tempo $O(m+l)$, quindi la riduzione è polinomiale.
 		\textcolor{red}{2.3. Dimostrazione della correttezza della funzione di riduzione $f$} \\
 		Costruire la funzione di riduzione polinomiale non basta, dobbiamo anche dimostrare che valga:
 		\begin{center}
@@ -2998,12 +2999,38 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 				      Per ipotesi, $\phi$ è soddisfacibile e quindi esiste un'assegnazione di valori
 				      alle variabili che rende vera ogni clausola.
 				      In ogni clausola di $\phi$, almeno un letterale risulta vero. \\
-				      
+				      Adesso faccio vedere che, essendo $\phi$ soddifacibile, posso costruire il vertex cover di $G$ come segue:
+				      \begin{enumerate}
+					      \item Per prima cosa, per ogni coppia di nodi variabile/negazione scelgo 1 nodo della coppia:
+					            \begin{itemize}
+						            \item Se nella nostra assegnazione $x_1=true$, allora metto nel vertex cover il nodo che rappresenta $x_i$
+						            \item Se invece nella nostra assegnazione $x_i=false$, allora metto nel vc il nodo $\overline{x_i}$
+					            \end{itemize}
+					            Quindi, alla fine scelgo $m$ nodi ($m$ è il numero di variabili di $\phi$);
+					      \item Per ogni clausola (i triangoli), scelgo uno dei letterali che è vero (almeno uno deve esserlo, visto che
+					            la formula è soddisfacibile) e metto nel vc gli altri due nodi. \\
+					            Quindi, alla fine scelgo $2l$ nodi ($l$ è il numero di clausole di $\phi$)
+				      \end{enumerate}
+				      Esempio illustrativo: \\
+				      Sia $t$ l'assegnamento che rende $\phi$ soddisfacibile: \\
+				      $x_1= false, x_2= true$
+				      \begin{center}
+					      \includegraphics[width=0.8\linewidth]{vc-example.png}
+				      \end{center}
+				      Quindi, l'insieme di vertici così definito è un vertex cover.  \\
+				      Pertanto, $G$ ha un vertex cover di $k=m+2l$ nodi.
 			      \end{proof}
 			\item \textcolor{blue}{\textbf{($\Longleftarrow$):}}
 			      \begin{proof}
 				      $\phi$ è soddisfacibile $\Longleftarrow G$ ha un vertex cover di $k$ nodi \\
-				      Per ipotesi, $G$ ha un vertex cover di $k$ nodi \\
+				      Per ipotesi, $G$ ha un vertex cover di $k$ nodi, mostro che $\phi$ è soddisfacibile costruendo
+				      un'assegnazione di valori che la renda vera: \\
+				      Osservo i nodi che appartengono al vertex cover e assegno $true$ ai letterali corrispondenti (
+				      se nel vc c'è $x_i$, allora assegno $x_i=true$; se invece nel vc c'è $\overline{x_i}$, allora assegno
+				      $\overline{x_i}=false$). \\
+				      Con questo assegnamento, ogni clausola è soddisfatta dal letterale corrispondente al nodo che non è nel vertex cover
+				      di ogni triangolo. \\
+				      Pertanto, $\phi$ è soddisfacibile.
 			      \end{proof}
 		\end{itemize}
 		Abbiamo quindi dimostrato che in questa riduzione polinomiale, vale:
