@@ -2097,27 +2097,33 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 	In questo modo, se avessimo una MdT che decide $L_2$, potremmo decidere $L_1$ applicando $f$.
 \end{definition}
 \begin{theorem}{5.2.1.1}
-	SSe $A \leq_p B$ e $B \in \mathcal{P}$, allora $A \in \mathcal{P}$
+	SSe $L_1 \leq_p \textcolor{red}{L_2}$ e $\textcolor{red}{L_2 \in \mathcal{P}}$, allora $L_1 \in \mathcal{P}$
+\end{theorem}
+\begin{theorem}{5.2.1.2}
+	SSe $L_1 \leq_p \textcolor{red}{L_2}$ e $\textcolor{red}{L_2 \in \mathcal{NP}}$, allora $L_1 \in \mathcal{NP}$
 \end{theorem}
 
-\subsubsection{$\mathcal{NP}$-Difficile}
-Un problema $B$ è $\mathcal{NP}$-Difficile se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $B$ in tempo polinomiale.
-\begin{theorem}{$\mathcal{NP}$-Difficile}
-	sUn linguaggio $L$ è $\mathcal{NP}$-Difficile se: \\ $\forall{Q}$ linguaggio $\in \mathcal{NP}$, $\exists f$ riduzione
-	polinomiale da $Q$ a $L$ ($Q \leq_p L$).
+\subsubsection{$\mathcal{NP}$-Hard}
+Un problema $L$ è $\mathcal{NP}$-Hard (o $\mathcal{NP}$-Difficile) se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $L$ in tempo polinomiale.
+\begin{theorem}{$\mathcal{NP}$-Hard}
+	sUn linguaggio $\textcolor{red}{L}$ è $\mathcal{NP}$-Hard se: \\ $\forall{Q}$ linguaggio $\in \mathcal{NP}$, $\exists f$ riduzione
+	polinomiale da $Q$ a $L$ ($Q \leq_p \textcolor{red}{L}$).
 \end{theorem}
-Un problema $B$ può:
+\begin{theorem}{$\mathcal{NP}$-Hard}
+	sSe $L_1 \leq_p \textcolor{red}{L_2}$ e \textcolor{red}{$L_1$ è $\mathcal{NP}$-Hard}, allora $L_2$ è $\mathcal{NP}$-Hard
+\end{theorem}
+Un problema $L$ può:
 \begin{itemize}
-	\item essere $\mathcal{NP}$-Difficile $\land \in \mathcal{NP}$, oppure
-	\item essere $\mathcal{NP}$-Difficile $\land \notin \mathcal{NP}$
+	\item essere $\mathcal{NP}$-Hard $\land \in \mathcal{NP}$, oppure
+	\item essere $\mathcal{NP}$-Hard $\land \notin \mathcal{NP}$
 \end{itemize}
-Se $B$ è $\mathcal{NP}$-Difficile $\land$ $B \in \mathcal{NP} \implies B$ è $\mathcal{NP}$-Completo.
+Se $B$ è $\mathcal{NP}$-Hard $\land$ $B \in \mathcal{NP} \implies B$ è $\mathcal{NP}$-Completo.
 \subsubsection{$\mathcal{NP}$-Completo}
 \begin{theorem}{$\mathcal{NP}$-Completo}
 	sUn linguaggio $L$ è $\mathcal{NP}$-Completo se:
 	\begin{itemize}
 		\item $L \in \mathcal{NP}$, e
-		\item $L \in \mathcal{NP}$-Difficile
+		\item $L \in \mathcal{NP}$-Hard
 	\end{itemize}
 \end{theorem}
 \begin{theorem}{5.2.3}
