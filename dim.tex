@@ -18,8 +18,8 @@
 \usepackage[table]{xcolor} % da mettere nel preambolo
 \usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
 \graphicspath{ {./media/} }
-
-\usepackage[hidelinks]{hyperref}  % <<--- SPOSTALA QUI
+\usepackage{centernot}
+\usepackage[hidelinks]{hyperref}  
 
 
 \newtcbtheorem[no counter]{theorem}{Teorema}%
@@ -3132,8 +3132,25 @@ Ovvero, se $C \in \mathcal{NP}$:
 
 
 \subsubsection{$\mathcal{P} \overset{?}{\neq} \mathcal{NP}$}
-citare co-NP
+\begin{theorem}{5.4.2.2}
+	SSe co$-\mathcal{NP} \neq \mathcal{NP} \implies \mathcal{P} \neq \mathcal{NP}$
+	\footnotesize
+	\begin{ragionamento}
+		Uso la dimostrazione contronomiale: nego la tesi e ciò porta a una negazione dell'ipotesi.
+	\end{ragionamento}
+	\begin{proof}
+		Per contronomiale, suppongo che $\mathcal{P}=\mathcal{NP}$ (nego la tesi), quindi: \\
+		Se $\mathcal{P}=\mathcal{NP}$ allora co$-\mathcal{P}=\mathcal{P}=\mathcal{NP}$ allora co$-\mathcal{NP}=$co$-\mathcal{P}=\mathcal{P}=\mathcal{NP}$. \\
+		Nego la tesi e il ragionamento mi porta alla negazione dell'ipotesi.
+	\end{proof}
+\end{theorem}
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
+\begin{theorem}{5.4.2.1}
+	SSe $\mathcal{P}=\mathcal{NP} \implies$ co$-\mathcal{NP}=\mathcal{NP}$
+\end{theorem}
+\begin{theorem}{5.4.2.2}
+	SSe co$-\mathcal{NP}=\mathcal{NP} \textcolor{red}{\centernot\implies} \mathcal{P}=\mathcal{NP}$
+\end{theorem}
 \subsection{$\mathcal{E}xp$}
 \subsection{$N \mathcal{E}xp$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
