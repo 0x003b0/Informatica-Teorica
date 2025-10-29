@@ -2102,7 +2102,9 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 \begin{theorem}{5.2.1.2}
 	SSe $L_1 \leq_p \textcolor{red}{L_2}$ e $\textcolor{red}{L_2 \in \mathcal{NP}}$, allora $L_1 \in \mathcal{NP}$
 \end{theorem}
-
+\begin{theorem}{5.2.1.3}
+	SSe esiste $f$ riduzione polinomiale $L_1 \leq_p L_2$ , allora tale $f$ è anche riduzione polinomiale $\overline{L_1} \leq_p \overline{L_2}$
+\end{theorem}
 \subsubsection{$\mathcal{NP}$-Hard}
 Un problema $L$ è $\mathcal{NP}$-Hard (o $\mathcal{NP}$-Difficile) se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $L$ in tempo polinomiale.
 \begin{theorem}{$\mathcal{NP}$-Hard}
@@ -2771,7 +2773,7 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 \end{theorem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{$HAMCYCLE$}
+\subsubsection{$HAMCYCLE$ / $HAMCIRCUIT$}
 vedi pg. 476 di SudKamp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2925,6 +2927,12 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 		\caption{Passo 4}
 	\end{subfigure}
 	\caption{L'insieme $C=\{2,3,4,5\}$ è vertex cover}
+\begin{osservazioni}[Osservazioni]
+	Vertex Cover è il complementare di Indipendent Set.
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{vc-indset.png}
+	\end{center}
+\end{osservazioni}
 \end{figure}
 \begin{theorem}{$VERTEX$ $COVER$ Problem}
 	dDato $G$ grafo non orientato e $k \in \mathbb{N}$, esiste un vertex cover $C$ di $G$ con $k$ vertici?
@@ -3043,6 +3051,62 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 		Essendo $VC \in \mathcal{NP}$ e $\mathcal{NP}$-Hard, segue che $VC$ è $\mathcal{NP}$-Completo.
 	\end{proof}
 \end{theorem}
+\begin{osservazioni}[$VC \in \mathcal{NP}$-Hard]
+	\footnotesize
+	Alternativa: per dimostrare che $VC \in \mathcal{NP}$-Hard, posso anche effettuare riduzione polinomiale da $INDSET$ (che sappiamo essere $\mathcal{NP}$-Completo) a $VC$:
+	\begin{center}
+		$INDSET \leq_p VC$
+	\end{center}
+	\begin{ragionamento}
+		Ricordo che $S$ è un insieme indipendente se i nodi tra loro "non si toccano"; equivalentemente, $S$ è un insieme indipendente se ogni arco ha almeno un vertice 
+		in $V-S$ (ovvero ogni arco tocca almeno un vertice che non è in $S$). E questa è proprio la definizione di vertex cover. \\
+		Idea riduzione: Se $S$ è insieme indipendente di dimensione $k$, allora $C=V-S$ è un vertex cover di dimensione $|V|-k$.
+	\end{ragionamento}
+	\begin{proof}
+		Sia $G=(V,E)$ grafo non orientato. \\
+		Dato $\langle G,k \rangle$ istanza di $INDSET$, costruisco attraverso la funzione di riduzione polinomiale $f$ l'istanza di $VC$ come segue:
+		 $f(\langle G,k \rangle)=\langle G, |V|-k \rangle$.
+		 \begin{itemize}
+			\item Mantengo lo stesso grafo $G$
+			\item Imposto $|V|-k$ dimensione del vertex cover cercato
+		 \end{itemize}
+		 Questa riduzione è polinomiale e inoltre, dimostra che vale $\langle G,k \rangle \in INDSET \iff \langle G,|V|-k \rangle \in VC$. \\
+		 Pertanto, $VC \in \mathcal{NP}$-Hard.
+	\end{proof}
+\end{osservazioni}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{$INDEPENDENT$ $SET$}
+Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $I \subseteq V$, si dice "independent set / insieme indipendente" se non esistono archi tra i nodi di $I$ 
+(insieme di vertici che non si "toccano" tra loro).
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{indipendent-set.png}
+\end{center}
+\begin{definition}[Insieme indipendente massimale]
+	Un \textcolor{red}{insieme indipendente massimale} è un insieme indipendente a cui non puoi aggiungere nessun altro nodo senza rompere la proprietà di indipendenza
+	(Se provi ad aggiungere un qualsiasi altro vertice, due vertici diventano adiacenti, quindi non è più indipendente).
+\end{definition}
+\begin{definition}[Insieme indipendente massimo]
+	Un \textcolor{red}{insieme indipendente massimo} è un insieme indipendente con la massima cardinalità possibile tra tutti gli insiemi indipendenti di $G$.
+\end{definition}
+\begin{osservazioni}[Osservazioni]
+	Independent Set è il complementare di Vertex Cover.
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{vc-indset.png}
+	\end{center}
+\end{osservazioni}
+\begin{theorem}{$INDEPENDENT$ $SET$ Problem}
+	sDato $G$ grafo non orientato e $k \in \mathbb{N}$, determinare se $G$ possiede un sottoinsieme indipendente di cardinalità $k$.
+	\footnotesize
+	\begin{center}
+		$INDSET=\{\langle G,k \rangle\ \mid G \text{ grafo non orientato possiede sottoinsieme indipendente di cardinalità } k\}$
+	\end{center}
+	\begin{proof}
+		https://www.youtube.com/watch?v=lTqTk9AQR5s
+	\end{proof}
+\end{theorem}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \break
@@ -3061,18 +3125,29 @@ La differenza sostanziale tra $\mathcal{P}$ e $\mathcal{NP}$ è:
 Ovvero, se $C \in \mathcal{NP}$:
 \begin{itemize}
 	\item $\nexists$ un algoritmo deterministico che decide $C$ in tempo polinomiale
-	\item $\exists$ un algoritmo deterministico che decide $C$ in tempo esponenziale (o la complessità è piu grande di exp?)
-	\item $\exists$ un algoritmo deterministico che verifica un certificato per $C$ in tempo polinomiale
 	\item $\exists$ un algoritmo non deterministico che decide $C$ in tempo polinomiale (senza un certificato)
+	\item $\exists$ un algoritmo deterministico che decide $C$ in tempo esponenziale (o più)
+	\item $\exists$ un algoritmo deterministico che verifica un certificato per $C$ in tempo polinomiale
 \end{itemize}
 
 
-\subsection{$\mathcal{P} \neq \mathcal{NP}$}
+\subsubsection{$\mathcal{P} \overset{?}{\neq} \mathcal{NP}$}
+citare co-NP
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
+\subsection{$\mathcal{E}xp$}
+\subsection{$N \mathcal{E}xp$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complessità Spaziale}
+$sC_M(n)$ ecc...
+\subsection{$\mathcal{P}Space$}
+\subsection{$\mathcal{NP}Space$}
+\subsection{Teorema di Savitch}
+\subsubsection{$\mathcal{P}Space$-Hard}
+\subsubsection{$\mathcal{P}Space$-Completo}
+\subsection{$EX\mathcal{P}Space$}
+\subsection{$NEX\mathcal{P}Space$}
 \end{document}
