@@ -2927,12 +2927,12 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 		\caption{Passo 4}
 	\end{subfigure}
 	\caption{L'insieme $C=\{2,3,4,5\}$ è vertex cover}
-\begin{osservazioni}[Osservazioni]
-	Vertex Cover è il complementare di Indipendent Set.
-	\begin{center}
-		\includegraphics[width=0.5\linewidth]{vc-indset.png}
-	\end{center}
-\end{osservazioni}
+	\begin{osservazioni}[Osservazioni]
+		Vertex Cover è il complementare di Indipendent Set.
+		\begin{center}
+			\includegraphics[width=0.5\linewidth]{vc-indset.png}
+		\end{center}
+	\end{osservazioni}
 \end{figure}
 \begin{theorem}{$VERTEX$ $COVER$ Problem}
 	dDato $G$ grafo non orientato e $k \in \mathbb{N}$, esiste un vertex cover $C$ di $G$ con $k$ vertici?
@@ -3058,27 +3058,27 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 		$INDSET \leq_p VC$
 	\end{center}
 	\begin{ragionamento}
-		Ricordo che $S$ è un insieme indipendente se i nodi tra loro "non si toccano"; equivalentemente, $S$ è un insieme indipendente se ogni arco ha almeno un vertice 
+		Ricordo che $S$ è un insieme indipendente se i nodi tra loro "non si toccano"; equivalentemente, $S$ è un insieme indipendente se ogni arco ha almeno un vertice
 		in $V-S$ (ovvero ogni arco tocca almeno un vertice che non è in $S$). E questa è proprio la definizione di vertex cover. \\
 		Idea riduzione: Se $S$ è insieme indipendente di dimensione $k$, allora $C=V-S$ è un vertex cover di dimensione $|V|-k$.
 	\end{ragionamento}
 	\begin{proof}
 		Sia $G=(V,E)$ grafo non orientato. \\
 		Dato $\langle G,k \rangle$ istanza di $INDSET$, costruisco attraverso la funzione di riduzione polinomiale $f$ l'istanza di $VC$ come segue:
-		 $f(\langle G,k \rangle)=\langle G, |V|-k \rangle$.
-		 \begin{itemize}
+		$f(\langle G,k \rangle)=\langle G, |V|-k \rangle$.
+		\begin{itemize}
 			\item Mantengo lo stesso grafo $G$
 			\item Imposto $|V|-k$ dimensione del vertex cover cercato
-		 \end{itemize}
-		 Questa riduzione è polinomiale e inoltre, dimostra che vale $\langle G,k \rangle \in INDSET \iff \langle G,|V|-k \rangle \in VC$. \\
-		 Pertanto, $VC \in \mathcal{NP}$-Hard.
+		\end{itemize}
+		Questa riduzione è polinomiale e inoltre, dimostra che vale $\langle G,k \rangle \in INDSET \iff \langle G,|V|-k \rangle \in VC$. \\
+		Pertanto, $VC \in \mathcal{NP}$-Hard.
 	\end{proof}
 \end{osservazioni}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$INDEPENDENT$ $SET$}
-Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $I \subseteq V$, si dice "independent set / insieme indipendente" se non esistono archi tra i nodi di $I$ 
+Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $I \subseteq V$, si dice "independent set / insieme indipendente" se non esistono archi tra i nodi di $I$
 (insieme di vertici che non si "toccano" tra loro).
 \begin{center}
 	\includegraphics[width=0.6\linewidth]{indipendent-set.png}
@@ -3132,7 +3132,7 @@ Ovvero, se $C \in \mathcal{NP}$:
 
 
 \subsubsection{$\mathcal{P} \overset{?}{\neq} \mathcal{NP}$}
-\begin{theorem}{5.4.2.2}
+\begin{theorem}{5.4.1.1}
 	SSe co$-\mathcal{NP} \neq \mathcal{NP} \implies \mathcal{P} \neq \mathcal{NP}$
 	\footnotesize
 	\begin{ragionamento}
@@ -3140,9 +3140,21 @@ Ovvero, se $C \in \mathcal{NP}$:
 	\end{ragionamento}
 	\begin{proof}
 		Per contronomiale, suppongo che $\mathcal{P}=\mathcal{NP}$ (nego la tesi), quindi: \\
-		Se $\mathcal{P}=\mathcal{NP}$ allora co$-\mathcal{P}=\mathcal{P}=\mathcal{NP}$ allora co$-\mathcal{NP}=$co$-\mathcal{P}=\mathcal{P}=\mathcal{NP}$. \\
+		Se $\mathcal{P}=\mathcal{NP}$ allora co$-\mathcal{P}=$co$-\mathcal{NP}$ e sapendo che co$-\mathcal{P}=\mathcal{P}$
+		allora $\mathcal{P}=$co$-\mathcal{NP}$ e sapendo che per ipotesi $\mathcal{P}=\mathcal{NP}$ allora $\mathcal{NP}=$co$-\mathcal{NP}$.\\
+		\begin{center}
+			$\mathcal{P}=\mathcal{NP}\implies$co$-\mathcal{P}=$co$-\mathcal{NP}\implies\mathcal{P}=$co$-\mathcal{NP}\implies\mathcal{NP}=$co$-\mathcal{NP}$
+		\end{center}
 		Nego la tesi e il ragionamento mi porta alla negazione dell'ipotesi.
 	\end{proof}
+	Spiegazione dettagliata: \\
+	$		\mathcal{P} = \mathcal{NP}
+		\xrightarrow{\text{complemento}}
+		\text{co-}\mathcal{P} = \text{co-}\mathcal{NP}
+		\xrightarrow{\text{co-}\mathcal{P} = \mathcal{P}}
+		\mathcal{P} = \text{co-}\mathcal{NP}
+		\xrightarrow{\mathcal{P}=\mathcal{NP}}
+		\mathcal{NP} = \text{co-}\mathcal{NP}$
 \end{theorem}
 \subsubsection{$\mathcal{P} \overset{?}{=} \mathcal{NP}$}
 \begin{theorem}{5.4.2.1}
