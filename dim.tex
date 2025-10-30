@@ -2105,6 +2105,48 @@ Ricorda la notazione $f$: input $\rightarrow$ output
 \begin{theorem}{5.2.1.3}
 	SSe esiste $f$ riduzione polinomiale $L_1 \leq_p L_2$ , allora tale $f$ è anche riduzione polinomiale $\overline{L_1} \leq_p \overline{L_2}$
 \end{theorem}
+\subsubsection{Complementare}
+La classe $\mathcal{P}$ è chiusa rispetto al complemento. Ciò vuol dire:
+\begin{theorem}{5.2.2.1}
+	SSe $L \in \mathcal{P} \implies \overline{L} \in$ $\mathcal{P}$
+	\footnotesize
+	\begin{proof}
+		Vale sempre che $L \in \mathcal{P} \implies \overline{L} \in$ co$-\mathcal{P}$. \\
+		Ma per definizione, $\mathcal{P}=$co$-\mathcal{P}$ quindi:
+		\begin{center}
+			$L \in \mathcal{P} \implies \overline{L} \in$ \textcolor{blue}{co$-\mathcal{P}$}
+		\end{center}
+		\begin{center}
+			$L \in \mathcal{P} \implies \overline{L} \in \textcolor{blue}{\mathcal{P}}$
+		\end{center}
+	\end{proof}
+\end{theorem}
+La classe $\mathcal{NP}$ \textcolor{red}{non} è chiusa rispetto al complemento. Ciò vuol dire:
+\begin{theorem}{5.2.2.2}
+	SSe $L \in \mathcal{NP} \centernot\implies \overline{L} \in$ $\mathcal{NP}$
+\end{theorem}
+Ma è sempre vero che:
+\begin{theorem}{5.2.2.3}
+	SSe $L \in \mathcal{NP} \implies \overline{L} \in$ co$-\mathcal{NP}$ \\ \\
+	\footnotesize
+	Lo stessa vale: Se $\overline{L} \in$ co$-\mathcal{NP} \implies L \in \mathcal{NP}$
+\end{theorem}
+\begin{theorem}{5.2.2.4}
+	SSe $L \in \mathcal{NP}$-Hard$ \implies \overline{L} \in$ co$-\mathcal{NP}$-Hard \\ \\
+	\footnotesize
+	Lo stessa vale: Se $\overline{L} \in$ co$-\mathcal{NP}$-Hard$ \implies L \in \mathcal{NP}$-Hard
+\end{theorem}
+\begin{theorem}{5.2.2.5}
+	SSe $L \in \mathcal{NP}$-Completo$ \implies \overline{L} \in$ co$-\mathcal{NP}$-Completo \\ \\
+	\footnotesize
+	Lo stessa vale: Se $\overline{L} \in$ co$-\mathcal{NP}$-Completo$ \implies L \in \mathcal{NP}$-Completo
+\end{theorem}
+\begin{theorem}{5.2.2.6}
+	SSe $L\in \mathcal{NP}$ $\cap$ co$-\mathcal{NP}$, ovvero $L \in \mathcal{NP} \land L \in$ co$-\mathcal{NP} \implies \overline{L} \in \mathcal{NP}$ \\ \\
+	\footnotesize
+	Se un linguaggio $L$ è sia $\mathcal{NP}$ sia co$-\mathcal{NP}$ allora $\overline{L} \in \mathcal{NP}$. \\
+	Questo vale solo perchè $L$ è anche co$-\mathcal{NP}$; se non lo fosse (quindi $L$ solo in $\mathcal{NP}$) allora sarebbe valido solo il teorema 5.2.2.2 e non questo.
+\end{theorem}
 \subsubsection{$\mathcal{NP}$-Hard}
 Un problema $L$ è $\mathcal{NP}$-Hard (o $\mathcal{NP}$-Difficile) se tutti i problemi in $\mathcal{NP}$ si possono ridurre a $L$ in tempo polinomiale.
 \begin{theorem}{$\mathcal{NP}$-Hard}
@@ -2112,7 +2154,7 @@ Un problema $L$ è $\mathcal{NP}$-Hard (o $\mathcal{NP}$-Difficile) se tutti i p
 	polinomiale da $Q$ a $L$ ($Q \leq_p \textcolor{red}{L}$).
 \end{theorem}
 \begin{theorem}{$\mathcal{NP}$-Hard}
-	sSe $L_1 \leq_p \textcolor{red}{L_2}$ e \textcolor{red}{$L_1$ è $\mathcal{NP}$-Hard}, allora $L_2$ è $\mathcal{NP}$-Hard
+	sSe $\textcolor{red}{L_1} \leq_p L_2$ e \textcolor{red}{$L_1$ è $\mathcal{NP}$-Hard}, allora $L_2$ è $\mathcal{NP}$-Hard
 \end{theorem}
 Un problema $L$ può:
 \begin{itemize}
