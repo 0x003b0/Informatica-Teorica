@@ -21,7 +21,6 @@
 \usepackage{centernot}
 \usepackage[hidelinks]{hyperref}  
 
-
 \newtcbtheorem[no counter]{theorem}{Teorema}%
 {colback=blue!5, 
 colframe=blue!50!black, 
@@ -869,6 +868,10 @@ Pertanto, quando viene richiesto di dimostrare l'indecidibilità di un linguaggi
 	\end{proof}
 \end{esercizio}
 \break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Famosi problemi indecidibili}
 \subsubsection{Halting Problem}
 \begin{definition}(Problema dell'arresto)
@@ -911,7 +914,7 @@ Il problema dell'arresto è semidecidibile + indecidibile, oppure, equivalenteme
 	\textcolor{red}{\mathcal{L}_{\text{Halt}} \text{ è semidecidibile ma non decidibile}}
 \end{align*}
 
-\begin{theorem}{Halting Problem (2.4.1)}
+\begin{theorem}{Halting Problem}
 	IIl problema dell'arresto è indecidibile. \\
 	$\mathcal{L}_{\text{Halt}} = \{(R(M),w) \mid M \text{ termina su } w\}$ è indecidibile.
 	\footnotesize % riduce la dimensione del font
@@ -993,7 +996,22 @@ Il problema dell'arresto è semidecidibile + indecidibile, oppure, equivalenteme
 		sia semidecidibile è falsa. \\ Pertanto, $\overline{\mathcal{L}_{\text{Halt}}}$ è non semidecidibile.
 	\end{proof}
 \end{theorem}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Acceptance Problem}
+\begin{theorem}{Acceptance Problem}
+	IIl problema dell'accettazione è indecidibile. \\
+	$\mathcal{L}_{\text{Acc}} = \{(R(M),w) \mid M \text{ MdT che accetta } w\}$ è indecidibile.
+	\footnotesize % riduce la dimensione del font
+	\begin{proof}
+	\end{proof}
+	\end{theorem}
+	Il problema dell'accettazione è semidecidibile + indecidibile, oppure, equivalentemente scrivo:
+\begin{align*}
+	\textcolor{red}{\mathcal{L}_{\text{Acc}} \text{ è semidecidibile ma non decidibile}}
+\end{align*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Problema del nastro vuoto}
 \begin{definition}[Problema del nastro vuoto]
 	Esiste una MdT $E$ che preso in input $R(M)$, termina dicendo:
@@ -1016,8 +1034,8 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 \begin{align*}
 	\textcolor{red}{\mathcal{L}_{\text{Blank-Tape}} \text{ è semidecidibile ma non decidibile}}
 \end{align*}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{theorem}{Blank-Tape Halting Problem (versione A)}
 	IIl problema del nastro vuoto è indecidibile. \\
 	$\mathcal{L}_{\text{Blank-Tape}} = \{R(M) \mid M \text{ termina su nastro vuoto}\}$ è indecidibile.
@@ -1158,8 +1176,8 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		Poiché $\mathcal{L}_{\text{Halt}} \leq_m \mathcal{L}_{\text{Blank-Tape}}$ e $\mathcal{L}_{\text{Halt}}$ è indecidibile, segue che $\mathcal{L}_{\text{Blank-Tape}}$ è indecidibile.
 	\end{proof}
 \end{theorem}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Problema del linguaggio vuoto}
 \begin{theorem}{Emptiness Problem (versione lunga)}
 	IIl problema del linguaggio vuoto è indecidibile. \\
@@ -1250,7 +1268,8 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		$\mathcal{L}_{\text{Emptiness}}$ sia decidibile è falsa. Pertanto, l'emptiness problem è indecidibile.
 	\end{proof}
 \end{theorem}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{theorem}{Emptiness Problem (versione corta)}
 	IIl problema del linguaggio vuoto è indecidibile. \\
 	$\mathcal{L}_{\text{Emptiness}} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile.
@@ -1315,8 +1334,8 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 	$\mathcal{L}_{\emptyset} = \{R(M) \mid L(M)= \emptyset \}$ è indecidibile e \textbf{non} semidecidibile \\ \\
 	$\overline{\mathcal{L}_{\emptyset}} = \{R(M) \mid L(M) \neq \emptyset \}$ è indecidibile e semidecidibile
 \end{osservazioni}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Problema dell'equivalenza dei linguaggi}
 \begin{theorem}{Equivalence Problem}
 	IIl problema di determinare se i linguaggi di due MdT coincidono è indecidibile. \\
@@ -1378,7 +1397,8 @@ Quindi, il problema del nastro vuoto è semidecidibile + indecidibile, oppure, e
 		$\mathcal{L}_{\text{Equivalence}}$ sia decidibile è falsa. Pertanto, l'equivalence problem è indecidibile.
 	\end{proof}
 \end{theorem}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Problema della terminazione totale}
 \begin{theorem}{Total Halting Problem}
 	IIl problema della terminazione totale è indecidibile. \\
@@ -2051,6 +2071,7 @@ Due numeri $x$ e $y$ sono relativamente primi se 1 è l'unico numero intero che 
 		\underline{Conclusione:} Ho costruito una MdT $R$ determinisitca che decide $RELPRIME$ in tempo polinomiale. Quindi, $RELPRIME \in \mathcal{P}$
 	\end{proof}
 \end{theorem}
+\break
 \subsubsection{$2-SAT$}
 \break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2816,10 +2837,14 @@ esiste un qualche assegnamento di valori (0/1) alle variabili che rende l'intera
 		\textcolor{red}{\textbf{2. Dimostrare che $HAMPATH$ è $\mathcal{NP}$-Hard}} \\
 	\end{proof}
 \end{theorem}
+\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$HAMCYCLE$ / $HAMCIRCUIT$}
 vedi pg. 476 di SudKamp
+
+
+\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$CLIQUE$}
@@ -3119,7 +3144,7 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $C$ di $
 		Pertanto, $VC \in \mathcal{NP}$-Hard.
 	\end{proof}
 \end{osservazioni}
-
+\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{$INDEPENDENT$ $SET$}
@@ -3152,13 +3177,16 @@ Sia $G=(V,E)$ un grafo non orientato. Scelto un sottoinsieme di vertici $I \subs
 	\end{proof}
 \end{theorem}
 
+\newpage
+\null
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{$\mathcal{P}$ vs $\mathcal{NP}$}
 La differenza sostanziale tra $\mathcal{P}$ e $\mathcal{NP}$ è:
 \begin{itemize}
@@ -3207,20 +3235,31 @@ Ovvero, se $C \in \mathcal{NP}$:
 \begin{theorem}{5.4.2.2}
 	SSe co$-\mathcal{NP}=\mathcal{NP} \textcolor{red}{\centernot\implies} \mathcal{P}=\mathcal{NP}$
 \end{theorem}
-\subsection{$\mathcal{E}xp$}
-\subsection{$N \mathcal{E}xp$}
+\subsection{$\mathcal{E}xp$ \& $N \mathcal{E}xp$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \break
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Complessità Spaziale}
-$sC_M(n)$ ecc...
+$sC_M(n)$
+
+\break
+
 \subsection{$\mathcal{P}Space$}
+\vspace*{0.4\textheight}  % metà altezza della pagina
 \subsection{$\mathcal{NP}Space$}
+\vspace*{0.5\textheight}  % metà altezza della pagina
 \subsection{Teorema di Savitch}
+\vspace*{0.4\textheight}  % metà altezza della pagina
 \subsubsection{$\mathcal{P}Space$-Hard}
+\vspace*{0.2\textheight}  % metà altezza della pagina
 \subsubsection{$\mathcal{P}Space$-Completo}
+\vspace*{0.2\textheight}  % metà altezza della pagina
+
+\break
 \subsection{$EX\mathcal{P}Space$}
+\vspace*{0.4\textheight}  % metà altezza della pagina
 \subsection{$NEX\mathcal{P}Space$}
+\vspace*{0.4\textheight}  % metà altezza della pagina
 \end{document}
